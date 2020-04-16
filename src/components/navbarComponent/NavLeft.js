@@ -1,0 +1,79 @@
+import React from 'react'
+import { Link, useRouteMatch } from 'react-router-dom'
+
+function NavLeft() {
+    return (
+        <div className="left-sidenav">
+
+            <MetricaAnalytic />
+
+            <NavMetricaAnalytic />
+
+        </div>
+    )
+}
+
+const MetricaAnalytic = () => {
+    return(
+        <div className="main-icon-menu">
+            <nav className="nav">
+                <a href="#MetricaAnalytic" className="nav-link leftmenu-sm-item bg-pink shadow-pink" data-toggle="tooltip-custom" data-placement="right" title data-original-title="Analytics">
+                    <svg className="nav-svg" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" style={{enableBackground: 'new 0 0 512 512'}} xmlSpace="preserve">
+                        <g>
+                            <path d="M184,448h48c4.4,0,8-3.6,8-8V72c0-4.4-3.6-8-8-8h-48c-4.4,0-8,3.6-8,8v368C176,444.4,179.6,448,184,448z" />
+                            <path className="svg-primary" d="M88,448H136c4.4,0,8-3.6,8-8V296c0-4.4-3.6-8-8-8H88c-4.4,0-8,3.6-8,8V440C80,444.4,83.6,448,88,448z" />
+                            <path className="svg-primary" d="M280.1,448h47.8c4.5,0,8.1-3.6,8.1-8.1V232.1c0-4.5-3.6-8.1-8.1-8.1h-47.8c-4.5,0-8.1,3.6-8.1,8.1v207.8
+                                        C272,444.4,275.6,448,280.1,448z" />
+                            <path d="M368,136.1v303.8c0,4.5,3.6,8.1,8.1,8.1h47.8c4.5,0,8.1-3.6,8.1-8.1V136.1c0-4.5-3.6-8.1-8.1-8.1h-47.8
+                                        C371.6,128,368,131.6,368,136.1z" />
+                        </g>
+                    </svg>
+                </a>
+            </nav>
+        </div>
+    )
+}
+
+const NavMetricaAnalytic = () => {
+    let { url } = useRouteMatch();
+    return(
+        <div className="main-menu-inner">
+            <div className="menu-body slimscroll">
+                <div id="MetricaAnalytic" className="main-icon-menu-pane active">
+                    <div className="title-box">
+                        <h6 className="menu-title">Admin Dashboard</h6>
+                    </div>
+                    <ul className="nav">
+                        <li className="nav-item">
+                            <Link className="nav-link" to={`${url}`}>
+                                <i className="dripicons-meter" />Dashboard
+                            </Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to={`${url}/userManagement`}>
+                                <i className="dripicons-user-group" />User Management
+                            </Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/cmsUpdate">
+                                <i className="dripicons-document" />CMS Update
+                            </Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/Ledger">
+                                <i className="dripicons-document" />Ledger
+                            </Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/kycApproval">
+                                <i className="dripicons-document" />KYC Approval
+                            </Link>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+export default NavLeft;
