@@ -6,7 +6,7 @@ const TotalActiveUser = (props) => {
 
     let baseUrl = React.useContext(urlContext);
 
-    const [totalActiveUser, setTotalActiveUser] = React.useState('')
+    const [totalActiveUser, setTotalActiveUser] = React.useState(false)
 
     React.useEffect(() => {
         axios({
@@ -28,9 +28,13 @@ const TotalActiveUser = (props) => {
         <div className="col-lg-3">
           <Card
             totalCount={totalActiveUser} /*====== Total Count Data ======*/
-            textPercent="Up From Yesterday"
-            percentData="5.5%"
             titleData="Total Active User"
+            upDownClass="mdi mdi-trending-up" /*====== Set Icon Up or Down Total Data ======*/
+            upDownText="text-success" /*====== Set Color For Icon Up or Down (text-success = Green Color) / (text-danger = Red Color) ======*/
+            percentData="1.5%" /*====== Total Percent Up or Down Today ======*/
+            textPercent="Up From Last Week" /*====== Text For Up or Down Total Percentage Today ======*/
+            setColor="pink" /*====== Set Color For Shadow or Background ======*/
+            setIcon="dripicons-cart" /*====== For Change Icon Can Change Here Using Dripicons ======*/
           />
         </div>
     )
@@ -38,8 +42,6 @@ const TotalActiveUser = (props) => {
 };
 
 const Card = (props) => {
-    
-
     return (
         <div>
             <div className="card card-eco">
@@ -47,13 +49,15 @@ const Card = (props) => {
                     <h4 className="title-text mt-0">{props.titleData}</h4>
                     <div className="d-flex justify-content-between">
                     <h3 className="text-purple">
-                        {props.totalCount}
+                        {props.totalCount ? props.totalCount : <div class="spinner-border text-primary" role="status">
+                        <span class="sr-only">Loading...</span>
+                        </div>}
                     </h3>
-                    <i className="dripicons-cart card-eco-icon bg-purple align-self-center" />
+                    <i className={`${props.setIcon} card-eco-icon bg-${props.setColor} align-self-center`} />
                     </div>
                     <p className="mb-0 text-muted text-truncate">
                     <span className="text-success">
-                        <i className="mdi mdi-trending-up"> </i>
+                        <i className={`${props.upDownClass}`}></i>
                         {props.percentData}
                     </span>{" "}
                     {props.textPercent}

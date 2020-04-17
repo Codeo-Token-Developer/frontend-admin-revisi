@@ -7,6 +7,7 @@ const TotalVerifiedUser = () => {
     let baseUrl = React.useContext(urlContext);
 
     const [total, setTotal] = React.useState('');
+    const [loading, setLoading] = React.useState(false)
 
     React.useEffect(() => {
 
@@ -18,8 +19,8 @@ const TotalVerifiedUser = () => {
             }
         })
         .then(({data}) => {
-            console.log(data)
-            setTotal(data.total)
+            setTotal(data.total);
+            setLoading(true)
         })
         .catch(err => {
             console.log(err);
@@ -38,23 +39,25 @@ const TotalVerifiedUser = () => {
             textPercent="Down From Last Month" /*====== Text For Up or Down Total Percentage Today ======*/
             setColor="secondary" /*====== Set Color For Shadow or Background ======*/
             setIcon="dripicons-jewel" /*====== For Change Icon Can Change Here Using Dripicons ======*/
+            loading={loading}
             />
       </div>
     )
 };
 
+
 const Card = (props) => {
-
-
     return (
         <div className="card card-eco">
         <div className="card-body">
           <h4 className="title-text mt-0">{props.titleData}</h4>
           <div className="d-flex justify-content-between">
                 <h3 className="text-secondary">
-              {props.totalCount}
+                {props.loading ? props.totalCount : <div class="spinner-border text-primary" role="status">
+                  <span class="sr-only">Loading...</span>
+                  </div>}
             </h3>
-            <i className="dripicons-jewel bg-secondary shadow-secondary align-self-center"  />
+            <i className="dripicons-jewel card-eco-icon bg-secondary shadow-secondary align-self-center"  />
           </div>
           <p className="mb-0 text-muted text-truncate">
             <span className={props.upDownText}>
