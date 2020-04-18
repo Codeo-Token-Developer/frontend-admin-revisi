@@ -7,6 +7,7 @@ function TotalGenerateWallet() {
     let baseUrl = React.useContext(urlContext);
 
     const [TotalWallet, setTotalWallet] = React.useState('');
+    const [loading, setLoading] = React.useState(false);
 
     React.useEffect(() => {
         axios({
@@ -18,6 +19,7 @@ function TotalGenerateWallet() {
         })
         .then(({data}) => {
             setTotalWallet(data.total);
+            setLoading(true)
         })
         .catch(err => {
             console.log(err);
@@ -36,6 +38,7 @@ function TotalGenerateWallet() {
             textPercent="Up From Last Week" /*====== Text For Up or Down Total Percentage Today ======*/
             setColor="success" /*====== Set Color For Shadow or Background ======*/
             setIcon="dripicons-cart" /*====== For Change Icon Can Change Here Using Dripicons ======*/
+            loading={loading}
           />
         </div> 
         </>
@@ -53,9 +56,10 @@ const Card = (props) => {
         <h4 className="title-text mt-0">{props.titleData}</h4>
         <div className="d-flex justify-content-between">
           <h3 className={`${props.upDownText}`}>
-            {props.totalCount}
+            {props.loading ? props.totalCount : <div className="spinner-border text-primary" role="status">
+                    <span className="sr-only">Loading...</span>
+                    </div>}
           </h3>
-          {/* <i className="card-eco-icon bg-success shadow-success align-self-center" /> */}
           <i className={`${props.setIcon} card-eco-icon bg-${props.setColor} shadow-${props.setColor} align-self-center`} />
         </div>
         <p className="mb-0 text-muted text-truncate">

@@ -1,11 +1,12 @@
 import React from 'react';
 import axios from 'axios';
-import { urlContext } from '../../Context';
+import { urlContext, urlSocketContext } from '../../Context';
 import Io from 'socket.io-client';
 
 const TotalUser = () => {   
 
-    const [total, setTotal] = React.useState(false);
+    const [total, setTotal] = React.useState('');
+    const [loading, setLoading] = React.useState(false)
 
     let baseUrl = React.useContext(urlContext);
 
@@ -19,14 +20,14 @@ const TotalUser = () => {
         })
         .then(({data}) => {
             setTotal(data.total)
+            setLoading(true)
         })
         .catch(err => {
             console.log(err)
         })
     },[baseUrl])
 
-    let ENDPOINT = 'http://localhost:3005'
-    // let ENDPOINT = baseUrl
+    let ENDPOINT = React.useContext(urlSocketContext)
 
     React.useEffect(() => {
         const socket = Io(ENDPOINT);
@@ -52,6 +53,7 @@ const TotalUser = () => {
                 textPercent="Up From Yesterday" /*====== Text For Up or Down Total Percentage Today ======*/
                 setColor="purple" /*====== Set Color For Shadow or Background ======*/
                 setIcon="dripicons-user-group" /*====== For Change Icon Can Change Here Using Dripicons ======*/
+                loading={loading}
             />
             </div>
         </>
@@ -67,8 +69,8 @@ const Card = (props) => {
                 <h4 className="title-text mt-0">{props.titleData}</h4>
                 <div className="d-flex justify-content-between">
                 <h3 className="text-purple">
-                    {props.totalCount ? props.totalCount : <div class="spinner-border text-primary" role="status">
-                    <span class="sr-only">Loading...</span>
+                    {props.loading ? props.totalCount : <div className="spinner-border text-primary" role="status">
+                    <span className="sr-only">Loading...</span>
                     </div>}
                 </h3>
                 <i className={`${props.setIcon} card-eco-icon bg-${props.setColor} align-self-center`} />

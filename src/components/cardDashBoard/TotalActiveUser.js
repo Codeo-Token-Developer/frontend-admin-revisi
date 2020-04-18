@@ -49,8 +49,8 @@ const Card = (props) => {
                     <h4 className="title-text mt-0">{props.titleData}</h4>
                     <div className="d-flex justify-content-between">
                     <h3 className="text-purple">
-                        {props.totalCount ? props.totalCount : <div class="spinner-border text-primary" role="status">
-                        <span class="sr-only">Loading...</span>
+                        {props.totalCount ? props.totalCount : <div className="spinner-border" style={{color: 'pink'}} role="status">
+                        <span className="sr-only">Loading...</span>
                         </div>}
                     </h3>
                     <i className={`${props.setIcon} card-eco-icon bg-${props.setColor} align-self-center`} />

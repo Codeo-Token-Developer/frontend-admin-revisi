@@ -1,33 +1,58 @@
-import React, { useEffect } from 'react';
-import { Switch, Redirect, useHistory, useLocation, Route } from 'react-router-dom';
+import React from 'react';
+import { Switch,  Route, withRouter } from 'react-router-dom';
 //pages
 import Login from './pages/Login';
 import MainPage from './pages/MainPage';
 
-function App() {
+class App extends React.Component {
 
-  let history = useHistory();
-  let location = useLocation();
-  
-  useEffect(() => {
-    
+  componentDidMount() {
     if (localStorage.getItem('admincodeotoken')) {
-      history.push(location.pathname)
+      this.props.history.push(this.props.location.pathname)
     }else {
-      history.push('/operation')
+      this.props.history.push('/operation')
     }
-  },[])
+  }
 
-  return (
-    <Switch>
-      <Route path="/operation">
-        <Login />
-      </Route>
-      <Route path="/operationMain">
-        {localStorage.getItem('admincodeotoken') ? <MainPage /> : <Redirect to="/operation" />}
-      </Route>
-    </Switch>
-  );
+  render() {
+    return (
+      <Switch>
+        <Route exact path="/operation">
+          <Login />
+        </Route>
+        <Route path="/operationMain">
+          <MainPage />
+        </Route>
+      </Switch>
+    )
+  }
+
 }
 
-export default App;
+// function App() {
+
+//   let history = useHistory();
+//   let location = useLocation();
+  
+//   useEffect(() => {
+    
+//     if (localStorage.getItem('admincodeotoken')) {
+//       history.push(location.pathname)
+//     }else {
+//       history.push('/operation')
+//     }
+//   },[])
+
+//   return (
+//     <Switch>
+//       <Route path="/operation">
+//         <Login />
+//       </Route>
+//       <Route path="/operationMain">
+//         {localStorage.getItem('admincodeotoken') ? <MainPage /> : <Redirect to="/operation" />}
+//       </Route>
+//     </Switch>
+//   );
+// }
+
+export default withRouter(App);
