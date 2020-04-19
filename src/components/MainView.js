@@ -6,6 +6,7 @@ import Header from './headerComponent/Header';
 import NavLeft from './navbarComponent/NavLeft';
 
 // Component Pages
+// ADMIN PAGES
 import Dashboard from './Dashboard';
 import UserManagement from './componentContent/UserManagement';
 import CMSUpdate from './componentContent/CMSUpdate';
@@ -13,6 +14,12 @@ import Ledger from './componentContent/Ledger';
 import KYCApproval from './componentContent/KYCApproval';
 import General from './componentContent/General';
 import BankAccount from './componentContent/BankAccount';
+// Launchpad PAGES
+import DashboardLaunchpad from './DashboardLaunchpad';
+import ListingApproval from './componentContent/ListingApproval';
+import UserInvestment from './componentContent/UserInvestment';
+import PlacementAgencies from './componentContent/PlacementAgencies';
+import SettingsLaunchpad from './componentContent/SettingsLaunchpad';
 
 function MainView () {
 
@@ -46,6 +53,21 @@ function MainView () {
                                     </Route>
                                     <Route path={`${path}/bankAccount`}>
                                         <BankAccount />
+                                    </Route>
+                                    <Route path={`${path}/dashboardLaunchpad`}>
+                                        <DashboardLaunchpad />
+                                    </Route>
+                                    <Route path={`${path}/listingApproval`}>
+                                        <ListingApproval />
+                                    </Route>
+                                    <Route path={`${path}/userInvestment`}>
+                                        <UserInvestment />
+                                    </Route>
+                                    <Route path={`${path}/placementAgencies`}>
+                                        <PlacementAgencies />
+                                    </Route>
+                                    <Route path={`${path}/settingsLaunchpad`}>
+                                        <SettingsLaunchpad />
                                     </Route>
                                 </Switch>
                             </div>

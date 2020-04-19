@@ -93,31 +93,31 @@ const NavMetricaAnalytic = () => {
                     </div>
                     <ul className="nav">
                         <li className="nav-item">
-                        <Link className="nav-link" to="/dashboardLaunchpad">
+                        <Link className="nav-link" to={`${url}/dashboardLaunchpad`}>
                             <i className="dripicons-meter" />
                             Dashboard
                         </Link>
                         </li>
                         <li className="nav-item">
-                        <Link className="nav-link" to="/listingApproval">
+                        <Link className="nav-link" to={`${url}/listingApproval`}>
                             <i className="dripicons-document" />
                             Listing Approval
                         </Link>
                         </li>
                         <li className="nav-item">
-                        <Link className="nav-link" to="/userInvestment">
+                        <Link className="nav-link" to={`${url}/userInvestment`}>
                             <i className="dripicons-user" />
                             User Investment
                         </Link>
                         </li>
                         <li className="nav-item">
-                        <Link className="nav-link" to="/placementAgencies">
+                        <Link className="nav-link" to={`${url}/placementAgencies`}>
                             <i className="dripicons-document" />
                             Placement Agencies
                         </Link>
                         </li>
                         <li className="nav-item">
-                        <Link className="nav-link" to="/settingsLaunchpad">
+                        <Link className="nav-link" to={`${url}/settingsLaunchpad`}>
                             <i className="dripicons-gear" />
                             Launchpad Settings
                         </Link>
