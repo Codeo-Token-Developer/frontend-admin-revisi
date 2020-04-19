@@ -31,7 +31,7 @@ const TotalCodeo = () => {
     return (
         <div className="col-lg-3">
           <Card
-            titleData="Total Codeo" /*====== Text Data For Card ======*/
+            titleData={total} /*====== Text Data For Card ======*/
             totalCount="$ 9.234.419" /*====== Total Count Data ======*/
             upDownClass="" /*====== Set Icon Up or Down Total Data ======*/
             upDownText="" /*====== Set Color For Icon Up or Down (text-success = Green Color) / (text-danger = Red Color) ======*/

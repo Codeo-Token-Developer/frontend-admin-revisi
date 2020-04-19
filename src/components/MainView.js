@@ -8,10 +8,11 @@ import NavLeft from './navbarComponent/NavLeft';
 // Component Pages
 // ADMIN PAGES
 import Dashboard from './Dashboard';
-import UserManagement from './componentContent/UserManagement';
+import UserManagement from './UserManagement';
+import KYCApproval from './KYCApproval';
+
 import CMSUpdate from './componentContent/CMSUpdate';
 import Ledger from './componentContent/Ledger';
-import KYCApproval from './componentContent/KYCApproval';
 import General from './componentContent/General';
 import BankAccount from './componentContent/BankAccount';
 // Launchpad PAGES
@@ -31,7 +32,7 @@ function MainView () {
                     <div className="page-wrapper">
                     <NavLeft />
                         <div className="page-content">
-                            <div className="container-fluid">  
+                            <div className="container-fluid">
                                 <Switch>
                                     <Route exact path={`${path}`}>
                                         <Dashboard />

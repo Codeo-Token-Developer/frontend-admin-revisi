@@ -1,40 +1,7 @@
-import React, { useState, useEffect, useContext } from "react";
-import axios from "axios";
+import React, { useContext } from "react";
 import { urlContext } from "../../Context";
 
 function UserManagement() {
-  let country = [
-    "United Arab Emirates",
-    "Argentina",
-    "Austria",
-    "Australia",
-    "Belgium",
-    "Brazil",
-    "Canada",
-    "Switzerland",
-    "China",
-    "Germany",
-    "Spain",
-    "France",
-    "United Kingdom",
-    "Indonesia",
-    "India",
-    "Italy",
-    "Japan",
-    "South Korea",
-    "Mexico",
-    "Nigeria",
-    "Netherlands",
-    "Norway",
-    "Poland",
-    "Russia",
-    "Saudi Arabia",
-    "Sweden",
-    "Thailand",
-    "Turkey",
-    "United States",
-    "Venezuela",
-  ];
   let baseUrl = useContext(urlContext);
 
   return (
