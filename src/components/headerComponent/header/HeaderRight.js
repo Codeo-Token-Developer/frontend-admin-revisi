@@ -1,6 +1,6 @@
-import React from 'react'
+import React,{useContext} from 'react'
 import { useHistory } from 'react-router-dom'
-// import { adminContext } from '../../../Context'
+import { adminContext } from '../../../Context'
 import Swal from 'sweetalert2'
 
 //auth;
@@ -62,7 +62,7 @@ function AuthOne(props){
 function AuthTwo(props){
     let history = useHistory();
 
-    // let user = useContext(adminContext);
+    let user = useContext(adminContext);
 
     //let { url } = useRouteMatch();
 
@@ -82,7 +82,7 @@ function AuthTwo(props){
 
             <button className="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false" style={{backgroundColor: "#1c233f", border: "none", color: 'white'}}>
                 <img src="../assets/images/users/user-4.jpg" alt="profile-user" className="rounded-circle" />
-                <span className="ml-1 nav-user-name hidden-sm" style={{color: 'white'}}> Ivan <i className="mdi mdi-chevron-down" /> </span>
+                <span className="ml-1 nav-user-name hidden-sm" style={{color: 'white'}}>{(user===undefined||user===null)?"ADMIN":user.full_name}<i className="mdi mdi-chevron-down" /> </span>
             </button>
             <div className="dropdown-menu dropdown-menu-right">
                 {/* <Link to={`${url}/profile`}> */}
@@ -94,7 +94,7 @@ function AuthTwo(props){
                 <button className="dropdown-item" type="button" onClick={logout} ><i className="dripicons-exit text-muted mr-2" /> Logout</button>
             </div>
         </li>
-    )
+    );
 }
 
 function HeaderRightUnstyled(props){
