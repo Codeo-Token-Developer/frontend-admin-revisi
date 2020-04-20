@@ -1,10 +1,8 @@
 import React,{useContext} from 'react';
-import CardInfoKYC from "./cardKYCApproval/CardInfoKYC";
+import {urlContext} from "../../Context";
+import CardInfoKYC from './componentKYCApproval/CardInfoKYC';
 
-
-import {urlContext} from "../Context";
-
-export default function KYCApproval() {
+function KYCApproval() {
   let baseUrl=useContext(urlContext);
 
     return (
@@ -27,3 +25,5 @@ export default function KYCApproval() {
         </>
     )
 }
+
+export default KYCApproval;

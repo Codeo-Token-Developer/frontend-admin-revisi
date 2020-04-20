@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from "react";
 import axios from "axios";
 
-export default function CardUserManagement(props){
+function CardUserManagement(props){
 
   let [data, setData] = useState(undefined);
   const [msgs,setMsgs]=useState("");
@@ -9,7 +9,6 @@ export default function CardUserManagement(props){
   const [loading,setLoading]=useState(false);
 
   useEffect(()=>{
-
     function getUsers() {
       axios({
         url: `${props.baseUrl}/users`,
@@ -207,3 +206,5 @@ function DataList(props){
     </>
   );
 }
+
+export default CardUserManagement

@@ -8,19 +8,19 @@ import NavLeft from './navbarComponent/NavLeft';
 // Component Pages
 // ADMIN PAGES
 import Dashboard from './Dashboard';
-import UserManagement from './UserManagement';
-import KYCApproval from './KYCApproval';
+import UserManagement from './adminDashboard/UserManagement';
+import KYCApproval from './adminDashboard/KYCApproval';
 
-import CMSUpdate from './componentContent/CMSUpdate';
-import Ledger from './componentContent/Ledger';
-import General from './componentContent/General';
-import BankAccount from './componentContent/BankAccount';
+import CMSUpdate from './adminDashboard/CMSUpdate';
+import Ledger from './adminDashboard/Ledger';
+import General from './adminDashboard/General';
+import BankAccount from './adminDashboard/BankAccount';
 // Launchpad PAGES
 import DashboardLaunchpad from './DashboardLaunchpad';
-import ListingApproval from './componentContent/ListingApproval';
-import UserInvestment from './componentContent/UserInvestment';
-import PlacementAgencies from './componentContent/PlacementAgencies';
-import SettingsLaunchpad from './componentContent/SettingsLaunchpad';
+import ListingApproval from './adminDashboard/ListingApproval';
+import UserInvestment from './adminDashboard/UserInvestment';
+import PlacementAgencies from './adminDashboard/PlacementAgencies';
+import SettingsLaunchpad from './adminDashboard/SettingsLaunchpad';
 
 function MainView () {
 

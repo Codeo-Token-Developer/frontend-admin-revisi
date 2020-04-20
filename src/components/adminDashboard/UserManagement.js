@@ -1,12 +1,10 @@
-import React, { useContext } from "react";
-import axios from "axios";
-import { urlContext } from "../Context";
+import React, { useContext, useEffect, useState } from "react";
+import { urlContext } from "../../Context";
 
+import CardUserManagement from "./componentUserManagement/CardUserManagement";
+import DropdownUserManagement from "./componentUserManagement/DropdownUserManagement";
 
-import CardUserManagement from "./CardUserManagement";
-import DropdownUserManagement from "./DropdownUserManagement";
-
-export function UserManagement() {
+function UserManagement() {
   let baseUrl = useContext(urlContext);
 
   return (
@@ -31,3 +29,5 @@ export function UserManagement() {
     </>
   );
 }
+
+export default UserManagement;
