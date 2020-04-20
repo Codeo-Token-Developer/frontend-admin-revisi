@@ -6,7 +6,8 @@ const TotalActiveUser = (props) => {
 
     let baseUrl = React.useContext(urlContext);
 
-    const [totalActiveUser, setTotalActiveUser] = React.useState(false)
+    const [totalActiveUser, setTotalActiveUser] = React.useState(false);
+    const [loading,setLoading]=React.useState(false);
 
     React.useEffect(() => {
         axios({
@@ -18,8 +19,10 @@ const TotalActiveUser = (props) => {
         })
         .then(({data}) => {
             setTotalActiveUser(data.total)
+            setLoading(true);
         })
         .catch(err => {
+            setLoading(null);
             console.log(err)
         })
     },[baseUrl])
@@ -27,7 +30,8 @@ const TotalActiveUser = (props) => {
     return (
         <div className="col-lg-3">
           <Card
-            totalCount={totalActiveUser} /*====== Total Count Data ======*/
+            loading={loading}
+            totalCount={(totalActiveUser===null)?0:totalActiveUser} /*====== Total Count Data ======*/
             titleData="Total Active User"
             upDownClass="mdi mdi-trending-up" /*====== Set Icon Up or Down Total Data ======*/
             upDownText="text-success" /*====== Set Color For Icon Up or Down (text-success = Green Color) / (text-danger = Red Color) ======*/
@@ -49,9 +53,9 @@ const Card = (props) => {
                     <h4 className="title-text mt-0">{props.titleData}</h4>
                     <div className="d-flex justify-content-between">
                     <h3 className="text-purple">
-                        {props.totalCount ? props.totalCount : <div className="spinner-border" style={{color: 'pink'}} role="status">
+                        {props.loading===true ? props.totalCount :(props.loading===false)? <div className="spinner-border" style={{color: 'pink'}} role="status">
                         <span className="sr-only">Loading...</span>
-                        </div>}
+                        </div>:0}
                     </h3>
                     <i className={`${props.setIcon} card-eco-icon bg-${props.setColor} align-self-center`} />
                     </div>

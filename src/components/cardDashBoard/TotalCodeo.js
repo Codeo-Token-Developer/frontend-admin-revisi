@@ -23,6 +23,7 @@ const TotalCodeo = () => {
             setLoading(true)
         })
         .catch(err => {
+          setLoading(false);
             console.log(err);
         })
 
@@ -31,15 +32,15 @@ const TotalCodeo = () => {
     return (
         <div className="col-lg-3">
           <Card
-            titleData={total} /*====== Text Data For Card ======*/
-            totalCount="$ 9.234.419" /*====== Total Count Data ======*/
+            loading={loading}
+            titleData="Total Codeo" /*====== Text Data For Card ======*/
+            totalCount={total||"$ 9.234.419"} /*====== Total Count Data ======*/
             upDownClass="" /*====== Set Icon Up or Down Total Data ======*/
             upDownText="" /*====== Set Color For Icon Up or Down (text-success = Green Color) / (text-danger = Red Color) ======*/
             percentData="" /*====== Total Percent Up or Down Today ======*/
             textPercent="&nbsp;" /*====== Text For Up or Down Total Percentage Today ======*/
             setColor="purple" /*====== Set Color For Shadow or Background ======*/
             setIcon="dripicons-wallet" /*====== For Change Icon Can Change Here Using Dripicons ======*/
-            loading={loading}
           />
       </div>
     )
@@ -53,7 +54,9 @@ const Card = (props) => {
         <div className="d-flex justify-content-between">
           {/* <h3 className={classnames("text-" + props.setColor)}> */}
           <h3 className={`text-${props.setColor}`}>
-            {props.totalCount}
+          {props.loading===true ? props.totalCount :(props.loading===false)? <div className="spinner-border text-primary" role="status">
+            <span className="sr-only">Loading...</span>
+            </div>:0}
           </h3>
             <i className={`${props.setIcon} card-eco-icon bg-${props.setColor} shadow-${props.setColor} align-self-center`} />
         </div>

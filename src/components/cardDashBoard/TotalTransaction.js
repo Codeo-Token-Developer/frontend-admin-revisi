@@ -4,7 +4,7 @@ import { urlContext } from '../../Context';
 
 
 function TotalTransaction() {
-    
+
     const [total, setTotal] = React.useState('');
     const [loading, setLoading] = React.useState(false);
 
@@ -23,13 +23,14 @@ function TotalTransaction() {
             setLoading(true)
         })
         .catch(err => {
+          setLoading(null);
             console.log(err)
         })
     })
 
     return (
         <div className="col-lg-3">
-            <Card 
+            <Card
                  titleData="Total Transaction" /*====== Text Data For Card ======*/
                  totalCount={total} /*====== Total Count Data ======*/
                  upDownClass="mdi mdi-trending-up" /*====== Set Icon Up or Down Total Data ======*/
@@ -52,9 +53,9 @@ const Card = (props) => {
                 <h4 className="title-text mt-0">{props.titleData}</h4>
                 <div className="d-flex justify-content-between">
                 <h3 className={`text-${props.setColor}`}>
-                    {props.loading ? props.totalCount : <div className="spinner-border text-warning" role="status">
-                    <span className="sr-only">Loading...</span>
-                    </div>}
+                {props.loading===true ? props.totalCount :(props.loading)? <div className="spinner-border text-primary" role="status">
+                  <span className="sr-only">Loading...</span>
+                  </div>:0}
                 </h3>
                 <i className={`${props.setIcon} card-eco-icon bg-${props.setColor} align-self-center`} />
                 </div>

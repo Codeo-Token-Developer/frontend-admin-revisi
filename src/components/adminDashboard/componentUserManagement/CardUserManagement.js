@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from "react";
 import axios from "axios";
 
-function CardUserManagement(props){
+export default function CardUserManagement(props){
 
   let [data, setData] = useState(undefined);
   const [msgs,setMsgs]=useState("");
@@ -9,6 +9,7 @@ function CardUserManagement(props){
   const [loading,setLoading]=useState(false);
 
   useEffect(()=>{
+
     function getUsers() {
       axios({
         url: `${props.baseUrl}/users`,
@@ -185,13 +186,15 @@ function DataList(props){
                 {/*
                                 <button className="mr-2 btn btn-success" value={item._id} onClick={()=>EditUsers(item._id)}><i className="fas fa-edit text-white font-16"></i></button>
                                 */}
-                <button
+                {/*
+                  <button
                   className="mr-2 btn btn-success"
                   value={item._id}
                   onClick={() =>props.EditUsers(item._id)}
-                >
+                  >
                   <i className="fas fa-edit text-white font-16"></i>
-                </button>
+                  </button>
+                */}
                 <button
                   className="mr-2 btn btn-danger"
                   value={item._id}
@@ -206,5 +209,3 @@ function DataList(props){
     </>
   );
 }
-
-export default CardUserManagement

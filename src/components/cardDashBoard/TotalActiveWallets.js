@@ -7,7 +7,7 @@ const TotalActiveWallets = () => {
     let baseUrl = React.useContext(urlContext);
 
     const [total, setTotal] = React.useState('');
-    const [loading, setLoading] = React.useState(false)
+    const [loading, setLoading] = React.useState(false);
 
     React.useEffect(() => {
 
@@ -23,6 +23,7 @@ const TotalActiveWallets = () => {
             setLoading(true)
         })
         .catch(err => {
+            setLoading(null);
             console.log(err);
         })
 
@@ -31,6 +32,7 @@ const TotalActiveWallets = () => {
     return (
         <div className="col-lg-3">
             <Card
+            loading={loading}
             titleData="Total Active Wallet" /*====== Text Data For Card ======*/
             totalCount={total} /*====== Total Count Data ======*/
             upDownClass="mdi mdi-trending-down" /*====== Set Icon Up or Down Total Data ======*/
@@ -39,7 +41,6 @@ const TotalActiveWallets = () => {
             textPercent="Down From Last Month" /*====== Text For Up or Down Total Percentage Today ======*/
             setColor="primary" /*====== Set Color For Shadow or Background ======*/
             setIcon="dripicons-jewel" /*====== For Change Icon Can Change Here Using Dripicons ======*/
-            loading={loading}
           />
       </div>
     )
@@ -52,9 +53,9 @@ const Card = (props) => {
           <h4 className="title-text mt-0">{props.titleData}</h4>
           <div className="d-flex justify-content-between">
                 <h3 className="text-primary">
-                {props.loading ? props.totalCount : <div className="spinner-border text-primary" role="status">
+                {props.loading===true ? props.totalCount :(props.loading===false)? <div className="spinner-border text-primary" role="status">
                   <span className="sr-only">Loading...</span>
-                  </div>}
+                  </div>:0}
             </h3>
             <i className="dripicons-jewel card-eco-icon bg-primary shadow-primary align-self-center"  />
           </div>
