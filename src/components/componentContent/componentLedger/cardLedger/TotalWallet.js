@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const CardLedgerComponent = () => {
+export const TotalWallet = () => {
     return (
         <div className="card card-eco">
             <div className="card-body">
