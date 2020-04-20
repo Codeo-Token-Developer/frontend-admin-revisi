@@ -37,7 +37,7 @@ const MetricaAnalytic = () => {
 const NavMetricaAnalytic = () => {
     let { url } = useRouteMatch();
     return(
-        <div className="main-menu-inner">
+        <div className="slimscroll main-menu-inner" style={{"overflow-y":"scroll", "scrollbar-color":"#1c233f #283158"}}>
             <div className="menu-body slimscroll">
                 <div id="MetricaAnalytic" className="main-icon-menu-pane active">
                     <div className="title-box">
@@ -55,19 +55,72 @@ const NavMetricaAnalytic = () => {
                             </Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="/cmsUpdate">
+                            <Link className="nav-link" to={`${url}/cmsUpdate`}>
                                 <i className="dripicons-document" />CMS Update
                             </Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="/Ledger">
+                            <Link className="nav-link" to={`${url}/ledger`}>
                                 <i className="dripicons-document" />Ledger
                             </Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="/kycApproval">
+                            <Link className="nav-link" to={`${url}/kycApproval`}>
                                 <i className="dripicons-document" />KYC Approval
                             </Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="#">
+                                <i className="dripicons-gear" />
+                                <span className="w-100">Settings</span>
+                                <span className="menu-arrow">
+                                <i className="mdi mdi-chevron-right" />
+                                </span>
+                            </Link>
+                            <ul className="nav-second-level" aria-expanded="false">
+                                <li>
+                                <Link to={`${url}/general`}>General</Link>
+                                </li>
+                                <li>
+                                <Link to={`${url}/bankAccount`}>Bank Account</Link>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <hr />
+                    <div className="title-box">
+                        <h6 className="menu-title text-warning">Launchpad</h6>
+                    </div>
+                    <ul className="nav">
+                        <li className="nav-item">
+                        <Link className="nav-link" to={`${url}/dashboardLaunchpad`}>
+                            <i className="dripicons-meter" />
+                            Dashboard
+                        </Link>
+                        </li>
+                        <li className="nav-item">
+                        <Link className="nav-link" to={`${url}/listingApproval`}>
+                            <i className="dripicons-document" />
+                            Listing Approval
+                        </Link>
+                        </li>
+                        <li className="nav-item">
+                        <Link className="nav-link" to={`${url}/userInvestment`}>
+                            <i className="dripicons-user" />
+                            User Investment
+                        </Link>
+                        </li>
+                        <li className="nav-item">
+                        <Link className="nav-link" to={`${url}/placementAgencies`}>
+                            <i className="dripicons-document" />
+                            Placement Agencies
+                        </Link>
+                        </li>
+                        <li className="nav-item">
+                        <Link className="nav-link" to={`${url}/settingsLaunchpad`}>
+                            <i className="dripicons-gear" />
+                            Launchpad Settings
+                        </Link>
                         </li>
                     </ul>
                 </div>
