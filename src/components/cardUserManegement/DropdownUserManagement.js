@@ -11,6 +11,8 @@ const [data, setData] = useState({
   email: "",
 });
 
+let [msgs,setMsgs]=useState("");
+
 const handleChange = (e) => {
   setData({ ...data, [e.target.name]: e.target.value });
 };
@@ -22,7 +24,7 @@ const handleSubmit = (e) => {
     url: `${props.baseUrl}/users`,
     method: "POST",
     headers: {
-      adminToken: localStorage.getItem("adminToken"),
+      adminToken: localStorage.getItem("admincodeotoken"),
     },
     data: {
       full_name: data.fullname,
@@ -33,9 +35,23 @@ const handleSubmit = (e) => {
   })
     .then(({ data }) => {
       alert(JSON.stringify(data));
+      setMsgs("");
     })
     .catch((err) => {
-      alert(err);
+      let msg="";
+      if (err.response === undefined) {
+        msg=err.message;
+      } else {
+        msg=err.response.data.message;
+      }
+      setMsgs(msg);
+      setData({
+        username: "",
+        password: "",
+        fullname: "",
+        email: "",
+      });
+
     });
 };
 
@@ -120,10 +136,11 @@ return (
                 </div>
               </div>
             </div>
+            <div>{msgs}</div>
             <button type="submit" className="btn btn-sm btn-gradient-primary">
               Save
             </button>
-            <button type="button" className="btn btn-sm btn-gradient-danger">
+            <button type="reset" className="btn btn-sm btn-gradient-danger">
               Delete
             </button>
           </form>

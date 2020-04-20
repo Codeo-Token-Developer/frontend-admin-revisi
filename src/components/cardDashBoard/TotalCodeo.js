@@ -26,7 +26,7 @@ const TotalCodeo = () => {
             console.log(err);
         })
 
-    },[baseUrl])
+    },[baseUrl]);
 
     return (
         <div className="col-lg-3">

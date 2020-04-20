@@ -38,7 +38,7 @@ const [loading,setLoading]=useState(false);
 
   function ApprovalKYC(e){
     axios({
-      url:`${props.baseUrl}/approve/${e}`,
+      url:`${props.baseUrl}/kyc/approve/${e}`,
       method:"PATCH",
       headers:{
         adminToken:localStorage.getItem("admincodeotoken")
@@ -62,7 +62,55 @@ const [loading,setLoading]=useState(false);
 
   function RejectKYC(e){
     axios({
-      url:`${props.baseUrl}/reject/${e}`,
+      url:`${props.baseUrl}/kyc/reject/${e}`,
+      method:"PATCH",
+      headers:{
+        adminToken:localStorage.getItem("admincodeotoken")
+      }
+    }).then(({data})=>{
+      alert(data.message);
+      setLoading(true);
+    }).catch(err=>{
+      setLoading(null);
+      let msg="";
+      if (err.response === undefined) {
+        msg=err.message;
+        alert(err.message);
+      } else {
+        msg=err.response.data.message;
+        alert(err.response.data.message);
+      }
+      setMsgs(msg);
+    });
+  }
+
+  function LockedKYC(e){
+    axios({
+      url:`${props.baseUrl}/kyc/lock/${e}`,
+      method:"PATCH",
+      headers:{
+        adminToken:localStorage.getItem("admincodeotoken")
+      }
+    }).then(({data})=>{
+      alert(data.message);
+      setLoading(true);
+    }).catch(err=>{
+      setLoading(null);
+      let msg="";
+      if (err.response === undefined) {
+        msg=err.message;
+        alert(err.message);
+      } else {
+        msg=err.response.data.message;
+        alert(err.response.data.message);
+      }
+      setMsgs(msg);
+    });
+  }
+
+  function UnlockKYC(e){
+    axios({
+      url:`${props.baseUrl}/kyc/unlock/${e}`,
       method:"PATCH",
       headers:{
         adminToken:localStorage.getItem("admincodeotoken")
@@ -93,7 +141,7 @@ const [loading,setLoading]=useState(false);
                 <h4 className="header-title mt-0 mb-3">KYC Approval</h4>
                 <div className="table-responsive">
                     {(loading===true) ? (
-                      <DataList data={data} ApprovalKYC={ApprovalKYC} RejectKYC={RejectKYC} />
+                      <DataList data={data} ApprovalKYC={ApprovalKYC} RejectKYC={RejectKYC} LockedKYC={LockedKYC} UnlockKYC={UnlockKYC} />
                     ) : (loading===false)?
                     <div class="spinner-border text-primary" role="status">
                       <span class="sr-only">Loading...</span>
@@ -142,7 +190,7 @@ function DataList(props) {
               <td>{item.user}</td>
               <td>{item.document_type}</td>
               <td>{(item.approved_status===true)?<button className="btn btn-danger" onClick={()=>props.RejectKYC(item._id)}>Reject</button>:(item.approved_status===false)?<button className="btn btn-success" onClick={()=>props.ApprovalKYC(item._id)}>Approve</button>:<span className="badge badge-boxed badge-danger">false</span>}</td>
-              <td>{(item.lock_status===true)?<button className="btn btn-danger" onClick={()=>props.RejectKYC(item._id)}>Unlock</button>:(item.lock_status===false)?<button className="btn btn-success" onClick={()=>props.ApprovalKYC(item._id)}>Locked</button>:<span className="badge badge-boxed badge-danger">false</span>}</td>
+              <td>{(item.lock_status===true)?<button className="btn btn-danger" onClick={()=>props.UnlockKYC(item._id)}>Unlock</button>:(item.lock_status===false)?<button className="btn btn-success" onClick={()=>props.LockedKYC(item._id)}>Locked</button>:<span className="badge badge-boxed badge-danger">false</span>}</td>
             </tr>
           );
       }):[]

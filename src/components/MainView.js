@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect,useState,useContext} from 'react';
 import { Switch, Route, useRouteMatch } from 'react-router-dom';
 
 // Component Navigate
@@ -22,12 +22,38 @@ import UserInvestment from './componentContent/UserInvestment';
 import PlacementAgencies from './componentContent/PlacementAgencies';
 import SettingsLaunchpad from './componentContent/SettingsLaunchpad';
 
+import {urlContext,adminContext} from "../Context";
+
+import axios from "axios";
+import Swal from "sweetalert2";
+
 function MainView () {
 
     let { path } = useRouteMatch();
 
+    let baseUrl=useContext(urlContext);
+    let [data,setData]=useState(undefined);
+
+    useEffect(()=>{
+      Swal.showLoading();
+      axios({
+        url:`${baseUrl}/admins/me`,
+        method:"GET",
+        headers:{
+          adminToken:localStorage.getItem("admincodeotoken")
+        }
+      }).then(({data})=>{
+        setData(data.admin);
+        Swal.close();
+      }).catch(err=>{
+        console.log(err);
+        Swal.close();
+      });
+
+    },[baseUrl]);
+
     return (
-        <>
+        <adminContext.Provider value={data}>
         <Header />
                     <div className="page-wrapper">
                     <NavLeft />
@@ -74,7 +100,7 @@ function MainView () {
                             </div>
                         </div>
                     </div>
-                </>
+                </adminContext.Provider>
     )
 
 };
