@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { urlContext } from "../../Context";
 
 import CardUserManagement from "./componentUserManagement/CardUserManagement";
@@ -7,6 +7,7 @@ import DropdownUserManagement from "./componentUserManagement/DropdownUserManage
 function UserManagement() {
   let baseUrl = useContext(urlContext);
 
+  
   return (
     <>
       <div className="row">

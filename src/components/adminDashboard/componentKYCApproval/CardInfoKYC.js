@@ -36,8 +36,7 @@ const [loading,setLoading]=useState(false);
     getKyc();
 
 
-  },[props.baseUrl]);
-
+  });
 
     return (
         <div className="row">
