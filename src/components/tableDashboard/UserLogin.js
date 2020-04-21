@@ -155,10 +155,9 @@ class UserLogin extends React.Component {
     let socket = SocketIo(ENDPOINT);
 
     socket.on('user-login', data => {
-      
       let loginUsers = this.state.users;
       let fixUsers = [];
-      let find = false
+      let find = false;
       loginUsers.forEach(loginUser => {
         if (loginUser.id === data.id) {
           loginUser.isLogin = data.isLogin;
@@ -181,13 +180,12 @@ class UserLogin extends React.Component {
       let logoutUsers = this.state.users;
       let fixLogoutUser = [];
       let find = false
-
       logoutUsers.forEach(logUser => {
         if (logUser.id === data.id) {
           logUser.isLogin = data.isLogin
           find = true;
         }
-      })
+      });
 
       if (find) {
         this.setState({users: logoutUsers})
@@ -223,7 +221,7 @@ class UserLogin extends React.Component {
                   {/* {listLogin} */}
                   {/* {this.state.users.length > 0 ? <ListLogin users={this.state.users} /> : ""} */}
                   <ListLogin users={this.state.users} />
-
+                  
                 </tbody>
               </table>{" "}
             {/*end table*/}
@@ -247,16 +245,17 @@ function ListLogin(props) {
     return (
         <tr key={index}>
           <td>{user.name}</td>
-          <td>{user.country}</td>
-          <td>12:00 AM</td>
+          <td>{(user.country===" ")?"Unknown Country":user.country}</td>
+          <td>{new Date(user.date).toLocaleDateString()+" "+new Date(user.date).toLocaleTimeString()}</td>
           <td>
             <span className={user.isLogin ? `badge badge-boxed badge-soft-success` : `badge badge-boxed badge-soft-danger`}>
               {user.isLogin ? <>Log In</> : <>Log Out</>}
             </span>
           </td>
         </tr>
-    )
-  })
+    );
+  });
+
 };
 
 export default UserLogin;

@@ -36,8 +36,7 @@ const [loading,setLoading]=useState(false);
     getKyc();
 
 
-  },[props.baseUrl]);
-
+  });
 
     return (
         <div className="row">
@@ -88,7 +87,7 @@ function DataList(props) {
     </thead>
     <tbody>
     {
-      (typeof props.data==="object")?props.data.map((item,i)=>{
+      (typeof props.data==="object")?props.data.reverse().map((item,i)=>{
           return (
             <tr>
               <td>{item.user}</td>
@@ -241,6 +240,7 @@ function UnlockKYC(e){
       <ModalHeader>Information KYC Document</ModalHeader>
       <ModalBody>
       <table className="table table-responsive">
+        {props.data._id}
       <tr>
         <td>File </td>
         <td>:</td>
@@ -260,6 +260,16 @@ function UnlockKYC(e){
         <td>Home Address </td>
         <td>:</td>
         <td>{props.data.home_address}</td>
+      </tr>
+      <tr>
+        <td>Country Issued </td>
+        <td>:</td>
+        <td>{props.data.country_issued}</td>
+      </tr>
+      <tr>
+        <td>ZIP Code </td>
+        <td>:</td>
+        <td>{props.data.zip_code}</td>
       </tr>
       <tr>
         <td>City </td>
