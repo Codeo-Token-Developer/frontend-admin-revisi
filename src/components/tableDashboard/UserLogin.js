@@ -221,7 +221,7 @@ class UserLogin extends React.Component {
                   {/* {listLogin} */}
                   {/* {this.state.users.length > 0 ? <ListLogin users={this.state.users} /> : ""} */}
                   <ListLogin users={this.state.users} />
-
+                  
                 </tbody>
               </table>{" "}
             {/*end table*/}
@@ -254,7 +254,8 @@ function ListLogin(props) {
           </td>
         </tr>
     );
-  })
+  });
+
 };
 
 export default UserLogin;

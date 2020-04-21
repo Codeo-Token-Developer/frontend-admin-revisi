@@ -261,6 +261,16 @@ function UnlockKYC(e){
         <td>{props.data.home_address}</td>
       </tr>
       <tr>
+        <td>Country Issued </td>
+        <td>:</td>
+        <td>{props.data.country_issued}</td>
+      </tr>
+      <tr>
+        <td>ZIP Code </td>
+        <td>:</td>
+        <td>{props.data.zip_code}</td>
+      </tr>
+      <tr>
         <td>City </td>
         <td>:</td>
         <td>{props.data.city}</td>
