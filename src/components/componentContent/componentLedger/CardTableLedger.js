@@ -1,80 +1,131 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import axios from 'axios'
 
 export default function CardTableLedger(props){
+
+    let [msgs, setMsgs] = useState("");
+    let [data, setData] = useState(undefined);
+
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        axios({
+            url: `https://codeo-admin.herokuapp.com/ledger`,
+            // url: `${props.baseUrl}/ledger`,
+            method: "GET",
+            headers: {
+                admintoken: localStorage.getItem("admincodeotoken"),
+            }
+        })
+        .then(({ data }) => {
+            console.log(data, "ini data axios")
+            setData(getUserAccount(data))
+        })
+        .catch((err) => {
+            setLoading(null)
+            setData({
+                date: "date is empty",
+                userWallet: "user wallet is empty",
+                walletAddress: "wallet address is empty",
+                actualBalance: "actual balance is empty",
+                eth: "ETH actual balance is empty",
+                privateKey: "private key is empty"
+            });
+            let msg =""
+            if (err.response === undefined) {
+                msg = err.message
+            } else {
+                msg = err.response.data.message
+            }
+            setMsgs(msg)
+        })
+        
+    }, [])
+
+    function TerminateLedger(event) {
+        axios({
+            url: `${props.baseUrl}/users/${event.id}`,
+            method: "DELETE",
+            headers: {
+              adminToken: localStorage.getItem("admincodeotoken"),
+            },
+        }).then(({ data }) => {
+            alert(JSON.stringify(data));
+        }).catch((err) => {
+            if (err.response === undefined) {
+                alert(err.message);
+            } else {
+                alert(err.response.data.message);
+            }
+            console.log(err);
+        });
+    };
+
+    const getUserAccount = (data) => {
+        let newAccount = [];
+        data.forEach(item => {
+            if (item.user) {
+                newAccount.push(item)
+            }
+        })
+        return (newAccount);
+    }
+
     return (
-            <div className="row">
-                <div className="col-12">
-                    <div className="card">
-                        <div className="card-body order-list">
-                            <h4 className="header-title mt-0 mb-3">Ledger</h4>
-                            <div className="table-responsive">
-                                <table className="table table-hover mb-0">
-                                    <thead className="thead-light">
+        <div className="row">
+            <div className="col-12">
+                <div className="card">
+                    <div className="card-body order-list">
+                        <h4 className="header-title mt-0 mb-3">Ledger</h4>
+                        <div className="table-responsive">
+                            <table className="table table-hover mb-0">
+                                <thead className="thead-light">
+                                    <tr>
+                                        <th className="border-top-0">Date Create Wallet</th>
+                                        <th className="border-top-0">User Wallet</th>
+                                        <th className="border-top-0">Wallet Address</th>
+                                        <th className="border-top-0">Actual Balance</th>
+                                        <th className="border-top-0">ETH Actual Balance</th>
+                                        <th className="border-top-0">Private Key</th>
+                                        <th className="border-top-0">Action</th>
+                                    </tr>{/*end tr*/}
+                                </thead>
+                                <tbody>
+                                {data === undefined || data === null
+                                    ? []
+                                    : data.map((item) => {
+                                        return (
                                         <tr>
-                                            <th className="border-top-0">Date Create Wallet</th>
-                                            <th className="border-top-0">User Wallet</th>
-                                            <th className="border-top-0">Wallet Address</th>
-                                            <th className="border-top-0">Actual Balance</th>
-                                            <th className="border-top-0">ETH Actual Balance</th>
-                                            <th className="border-top-0">Private Key</th>
-                                            <th className="border-top-0">Action</th>
-                                        </tr>{/*end tr*/}
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>17-02-2020 11:23 AM</td>
-                                            <td>Master Thomas</td>
-                                            <td>0x3025234435236421</td>
-                                            <td>3.214 CODEO</td>
-                                            <td>476 ETH</td>
-                                            <td>a873s2341swf83612638swegjhygbs</td>
-                                            <td>
-                                                <button className="btn btn-xs btn-danger">Terminate</button>
-                                                <button className="btn btn-xs btn-warning">Lock</button>
-                                            </td>
-                                        </tr>{/*end tr*/}
-                                        <tr>
-                                            <td>17-02-2020 03:44 AM</td>
-                                            <td>CEO Agatha</td>
-                                            <td>0x3025234435236421</td>
-                                            <td>5.224 CODEO</td>
+                                            <td>{item.created_at === undefined ||
+                                                item.created_at === null
+                                                ? "Unknown"
+                                                : new Date(
+                                                    item.created_at
+                                                    ).toLocaleDateString() +
+                                                    " " +
+                                                    new Date(
+                                                    item.created_at
+                                                    ).toLocaleTimeString()}</td>
+                                            <td>{item.user.full_name}</td>
+                                            <td>{item.ETH}</td>
+                                            <td>{item.balance} CODEO</td>
                                             <td>875 ETH</td>
                                             <td>a214s63471349aa3718kutknywaqe2</td>
                                             <td>
-                                                <button className="btn btn-xs btn-danger">Terminate</button>
-                                                <button className="btn btn-xs btn-warning">Lock</button>
+                                            <button className="btn btn-xs btn-danger">Terminate</button>
+                                            <button className="btn btn-xs btn-warning">Lock</button>
                                             </td>
-                                        </tr>{/*end tr*/}
-                                        <tr>
-                                            <td>17-02-2020 05:45 AM</td>
-                                            <td>Dr. Chris</td>
-                                            <td>0x3025234435236421</td>
-                                            <td>5.567 CODEO</td>
-                                            <td>767 ETH</td>
-                                            <td>a75649jbvdhwojbj76qfnozjjq72ls</td>
-                                            <td>
-                                                <button className="btn btn-xs btn-danger">Terminate</button>
-                                                <button className="btn btn-xs btn-warning">Lock</button>
-                                            </td>
-                                        </tr>{/*end tr*/}
-                                        <tr>
-                                            <td>17-02-2020 07:22 AM</td>
-                                            <td>Senior Shella</td>
-                                            <td>0x3025234435236421</td>
-                                            <td>9.982 CODEO</td>
-                                            <td>352 ETH</td>
-                                            <td>a1ad124513987sjbyiqbhzqbuvsdjbo</td>
-                                            <td>
-                                                <button className="btn btn-xs btn-danger">Terminate</button>
-                                                <button className="btn btn-xs btn-warning">Lock</button>
-                                            </td>
-                                        </tr>{/*end tr*/}
-                                    </tbody>
-                                </table> {/*end table*/}
-                            </div>{/*end /div*/}
-                        </div>{/*end card-body*/}
-                    </div>{/*end card*/}
-                </div>{/*end col*/}
-                </div>
-    )
+                                        </tr>
+                                        );
+                                    })}
+                                </tbody>
+                            </table> {/*end table*/}
+                        </div>{/*end /div*/}
+                    </div>{/*end card-body*/}
+                </div>{/*end card*/}
+            </div>{/*end col*/}
+            </div>
+        )    
+               
 }
+
