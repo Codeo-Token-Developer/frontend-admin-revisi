@@ -3,12 +3,11 @@ import axios from "axios";
 
 import {Alert,Button,Modal,ModalHeader,ModalBody,ModalFooter} from "reactstrap";
 
-export default function CardInfoKYC(props){
+export function CardInfoKYC(props){
 
 let [msgs,setMsgs]=useState("");
 let [data,setData]=useState(undefined);
 const [loading,setLoading]=useState(false);
-
 
   useEffect(()=>{
 
@@ -61,8 +60,7 @@ const [loading,setLoading]=useState(false);
     );
 }
 
-function DataList(props) {
-
+export function DataList(props) {
   return (
   <table className="table table-hover mb-0">
     <thead className="thead-light">
@@ -79,9 +77,9 @@ function DataList(props) {
 
     <tr>
       <th className="border-top-0">User Id</th>
-      <th className="border-top-0">View KYC Document</th>
       <th className="border-top-0">Approval Status</th>
       <th className="border-top-0">Locked Status</th>
+      <th className="border-top-0">KYC Document</th>
     </tr>
         {/*end tr*/}
     </thead>
@@ -91,9 +89,9 @@ function DataList(props) {
           return (
             <tr>
               <td>{item.user}</td>
-              <td><ViewKYC baseUrl={props.baseUrl} data={item} /></td>
               <td>{(item.approved_status===true)?<span className="badge badge-success">Approved</span>:(item.approved_status===false)?<span className="badge badge-danger">Not Approved</span>:null}</td>
               <td>{(item.lock_status===true)?<span className="badge badge-success">Locked</span>:(item.lock_status===false)?<span className="badge badge-danger">Not Locked</span>:null}</td>
+              <td><ViewKYC baseUrl={props.baseUrl} data={item} /></td>
             </tr>
           );
       }):[]
@@ -120,7 +118,7 @@ function DataList(props) {
 }
 
 
-function ViewKYC(props){
+export function ViewKYC(props){
 
 const [modal,setModal]=useState(false);
 const [alert,setAlert]=useState(false);
@@ -128,13 +126,14 @@ const [alert,setAlert]=useState(false);
 const toggle=()=>setModal(!modal);
 const alertToggle=()=>setAlert(!alert);
 
-const [status,setStatus]=useState(false);
 const [msgs,setMsgs]=useState("");
-
+const [color,setColor]=useState("danger");
 
 
 function ApprovalKYC(e){
-  setMsgs("");
+  setAlert(true);
+  setColor("info");
+  setMsgs(" Please wait, a few minutes, the request is being processed. ");
   axios({
     url:`${props.baseUrl}/kyc/approve/${e}`,
     method:"PATCH",
@@ -142,8 +141,8 @@ function ApprovalKYC(e){
       adminToken:localStorage.getItem("admincodeotoken")
     }
   }).then(({data})=>{
-    setStatus(true);
     setAlert(true);
+    setColor("success");
     setMsgs(data.message);
   }).catch(err=>{
     let msg="";
@@ -152,14 +151,16 @@ function ApprovalKYC(e){
     } else {
       msg=err.response.data.message;
     }
-    setStatus(false);
+    setColor("danger");
     setAlert(true);
     setMsgs("Request Error  : "+msg);
   });
 }
 
 function RejectKYC(e){
-  setMsgs("");
+  setAlert(true);
+  setColor("info");
+  setMsgs(" Please wait, a few minutes, the request is being processed. ");
   axios({
     url:`${props.baseUrl}/kyc/reject/${e}`,
     method:"PATCH",
@@ -167,8 +168,8 @@ function RejectKYC(e){
       adminToken:localStorage.getItem("admincodeotoken")
     }
   }).then(({data})=>{
-    setStatus(true);
     setAlert(true);
+    setColor("success");
     setMsgs(data.message);
   }).catch(err=>{
     let msg="";
@@ -177,14 +178,16 @@ function RejectKYC(e){
     } else {
       msg=err.response.data.message;
     }
-    setStatus(false);
     setAlert(true);
+    setColor("danger");
     setMsgs("Request Error  : "+msg);
   });
 }
 
 function LockedKYC(e){
-  setMsgs("");
+  setAlert(true);
+  setColor("info");
+  setMsgs(" Please wait, a few minutes, the request is being processed. ");
   axios({
     url:`${props.baseUrl}/kyc/lock/${e}`,
     method:"PATCH",
@@ -192,8 +195,8 @@ function LockedKYC(e){
       adminToken:localStorage.getItem("admincodeotoken")
     }
   }).then(({data})=>{
-    setStatus(true);
     setAlert(true);
+    setColor("success");
     setMsgs(data.message);
   }).catch(err=>{
     let msg="";
@@ -202,14 +205,16 @@ function LockedKYC(e){
     } else {
       msg=err.response.data.message;
     }
-    setStatus(false);
     setAlert(true);
+    setColor("danger");
     setMsgs("Request Error  : "+msg);
   });
 }
 
 function UnlockKYC(e){
-  setMsgs("");
+  setAlert(true);
+  setColor("info");
+  setMsgs(" Please wait, a few minutes, the request is being processed. ");
   axios({
     url:`${props.baseUrl}/kyc/unlock/${e}`,
     method:"PATCH",
@@ -217,8 +222,8 @@ function UnlockKYC(e){
       adminToken:localStorage.getItem("admincodeotoken")
     }
   }).then(({data})=>{
-    setStatus(true);
     setAlert(true);
+    setColor("success");
     setMsgs(data.message);
   }).catch(err=>{
     let msg="";
@@ -227,17 +232,16 @@ function UnlockKYC(e){
     } else {
       msg=err.response.data.message;
     }
-    setStatus(false);
     setAlert(true);
+    setColor("danger");
     setMsgs("Request Error  : "+msg);
   });
 }
-
   return (
     <div>
-    <Button color="success" onClick={toggle}>View KYC</Button>
-    <Modal isOpen={modal} toggle={toggle}>
-      <ModalHeader>Information KYC Document</ModalHeader>
+    <Button color="primary" onClick={toggle}>View Detail</Button>
+    <Modal isOpen={modal}>
+      <ModalHeader toggle={toggle}>Information KYC Document {(props.data.review===undefined||props.data.review===null)?<span className="badge badge-warning">Unknown Review</span>:(props.data.review===true)?<span className="badge badge-success">Review</span>:(props.data.review===false)?<span className="badge badge-danger">UnReview</span>:<span className="badge badge-warning">Unknown Review</span>}</ModalHeader>
       <ModalBody>
       <table className="table table-responsive">
         {props.data._id}
@@ -287,7 +291,9 @@ function UnlockKYC(e){
         <td>{props.data.phone_number2}</td>
       </tr>
       </table>
-      <Alert color={(status===true)?"success":"danger"} isOpen={alert} toggle={alertToggle}>{msgs}</Alert>
+      <Alert style={{height:"auto"}} color={color} isOpen={alert} toggle={alertToggle}>{color==="danger"?<i class="mdi mdi-alert-outline alert-icon"></i>:(color==="info")?<div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>:null}{msgs}</Alert>
       </ModalBody>
       <ModalFooter>
       {

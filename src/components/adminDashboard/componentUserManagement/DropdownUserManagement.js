@@ -2,6 +2,8 @@ import React,{useState} from "react";
 
 import axios from "axios";
 
+import {Alert,Button} from "reactstrap";
+
 export default function DropdownUserManagement(props) {
 
 const [data, setData] = useState({
@@ -12,6 +14,10 @@ const [data, setData] = useState({
 });
 
 let [msgs,setMsgs]=useState("");
+let [color,setColor]=useState("danger");
+let [dalert,setAlert]=useState(false);
+
+let dalertToggle=()=>setAlert(!dalert);
 
 const handleChange = (e) => {
   setData({ ...data, [e.target.name]: e.target.value });
@@ -19,7 +25,9 @@ const handleChange = (e) => {
 
 const handleSubmit = (e) => {
   e.preventDefault();
-
+  setAlert(true);
+  setColor('info');
+  setMsgs(" Please wait, a few minutes, the request is being processed. ");
   axios({
     url: `${props.baseUrl}/users`,
     method: "POST",
@@ -34,8 +42,15 @@ const handleSubmit = (e) => {
     },
   })
     .then(({ data }) => {
-      alert(JSON.stringify(data));
-      setMsgs("");
+      setAlert(true);
+      setColor('success');
+      setMsgs(data.message);
+      setData({
+        username: "",
+        password: "",
+        fullname: "",
+        email: "",
+      });
     })
     .catch((err) => {
       let msg="";
@@ -44,6 +59,8 @@ const handleSubmit = (e) => {
       } else {
         msg=err.response.data.message;
       }
+      setAlert(true);
+      setColor('danger');
       setMsgs(msg);
       setData({
         username: "",
@@ -51,7 +68,6 @@ const handleSubmit = (e) => {
         fullname: "",
         email: "",
       });
-
     });
 };
 
@@ -89,6 +105,7 @@ return (
                     className="form-control"
                     name="username"
                     id="Nama"
+                    value={data.username}
                     onChange={handleChange}
                     required
                   />
@@ -101,6 +118,7 @@ return (
                     type="password"
                     className="form-control"
                     name="password"
+                    value={data.password}
                     onChange={handleChange}
                     id="Nama"
                     required
@@ -117,6 +135,7 @@ return (
                     className="form-control"
                     name="fullname"
                     id="Nama"
+                    value={data.fullname}
                     onChange={handleChange}
                     required
                   />
@@ -130,19 +149,18 @@ return (
                     className="form-control"
                     name="email"
                     id="Email"
+                    value={data.email}
                     onChange={handleChange}
                     required
                   />
                 </div>
               </div>
             </div>
-            <div>{msgs}</div>
-            <button type="submit" className="btn btn-sm btn-gradient-primary">
-              Save
-            </button>
-            <button type="reset" className="btn btn-sm btn-gradient-danger">
-              Delete
-            </button>
+            <Alert style={{height:"auto"}} color={color} isOpen={dalert} toggle={dalertToggle}>{color==="danger"?<i class="mdi mdi-alert-outline alert-icon"></i>:(color==="info")?<div class="spinner-border" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>:null}{msgs}</Alert>
+            <Button type="submit" color="primary">Save</Button>
+            <Button type="reset" color="danger">Reset</Button>
           </form>
         </div>
       </div>

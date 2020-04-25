@@ -51,7 +51,6 @@ function MainView () {
       });
 
     },[baseUrl]);
-
     return (
         <adminContext.Provider value={data}>
         <Header />

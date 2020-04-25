@@ -1,12 +1,32 @@
-import React,{useState,useEffect} from "react";
+import React,{useState,useEffect,useContext} from "react";
 import axios from "axios";
+
+import {
+  Alert,Button,
+  Modal,ModalHeader,ModalBody,ModalFooter,
+} from "reactstrap";
+
+import {adminContext} from "../../../Context";
 
 export default function CardUserManagement(props){
 
+  let admin=useContext(adminContext);
   let [data, setData] = useState(undefined);
+  const [indexs,setIndex]=useState(0);
+
+  const [color,setColor]=useState("danger");
+  const [dalert,setAlert]=useState(false);
   const [msgs,setMsgs]=useState("");
 
+  const toggleAlert=()=>setAlert(!dalert);
+
   const [loading,setLoading]=useState(false);
+
+  const [userModal,setUserModal]=useState(false);
+  const [statusModal,setStatusModal]=useState(false);
+  const toggleModal=()=>setStatusModal(!statusModal);
+
+  const toggleUserModal=()=>setUserModal(!userModal);
 
   useEffect(()=>{
 
@@ -19,7 +39,7 @@ export default function CardUserManagement(props){
         },
       })
         .then(({ data }) => {
-          setData(data.users);
+          setData(data.users.reverse());
           setLoading(true);
         })
         .catch((err) => {
@@ -65,10 +85,9 @@ export default function CardUserManagement(props){
   }
 
   function DeleteUsers(e) {
-  let confirm=window.confirm("Are you sure delete users "+e.username+" ?");
-
-  if(confirm){
-
+    setAlert(true);
+    setColor("info");
+    setMsgs(" Please wait, a few minutes, the request is being processed. ");
     axios({
       url: `${props.baseUrl}/users/${e.id}`,
       method: "DELETE",
@@ -77,8 +96,12 @@ export default function CardUserManagement(props){
       },
     })
       .then(({ data }) => {
-        alert(JSON.stringify(data));
-      })
+        setAlert(true);
+        setColor("success");
+        setMsgs(data.message);
+        toggleModal();
+        setStatusModal(false);
+    })
       .catch((err) => {
         let msg="";
         if (err.response === undefined) {
@@ -86,11 +109,10 @@ export default function CardUserManagement(props){
         } else {
           msg=err.response.data.message;
         }
+        setAlert(true);
+        setColor("danger");
         setMsgs(msg);
-      });
-    }else{
-      alert("Your cancel delete users "+e.username);
-    }
+    });
   }
 
   return (
@@ -113,7 +135,18 @@ export default function CardUserManagement(props){
                 <thead className="thead-light">
 
                 {(loading===true) ? (
-                  <DataList data={data} DeleteUsers={DeleteUsers} EditUsers={EditUsers} />
+                  <DataList
+                  admin={admin}
+                  data={data}
+                  indexs={indexs}
+                  setIndex={setIndex}
+                  DeleteUsers={DeleteUsers}
+                  EditUsers={EditUsers}
+                  statusModal={statusModal}
+                  toggleModal={toggleModal}
+                  userModal={userModal}
+                  toggleUserModal={toggleUserModal}
+                  color={color} dalert={dalert} toggleAlert={toggleAlert} msgs={msgs} />
                 ) : (loading===false)?
                   <div class="spinner-border text-primary" role="status">
                     <span class="sr-only">Loading...</span>
@@ -135,22 +168,131 @@ export default function CardUserManagement(props){
   );
 };
 
+
+function DeleteUsersConfirm(props){
+  const Deleted=()=>{
+    if(props.admin!==undefined||props.admin!==null){
+      if(props.admin.role==="super"){
+        props.DeleteUsers({id:props.data._id,username:props.data.username})
+      }
+    }
+  };
+  return (
+    <>
+      <Modal isOpen={props.statusModal}>
+        <ModalHeader toggle={props.toggleModal}><h3><i className="fas fa-trash-alt text-white font-16"></i>   Deleted Users</h3></ModalHeader>
+        <ModalBody>
+          <table className="table table-responsive">
+            <tr>
+              <td>Status Verification</td>
+              <td>:</td>
+              <td>{(props.data===undefined||props.data===null)?"Unknown Verification":(props.data.verification===undefined||props.data.verification===null)?"Unknown Verification":(props.data.verification)?<span className="badge badge-success">Verify</span>:<span className="badge badge-danger">Not Verify</span>}</td>
+            </tr>
+            <tr>
+              <td>Registration Time</td>
+              <td>:</td>
+              <td>{(props.data===undefined||props.data===null)?"Unknown Registration Time":(props.data.email===undefined||props.data.created_at===null)?"Unknown Registration Time":new Date(props.data.created_at).toLocaleDateString()+" "+new Date(props.data.created_at).toLocaleTimeString()}</td>
+            </tr>
+            <tr>
+              <td>Last Login</td>
+              <td>:</td>
+              <td>{(props.data===undefined||props.data===null)?"Unknown Last Login":(props.data.updatedAt===undefined||props.data.updatedAt===null)?"Unknown Last Login":new Date(props.data.updatedAt).toLocaleDateString()+" "+new Date(props.data.updatedAt).toLocaleTimeString()}</td>
+            </tr>
+          </table>
+          <Alert style={{height:"auto"}} color={props.color} isOpen={props.dalert} toggle={props.dalertToggle}>{props.color==="danger"?<i class="mdi mdi-alert-outline alert-icon"></i>:(props.color==="info")?<div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>:null}{props.msgs}</Alert>
+          <div>
+            Are you sure deleted user account {props.data.email} ?
+          </div>
+        </ModalBody>
+        <ModalFooter>
+          <Button onClick={props.toggleModal} color="danger"><i className="fas fa-times text-white font-16"></i></Button>
+          {
+            (props.admin===undefined||props.admin===null)?null:(props.admin.role==="super")?
+            <Button onClick={Deleted} color="success"><i className="fas fa-check text-white font-16"></i></Button>
+            :null
+          }
+        </ModalFooter>
+      </Modal>
+    </>
+  );
+}
+
+function UsersDetails(props){
+  return (
+    <>
+      <Modal isOpen={props.statusModal}>
+        <ModalHeader toggle={props.toggleModal}><i className="fas fa-users text-white font-16"></i> User Details</ModalHeader>
+        <ModalBody>
+          <table className="table table-responsive">
+          <div>{(props.data===undefined||props.data===null)?<img className="text-center" width="200" height="200" src="/assets/images/picture1.jpg" alt="profile_picture" />:(props.data.avatar===undefined||props.data.avatar===null)?<img className="text-center" width="200" height="200" src="/assets/images/picture1.jpg" alt="profile_picture" />:<img className="text-center" width="200" height="200" src={props.data.avatar} alt="profile_picture" />}</div>
+          <br /><h4>{props.data.full_name}</h4>
+            <tr>
+              <td>Email</td>
+              <td>:</td>
+              <td>{(props.data===undefined||props.data===null)?"Unknown Email":(props.data.email===undefined||props.data.email===null)?"Unknown Email":props.data.email}</td>
+            </tr>
+            <tr>
+              <td>Username</td>
+              <td>:</td>
+              <td>{(props.data===undefined||props.data===null)?"Unknown Username":(props.data.username===undefined||props.data.username===null)?"Unknown Username":props.data.username}</td>
+            </tr>
+            <tr>
+              <td>Status Verification</td>
+              <td>:</td>
+              <td>{(props.data===undefined||props.data===null)?"Unknown Verification":(props.data.verification===undefined||props.data.verification===null)?"Unknown Verification":(props.data.verification)?<span className="badge badge-success">Verify</span>:<span className="badge badge-danger">Not Verify</span>}</td>
+            </tr>
+            <tr>
+              <td>Registration Time</td>
+              <td>:</td>
+              <td>{(props.data===undefined||props.data===null)?"Unknown Registration Time":(props.data.email===undefined||props.data.created_at===null)?"Unknown Registration Time":new Date(props.data.created_at).toLocaleDateString()+" "+new Date(props.data.created_at).toLocaleTimeString()}</td>
+            </tr>
+            <tr>
+              <td>Last Login</td>
+              <td>:</td>
+              <td>{(props.data===undefined||props.data===null)?"Unknown Last Login":(props.data.updatedAt===undefined||props.data.updatedAt===null)?"Unknown Last Login":new Date(props.data.updatedAt).toLocaleDateString()+" "+new Date(props.data.updatedAt).toLocaleTimeString()}</td>
+            </tr>
+            <tr>
+              <td>Country </td>
+              <td>:</td>
+              <td>{(props.data===undefined||props.data===null)?"Unknown Country":(props.data.id_country===undefined||props.data.id_country===null)?"Unknown Country":props.data.id_country}</td>
+            </tr>
+          </table>
+        </ModalBody>
+      </Modal>
+    </>
+  );
+}
+
 function DataList(props){
+
+  const toggleUserModals=(init)=>{
+    props.toggleUserModal();
+    props.setIndex(init);
+  };
+  const modalToggle=(init)=>{
+      props.toggleModal();
+      props.setIndex(init);
+  };
+
   return (
     <>
     <tr>
+      <th>No</th>
       <th>Name</th>
       <th>Verification</th>
       <th>Registration time</th>
       <th>Email</th>
-      <th>Country</th>
       <th>Action</th>
     </tr>
     {props.data === undefined || props.data === null
       ? []
-      : props.data.map((item) => {
+      : props.data.map((item,index) => {
           return (
+            <>
             <tr>
+              <td>{index+1}</td>
               <td>{item.username}</td>
               <td>
                 {item.verification ? (
@@ -176,12 +318,7 @@ function DataList(props){
                     ).toLocaleTimeString()}
               </td>
               <td>{item.email}</td>
-              <td>
-                {item.id_country === undefined ||
-                item.id_country === null
-                  ? "Unknown Country"
-                  : item.id_country}
-              </td>
+
               <td>
                 {/*
                                 <button className="mr-2 btn btn-success" value={item._id} onClick={()=>EditUsers(item._id)}><i className="fas fa-edit text-white font-16"></i></button>
@@ -196,16 +333,43 @@ function DataList(props){
                   </button>
                 */}
                 <button
-                  className="mr-2 btn btn-danger"
-                  value={item._id}
-                  onClick={() =>props.DeleteUsers({id:item._id,username:item.username})}
+                className="mr-2 btn btn-info"
+                value={item._id}
+                onClick={()=>toggleUserModals(index)}
                 >
-                  <i className="fas fa-trash-alt text-white font-16"></i>
+                <i className="fas fa-users text-white font-16"></i>
                 </button>
+
+                {
+                  (props.admin===undefined||props.admin===null)?null:(props.admin.role==="super")?
+                    <button
+                      className="mr-2 btn btn-danger"
+                      value={index}
+                      onClick={()=>modalToggle(index)}
+                      >
+                      <i className="fas fa-trash-alt text-white font-16"></i>
+                    </button>:null
+                }
               </td>
             </tr>
+            </>
           );
         })}
+        <UsersDetails
+         data={props.data[props.indexs]}
+         statusModal={props.userModal}
+         toggleModal={props.toggleUserModal}  />
+        <DeleteUsersConfirm
+        admin={props.admin}
+        data={props.data[props.indexs]}
+        statusModal={props.statusModal}
+        toggleModal={props.toggleModal}
+        dalert={props.dalert}
+        toggleAlert={props.toggleAlert}
+        DeleteUsers={props.DeleteUsers}
+        color={props.color}
+        dalertToggle={props.dalertToggle}
+        msgs={props.msgs}  />
     </>
   );
 }
