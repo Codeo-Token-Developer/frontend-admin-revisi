@@ -4,6 +4,7 @@ import RefFormGeneral from './formGeneral/RefFormGeneral';
 
 
 function CardGeneral(props) {
+  // const [dataFee, setDataFee] = useState()
     return (
         <div className="row">
           <div className="col-lg-6">
