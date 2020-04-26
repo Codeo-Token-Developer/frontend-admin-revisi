@@ -1,8 +1,12 @@
-import React from 'react'
+import React, {useContext} from 'react'
+import {urlContext} from '../../Context'
+
 import CardLedger from './componentLedger/CardLedger'
 import CardTableLedger from './componentLedger/CardTableLedger'
 
-function Ledger() {
+export default function Ledger() {
+    const baseUrl = useContext(urlContext)
+
     return (
         <>
             <div className="row">
@@ -18,11 +22,8 @@ function Ledger() {
                     </div>
                 </div>
             </div>
-            <CardLedger />
-
-            <CardTableLedger />
+            <CardLedger baseUrl={baseUrl}/>
+            <CardTableLedger baseUrl={baseUrl}/>
         </>
     )
 }
-
-export default Ledger;
