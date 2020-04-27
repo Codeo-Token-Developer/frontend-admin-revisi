@@ -54,7 +54,7 @@ const Card = (props) => {
           <h4 className="title-text mt-0">{props.titleData}</h4>
           <div className="d-flex justify-content-between">
                 <h3 className="text-secondary">
-                {props.loading===true ? props.totalCount :(props.loading)? <div className="spinner-border text-primary" role="status">
+                {props.loading===true ? props.totalCount :(props.loading===false)? <div className="spinner-border text-primary" role="status">
                   <span className="sr-only">Loading...</span>
                   </div>:0}
             </h3>

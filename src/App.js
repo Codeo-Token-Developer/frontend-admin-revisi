@@ -12,16 +12,16 @@ class App extends React.Component {
     if (Auth.isAuthenticated()) {
       this.props.history.push(this.props.location.pathname)
     }else {
-      this.props.history.push("/operation")
+      this.props.history.push("/")
     }
   }
   render() {
     return (
       <Switch>
-        <Route exact path="/operation" component={Login} />
+        <Route exact path="/" component={Login} />
         <ProtectedRoute path="/operationMain" component={MainPage} />
       </Switch>
-    )
+    );
   }
 };
 

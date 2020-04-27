@@ -96,7 +96,7 @@ export default function CardUserManagement(props){
       },
     })
       .then(({ data }) => {
-        setAlert(true);
+        setAlert(false);
         setColor("success");
         setMsgs(data.message);
         toggleModal();

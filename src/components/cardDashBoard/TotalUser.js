@@ -6,7 +6,7 @@ import Io from 'socket.io-client';
 const TotalUser = () => {
 
     const [total, setTotal] = React.useState('');
-    const [loading, setLoading] = React.useState(false)
+    const [loading, setLoading] = React.useState(false);
 
     let baseUrl = React.useContext(urlContext);
 
@@ -19,14 +19,14 @@ const TotalUser = () => {
             }
         })
         .then(({data}) => {
-            setTotal(data.total)
-            setLoading(true)
+            setTotal(data.total);
+            setLoading(true);
         })
         .catch(err => {
           setLoading(null);
             console.log(err)
         })
-    },[baseUrl])
+    },[baseUrl]);
 
     let ENDPOINT = React.useContext(urlSocketContext)
 
@@ -70,7 +70,7 @@ const Card = (props) => {
                 <h4 className="title-text mt-0">{props.titleData}</h4>
                 <div className="d-flex justify-content-between">
                 <h3 className="text-purple">
-                {props.loading===true ? props.totalCount :(props.loading)? <div className="spinner-border text-primary" role="status">
+                {props.loading===true ? props.totalCount :(props.loading===false)? <div className="spinner-border text-primary" role="status">
                   <span className="sr-only">Loading...</span>
                   </div>:0}
                 </h3>
@@ -86,7 +86,7 @@ const Card = (props) => {
             </div>
         </div>
     </div>
-    )
+    );
 }
 
 export default TotalUser;

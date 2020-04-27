@@ -90,6 +90,7 @@ return (
             className="close"
             data-dismiss="modal"
             aria-hidden="true"
+            onClick={()=>setAlert(false)}
           >
             ×
           </button>
