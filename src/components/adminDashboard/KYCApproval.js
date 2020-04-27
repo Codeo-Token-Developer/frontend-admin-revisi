@@ -1,6 +1,6 @@
 import React,{useContext} from 'react';
 import {urlContext} from "../../Context";
-import CardInfoKYC from './componentKYCApproval/CardInfoKYC';
+import {CardInfoKYC} from './componentKYCApproval/CardInfoKYC';
 
 function KYCApproval() {
   let baseUrl=useContext(urlContext);
