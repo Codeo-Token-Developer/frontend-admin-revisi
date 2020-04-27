@@ -5,6 +5,7 @@ import { ProtectedRoute } from './ProtectedRoute';
 import Login  from './pages/Login';
 import MainPage from './pages/MainPage';
 import Auth from './Auth';
+import Error404 from './pages/Error404';
 
 class App extends React.Component {
 
@@ -20,6 +21,7 @@ class App extends React.Component {
       <Switch>
         <Route exact path="/" component={Login} />
         <ProtectedRoute path="/operationMain" component={MainPage} />
+        <Route component={Error404} />
       </Switch>
     )
   }
