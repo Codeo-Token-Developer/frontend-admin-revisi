@@ -69,7 +69,7 @@ function AuthTwo(props){
     const logout = () => {
         Swal.showLoading();
         localStorage.removeItem('admincodeotoken');
-        history.push('/operation')
+        history.push('/')
         Swal.close();
     };
 
