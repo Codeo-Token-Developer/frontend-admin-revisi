@@ -30,21 +30,21 @@ export default class Tbl extends Component {
   }
 
   componentWillMount() {
-    this.props.data.map((item, index) => {
-      this.setState(
-        {
-          data: [
-            [item[0], item[1], item[2], item[3], item[4]],
-            [item[0], item[1], item[2], item[3], item[4]],
-          ],
-        },
-        () => {
-          $("#datatable").DataTable({
-            data: this.state.data,
-          });
-        }
-      );
-    });
+    // this.props.data.map((item, index) => {
+    //   this.setState(
+    //     {
+    //       data: [
+    //         [item[0], item[1], item[2], item[3], item[4]],
+    //         [item[0], item[1], item[2], item[3], item[4]],
+    //       ],
+    //     },
+    //     () => {
+    //       $("#datatable").DataTable({
+    //         data: this.state.data,
+    //       });
+    //     }
+    //   );
+    // });
   }
 
   render() {
@@ -77,7 +77,9 @@ export default class Tbl extends Component {
               <th className="border-top-0">Status</th>
             </tr>
           </thead>
-          <tbody>{/* <ListLogin users={this.props.data} /> */}</tbody>
+          <tbody>
+            <ListLogin users={this.props.data} />
+          </tbody>
         </table>
         {/* <table
           className="display table table-hover mb-0"
