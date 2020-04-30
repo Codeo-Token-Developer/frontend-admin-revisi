@@ -23,6 +23,6 @@ class App extends React.Component {
       </Switch>
     );
   }
-};
+}; 
 
 export default withRouter(App);
