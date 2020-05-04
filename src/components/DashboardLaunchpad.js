@@ -8,6 +8,9 @@ import TotalProject from "./cardDashBoardLaunchpad/TotalProject";
 import TotalInvestment from "./cardDashBoardLaunchpad/TotalInvestment";
 import TotalPlacementCodeo from "./cardDashBoardLaunchpad/TotalPlacementCodeo";
 
+const $ = require("jquery");
+$.Datatable = require("datatables.net-bs");
+
 function DashboardLaunchpad() {
   return (
     <div>
@@ -32,6 +35,22 @@ function DashboardLaunchpad() {
 }
 
 const CardLaunchpad = () => {
+  function dataTables() {
+    if (!$.fn.dataTable.isDataTable("#datatable, #datatable2, #datatable3")) {
+      $("#datatable, #datatable2, #datatable3").DataTable({
+        fnDrawCallback: function () {
+          $(
+            "#datatable_wrapper, #datatable2_wrapper, #datatable3_wrapper"
+          ).removeClass("form-inline");
+          $(".paginate_button a").addClass("page-link");
+          $(".paginate_button").addClass("page-item");
+        },
+      });
+    }
+  }
+
+  setInterval(dataTables, 100);
+
   return (
     <>
       <div className="row">

@@ -5,7 +5,7 @@ import axios from "axios";
 let socket;
 
 const $ = require("jquery");
-$.Datatable = require("datatables.net");
+$.Datatable = require("datatables.net-bs");
 
 function UserLoginTable() {
   return (
@@ -51,19 +51,6 @@ const Table = () => {
         });
         setUsers(newData);
         setLoading(false);
-
-        $("#datatable").DataTable({
-          dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>rtip',
-          select: false,
-          fnDrawCallback: function () {
-            $(".dataTables_length select").addClass(
-              "custom-select custom-select-sm form-control form-control-sm"
-            );
-            $(".dataTables_filter input").addClass(
-              "form-control form-control-sm"
-            );
-          },
-        });
       })
       .catch((err) => {
         setLoading(null);
@@ -76,6 +63,16 @@ const Table = () => {
         setMsgs(msg);
         console.log(err);
       });
+
+    if (!$.fn.dataTable.isDataTable("#datatable")) {
+      $("#datatable").DataTable({
+        fnDrawCallback: function () {
+          $("#datatable_wrapper").removeClass("form-inline");
+          $(".paginate_button a").addClass("page-link");
+          $(".paginate_button").addClass("page-item");
+        },
+      });
+    }
   }, [baseUrl]);
 
   React.useEffect(() => {

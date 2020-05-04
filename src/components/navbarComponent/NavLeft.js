@@ -149,9 +149,9 @@ const NavMetricaAnalytic = () => {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to={`${url}/settingsLaunchpad`}>
-                <i className="dripicons-gear" />
-                Launchpad Settings
+              <Link className="nav-link" to={`${url}/bannerLaunchpad`}>
+                <i className="dripicons-photo" />
+                Banner Slider
               </Link>
             </li>
           </ul>

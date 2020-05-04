@@ -5,7 +5,7 @@ import { urlContext } from "../../Context";
 import CardCMSUpdate from "./componentCMSUpdate/CardCMSUpdate";
 import DropdownCMSUpdate from "./componentCMSUpdate/DropdownCMSUpdate";
 
-function CMSUpdate() {
+function CMSUpdate(props) {
   const baseURL = useContext(urlContext);
 
   return (
@@ -25,7 +25,7 @@ function CMSUpdate() {
           </div>
         </div>
       </div>
-      <CardCMSUpdate baseURL={baseURL} />
+      <CardCMSUpdate dataTables={props.dataTables} baseURL={baseURL} />
       <DropdownCMSUpdate baseURL={baseURL} />
     </>
   );
