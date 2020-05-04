@@ -114,6 +114,13 @@ export default function CardTableLedger(props){
                                             <td>
                                             <button className="btn btn-xs btn-danger">Terminate</button>
                                             <button className="btn btn-xs btn-warning">Lock</button>
+                                            {/* {
+                                                (props.data.lock_status === true)?
+                                                <Button color="danger" onClick={()=>UnlockKYC(props.data._id)}>
+                                                    Unlock KYC</Button> : (props.data.lock_status === false)?
+                                                <Button color="success" onClick={()=>LockedKYC(props.data._id)}>
+                                                    Lock KYC</Button> : null
+                                            } */}
                                             </td>
                                         </tr>
                                         );
