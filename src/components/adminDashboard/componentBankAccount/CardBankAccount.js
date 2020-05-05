@@ -34,7 +34,7 @@ function CardBankAccount(props) {
         })
     })
     
-    const editDataBankAccount = (e) => {
+    const EditDataBankAccount = (e) => {
         Axios({
             url: ``,
             method: "PATCH",
@@ -48,7 +48,7 @@ function CardBankAccount(props) {
         })
     }
 
-    const deleteDataBankAccount = (e) => {
+    const DeleteDataBankAccount = (e) => {
         let confirmation = window.confirm("Are you sure delete users "+e.bankAccount+" ?");
         if(confirmation){
             Axios({

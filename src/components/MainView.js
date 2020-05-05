@@ -53,55 +53,54 @@ function MainView () {
     },[baseUrl]);
     return (
         <adminContext.Provider value={data}>
-        <Header />
-                    <div className="page-wrapper">
-                    <NavLeft />
-                        <div className="page-content">
-                            <div className="container-fluid">
-                                <Switch>
-                                    <Route exact path={`${path}`}>
-                                        <Dashboard />
-                                    </Route>
-                                    <Route path={`${path}/userManagement`}>
-                                        <UserManagement />
-                                    </Route>
-                                    <Route path={`${path}/cmsUpdate`}>
-                                        <CMSUpdate />
-                                    </Route>
-                                    <Route path={`${path}/ledger`}>
-                                        <Ledger />
-                                    </Route>
-                                    <Route path={`${path}/kycApproval`}>
-                                        <KYCApproval />
-                                    </Route>
-                                    <Route path={`${path}/general`}>
-                                        <General />
-                                    </Route>
-                                    <Route path={`${path}/bankAccount`}>
-                                        <BankAccount />
-                                    </Route>
-                                    <Route path={`${path}/dashboardLaunchpad`}>
-                                        <DashboardLaunchpad />
-                                    </Route>
-                                    <Route path={`${path}/listingApproval`}>
-                                        <ListingApproval />
-                                    </Route>
-                                    <Route path={`${path}/userInvestment`}>
-                                        <UserInvestment />
-                                    </Route>
-                                    <Route path={`${path}/placementAgencies`}>
-                                        <PlacementAgencies />
-                                    </Route>
-                                    <Route path={`${path}/settingsLaunchpad`}>
-                                        <SettingsLaunchpad />
-                                    </Route>
-                                </Switch>
-                            </div>
+            <Header />
+                <div className="page-wrapper">
+                <NavLeft />
+                    <div className="page-content">
+                        <div className="container-fluid">
+                            <Switch>
+                                <Route exact path={`${path}`}>
+                                    <Dashboard />
+                                </Route>
+                                <Route path={`${path}/userManagement`}>
+                                    <UserManagement />
+                                </Route>
+                                <Route path={`${path}/cmsUpdate`}>
+                                    <CMSUpdate />
+                                </Route>
+                                <Route path={`${path}/ledger`}>
+                                    <Ledger />
+                                </Route>
+                                <Route path={`${path}/kycApproval`}>
+                                    <KYCApproval />
+                                </Route>
+                                <Route path={`${path}/general`}>
+                                    <General />
+                                </Route>
+                                <Route path={`${path}/bankAccount`}>
+                                    <BankAccount />
+                                </Route>
+                                <Route path={`${path}/dashboardLaunchpad`}>
+                                    <DashboardLaunchpad />
+                                </Route>
+                                <Route path={`${path}/listingApproval`}>
+                                    <ListingApproval />
+                                </Route>
+                                <Route path={`${path}/userInvestment`}>
+                                    <UserInvestment />
+                                </Route>
+                                <Route path={`${path}/placementAgencies`}>
+                                    <PlacementAgencies />
+                                </Route>
+                                <Route path={`${path}/settingsLaunchpad`}>
+                                    <SettingsLaunchpad />
+                                </Route>
+                            </Switch>
                         </div>
                     </div>
-                </adminContext.Provider>
+                </div>
+            </adminContext.Provider>
     )
-
 };
 
 
