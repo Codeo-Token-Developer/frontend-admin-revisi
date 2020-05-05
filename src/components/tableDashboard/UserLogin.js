@@ -1,264 +1,162 @@
-// import React from 'react';
-// import Io from 'socket.io-client';
-// import { urlContext, urlSocketContext } from '../../Context';
-// import axios from 'axios';
-// let socket;
-
-// function UserLoginTable() {
-//   return (
-//     <>
-//       <Table/>
-//     </>
-//   )
-// };
-
-// const Table = () => {
-
-//   let ENDPOINT = React.useContext(urlSocketContext);
-
-//   let baseUrl = React.useContext(urlContext);
-
-//   const [users, setUsers] = React.useState([])
-
-//   React.useEffect(() => {
-//       axios({
-//         url: `${baseUrl}/dashboard/totalLogin`,
-//         method: 'GET',
-//         headers: {
-//           admintoken: localStorage.getItem('admincodeotoken')
-//         }
-//       })
-//       .then(({data}) => {
-//         console.log(data.total)
-//         setUsers(data.total);
-//       })
-//       .catch(err => {
-//         alert(err);
-//         console.log(err);
-//       })
-//   },[baseUrl]);
-
-//   React.useEffect(() => {
-//     socket = Io(ENDPOINT);
-//     socket.on('user-login', data => {
-//       let find = false;
-//       let loginStatus = data.isLogin;
-//       let loginUsers = users;
-//       for (let i = 0; i < loginUsers.length; i++) {
-//         if (loginUsers[i].id === data.id) {
-//           find = true;
-//           loginUsers[i].isLogin = loginStatus
-//         }
-//       };
-//       if (find) {
-//         setUsers(loginUsers)
-//       }else {
-//         let newLoginUser = [];
-//         newLoginUser.push(data);
-//         for (let i = 0; i < 9; i++) {
-//           newLoginUser.push(loginUsers[i])
-//         }
-//         setUsers(newLoginUser);
-//       }
-//     })
-//     socket.on('user-logout', data => {
-//       alert(data.isLogin);
-//     })
-//   },[ENDPOINT, users])
-
-//     return (
-//     <div className="col-6">
-//     <div className="card">
-//       <div className="card-body order-list">
-//         <h4 className="header-title mt-0 mb-3">New User Just Login</h4>
-//         <div className="table-responsive">
-//           <table className="table table-hover mb-0">
-//             <thead className="thead-light">
-//               <tr>
-//                 <th className="border-top-0">Nama</th>
-//                 <th className="border-top-0">Country</th>
-//                 <th className="border-top-0">Date/Time</th>
-//                 <th className="border-top-0">Status</th>
-//               </tr>
-//               {/*end tr*/}
-//             </thead>
-//             <tbody>
-//               {/* {listLogin} */}
-//               <ListLogin users={users} />
-
-//             </tbody>
-//           </table>{" "}
-//         {/*end table*/}
-//       </div>
-//       {/*end /div*/}
-//     </div>
-//     {/*end card-body*/}
-//   </div>
-//   {/*end card*/}
-// </div>
-//     )
-// };
-
-// const ListLogin = (props) => {
-//   return props.users.map(user => {
-//       let isLog = 'danger';
-//       if (user.isLogin) {
-//         isLog = 'success'
-//       }
-//     return (
-//       <tr key={user.id}>
-//         <td>{user.name}</td>
-//         <td>{user.country}</td>
-//         <td>12:00 AM</td>
-//         <td>
-//           <span className={`badge badge-boxed badge-soft-${isLog}`}>
-//             {user.isLogin ? <>Log In</> : <>Log Out</>}
-//           </span>
-//         </td>
-//       </tr>
-//     )
-//   })
-// }
-
-// export default UserLoginTable;
-
-import React from "react";
-import SocketIo from "socket.io-client";
+import React, { useEffect, useState, useContext } from "react";
+import Io from "socket.io-client";
+import { urlContext, urlSocketContext } from "../../Context";
 import axios from "axios";
-import Tbl from "./TableUserLogin";
+let socket;
 
-class UserLogin extends React.Component {
-  state = {
-    users: [],
-  };
+const $ = require("jquery");
+$.Datatable = require("datatables.net-bs");
 
-  componentWillMount() {
+function UserLoginTable() {
+  let ENDPOINT = useContext(urlSocketContext);
+
+  let baseUrl = useContext(urlContext);
+
+  let [msgs, setMsgs] = useState("");
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
     axios({
-      url: "https://codeo-admin.herokuapp.com/dashboard/totalLogin",
+      url: `${baseUrl}/dashboard/totalLogin`,
       method: "GET",
       headers: {
         admintoken: localStorage.getItem("admincodeotoken"),
       },
-    }).then(({ data }) => {
-      // console.log(data.total);
-      this.setState({ users: data.total });
-    });
-  }
+    })
+      .then(({ data }) => {
+        let newData = [];
+        data.total.forEach((person) => {
+          let personItem = [];
+          personItem.push(person.id);
+          personItem.push(person.name);
+          personItem.push(person.country);
+          personItem.push(person.date);
+          if (person.isLogin===true) {
+            personItem.push("Login");
+          } else {
+            personItem.push("Logout");
+          }
+          newData.push(personItem);
+        });
+        setUsers(newData);
+        setLoading(true);
 
-  componentDidMount() {
-    let ENDPOINT = "codeo-backend-user.herokuapp.com/";
-    let socket = SocketIo(ENDPOINT);
+        // console.log(newData);
 
-    socket.on("user-login", (data) => {
-      let loginUsers = this.state.users;
-      let fixUsers = [];
-      let find = false;
-      loginUsers.forEach((loginUser) => {
-        if (loginUser.id === data.id) {
-          loginUser.isLogin = data.isLogin;
-          find = true;
+        if (!$.fn.dataTable.isDataTable("#datatable2")) {
+          $("#datatable2").DataTable({
+            fnDrawCallback: function () {
+              $("#datatable2_wrapper").removeClass("form-inline");
+              $(".paginate_button a").addClass("page-link");
+              $(".paginate_button").addClass("page-item");
+            },
+          });
         }
+      })
+      .catch((err) => {
+        setLoading(null);
+        let msg = "";
+        if (err.response === undefined) {
+          msg = err.message;
+        } else {
+          msg = err.response.data.message;
+        }
+        setMsgs(msg);
+        console.log(err);
       });
+  });
+  //}, [baseUrl]);
 
-      if (find) {
-        this.setState({ users: loginUsers });
-      } else {
-        fixUsers.push(data);
-        for (let i = 0; i < loginUsers.length - 1; i++) {
-          fixUsers.push(loginUsers[i]);
-        }
-        this.setState({ users: fixUsers });
-      }
-    });
+  useEffect(() => {
+    
+    // socket = Io(ENDPOINT);
+    // socket.on("user-login", (data) => {
+      
+    //   let find = false;
+    //   let loginStatus = data.isLogin;
+    //   let loginUsers = users;
+    //   for (let i = 0; i < loginUsers.length; i++) {
+    //     if (loginUsers[i].id === data.id) {
+    //       find = true;
+    //       loginUsers[i].isLogin = loginStatus;
+    //     }
+    //   }
+    //   if (find) {
+    //     setUsers(loginUsers);
+    //   } else {
+    //     let newLoginUser = [];
+    //     newLoginUser.push(data);
+    //     for (let i = 0; i < 9; i++) {
+    //       newLoginUser.push(loginUsers[i]);
+    //     }
+    //     setUsers(newLoginUser);
+    //   }
+    // });
+    // socket.on("user-logout", (data) => {
+    //   alert(data.isLogin);
+    // });
 
-    socket.on("user-logout", (data) => {
-      let logoutUsers = this.state.users;
-      let fixLogoutUser = [];
-      let find = false;
-      logoutUsers.forEach((logUser) => {
-        if (logUser.id === data.id) {
-          logUser.isLogin = data.isLogin;
-          find = true;
-        }
-      });
+  }, [ENDPOINT, users]);
 
-      if (find) {
-        this.setState({ users: logoutUsers });
-      } else {
-        fixLogoutUser.push(data);
-        for (let i = 0; i < logoutUsers.length - 1; i++) {
-          fixLogoutUser.push(logoutUsers[i]);
-        }
-        this.setState({ users: fixLogoutUser });
-      }
-    });
-  }
-
-  render() {
-    return (
-      <div className="col-6">
-        <div className="card">
-          <div className="card-body order-list">
-            <h4 className="header-title mt-0 mb-3">New User Just Login</h4>
-            <div className="table-responsive">
-              {/* <table id="datatable" className="table table-hover mb-0">
-                <thead className="thead-light">
-                  <tr>
-                    <th className="border-top-0">Nama</th>
-                    <th className="border-top-0">Country</th>
-                    <th className="border-top-0">Date/Time</th>
-                    <th className="border-top-0">Status</th>
-                  </tr> */}
-              {/*end tr*/}
-              {/* </thead>
-                <tbody> */}
-              {/* {listLogin} */}
-              {/* {this.state.users.length > 0 ? <ListLogin users={this.state.users} /> : ""} */}
-              {/* <ListLogin users={this.state.users} /> */}
-              {/* </tbody>
-              </table> */}
-              {/* <Tbl data={ListLogin(this.state.users)}></Tbl> */}
-              {/*end table*/}
-              <ListLogin users={this.state.users} />
-            </div>
-            {/*end /div*/}
+  return (
+    <div className="col-6">
+      <div className="card">
+        <div className="card-body order-list">
+          <h4 className="header-title mt-0 mb-3">New User Just Login</h4>
+          <div className="table-responsive">
+            {loading === true ? (
+              <DataList users={users} />
+            ) : loading === false ? (
+              <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+            ) : (
+              <div>{msgs}</div>
+            )}
           </div>
-          {/*end card-body*/}
         </div>
-        {/*end card*/}
       </div>
-    );
-  }
+    </div>
+  );
 }
 
-const ListLogin = (props) => {
-  let dataSet = [];
+const DataList = (props) => {
+  return (
+    <table id="datatable2" className="table">
+      <thead className="thead-light">
+        <tr>
+          <th>#</th>
+          <th>Nama</th>
+          <th>Country</th>
+          <th>Date/Time</th>
+          <th>Status</th>
+        </tr>
+      </thead>
 
-  props.users.map((user, index) => {
-    let nameData = user.name;
-    let countryData = user.country === " " ? "Unknown Country" : user.country;
-    let dateTimeData =
-      new Date(user.date).toLocaleDateString() +
-      " " +
-      new Date(user.date).toLocaleTimeString();
-    let statusData = (
-      <span
-        className={
-          user.isLogin
-            ? `badge badge-boxed badge-soft-success`
-            : `badge badge-boxed badge-soft-danger`
-        }
-      >
-        {user.isLogin ? <>Log In</> : <>Log Out</>}
-      </span>
-    );
-
-    let values = [index + 1, nameData, countryData, dateTimeData, statusData];
-
-    dataSet.push(values);
-  });
-
-  return <Tbl data={dataSet} />;
+      <tbody>
+        {props.users.map((user, index) => {
+          let isLog = "danger";
+          if (user[4]==="Login") {
+            isLog = "success";
+          }
+          return (
+            <tr key={user[0]}>
+              <td>{index + 1}</td>
+              <td>{user[1]}</td>
+              <td>{user[2] === " " ? "Unknown Country" : user[2]}</td>
+              <td>{user[3]}</td>
+              <td>
+                <span className={`badge badge-boxed badge-soft-${isLog}`}>
+                  {user[4]}
+                </span>
+              </td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  );
 };
 
-export default UserLogin;
+export default UserLoginTable;

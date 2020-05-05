@@ -1,9 +1,11 @@
 import React,{useContext} from 'react'
 import { useHistory } from 'react-router-dom'
-import { adminContext } from '../../../Context'
+import { urlContext,adminContext } from '../../../Context'
 import Swal from 'sweetalert2'
 
-import SocketIo from "socket.io-client";
+import axios from "axios";
+
+//import SocketIo from "socket.io-client";
 import Notify from "./Notify";
 //auth;
 
@@ -13,83 +15,95 @@ export const HeaderRight = () => {
     )
 }
 
-let socketData=[],inc=0;
-function AuthOne(props) {
+let socketData=[];
+function AuthOne(props){
 
-//let baseUrl=React.useContext(urlContext);
+let baseUrl=React.useContext(urlContext);
 
 const [data,setData]=React.useState(socketData);
-const [count,setCount]=React.useState(0);
+const [intervalStop,setIntervalStop]=React.useState(true);
 
+// inc=0;
+//   let socketdata=[
+//   {message:"Message1",status:false},{message:"Message2",status:false},{message:"Message3",status:false},{message:"Message4",status:false},
+//   {message:"Message5",status:false},{message:"Message6",status:false},{message:"Message7",status:false},{message:"Message8",status:false},
+//   {message:"Message9",status:false},{message:"Message10",status:false}];
+//     socketdata.reverse().forEach((item,index)=>{
+//       inc++;
+//       socketData.push(Notify({type:"Message",message:item.message,title:"Notification",indexValue:index,userId:"",click:ReadMessage}).message);
+//     });
+//     setData(socketData);
+//     setCount(inc);
 
-const ReadMessage=React.useCallback((index)=>{
-  // axios({
-  //   url:`${baseUrl}/notify/myNews/`,
-  //   method:'PATCH',
-  //   headers:{
-  //     jwttoken:localStorage.getItem("codeoToken")
-  //   },
-  //   data:{
-  //     item:null
-  //   }
-  // }).then(({data})=>{
-  //   delete socketData[index];
-  //   inc=0;
-  //   setData(socketData.map((item,index)=>{
-  //     inc++;
-  //     if(index<5){
-  //       return item;
-  //     }
-  //   }));
-  //   setCount(inc);
-  // }).catch(err=>{
-  //   let wrongPass = "";
-  //   if (typeof err.response === "undefined") {
-  //     wrongPass = err.message;
-  //   } else {
-  //     wrongPass = err.response.data.message;
-  //   }
-  //   console.log(wrongPass);
-  // });
-  delete socketData[index];
-  inc=0;
-  setData(socketData.map((item,index)=>{
-    inc++;
-    return item;
-  }));
-  setCount(inc);
-},[]);
-//},[baseUrl]);
+const ReadNotifOne=React.useCallback((index)=>{
+  axios({
+    url:`${baseUrl}/notificationAdmin`,
+    method:"GET",
+    headers:{
+      adminToken: localStorage.getItem("admincodeotoken"),
+    }
+  }).then(({data})=>{
+    setData(data.notifs.filter((item)=>{
+     return item.read!==true
+    }));
+  }).catch(err=>{
+    let wrongPass = "";
+    if (typeof err.response === "undefined") {
+      wrongPass = err.message;
+    } else {
+      wrongPass = err.response.data.message;
+    }
+    setData([{
+      "read": false,
+      "_id": null,
+      "text": "Error : "+wrongPass,
+      "user": null,
+      "createdAt": new Date().toISOString(),
+      "__v": 0,
+      "updatedAt": new Date().toISOString(),
+    }]);
+  });
+},[baseUrl]);
+
+const ReadMessage=React.useCallback((index,id)=>{
+  axios({
+    url:`${baseUrl}/notificationAdmin/myNews/${id}`,
+    method:'PATCH',
+    headers:{
+      adminToken: localStorage.getItem("admincodeotoken"),
+    }
+  }).then(({datax})=>{
+    //Notif Success
+  }).catch(err=>{
+    let wrongPass = "";
+    if (typeof err.response === "undefined") {
+      wrongPass = err.message;
+    } else {
+      wrongPass = err.response.data.message;
+    }
+    setData([{
+      "read": false,
+      "_id": null,
+      "text": "Errors : "+wrongPass,
+      "user": null,
+      "createdAt": new Date().toISOString(),
+      "__v": 0,
+      "updatedAt": new Date().toISOString(),
+    }]);
+    setIntervalStop(false);
+  });
+
+},[baseUrl]);
 
 React.useEffect(()=>{
-  let ENDPOINT=`https://codeo-backend-user.herokuapp.com`;
-  let soketio=SocketIo(ENDPOINT);
-  soketio.on("user-notif",(socket)=>{
-    alert(JSON.stringify(socket))
-    // socket.data.map((item,index)=>{
-    //   socketData.unshift(Notify({type:"Order",message:item.message,title:"Notification",readMessage:()=>ReadMessage(index)}).message);
-    // });
-    // setData(socketData);
-    // inc=0;
-    // socketdata.reverse().forEach((item,index)=>{
-    //   inc++;
-    //   socketData.push(Notify({type:"Message",message:item.message,title:"Notification",indexValue:index,userId:"",click:ReadMessage}).message);
-    // });
-    // setData(socketData);
-    // setCount(inc);
-  });
-  inc=0;
-  let socketdata=[
-  {message:"Message1",status:false},{message:"Message2",status:false},{message:"Message3",status:false},{message:"Message4",status:false},
-  {message:"Message5",status:false},{message:"Message6",status:false},{message:"Message7",status:false},{message:"Message8",status:false},
-  {message:"Message9",status:false},{message:"Message10",status:false}];
-    socketdata.reverse().forEach((item,index)=>{
-      inc++;
-      socketData.push(Notify({type:"Message",message:item.message,title:"Notification",indexValue:index,userId:"",click:ReadMessage}).message);
-    });
-    setData(socketData);
-    setCount(inc);
-},[ReadMessage]);
+  ReadNotifOne();
+  setInterval(()=>{
+  if(intervalStop===true){
+    ReadNotifOne();
+  }
+  },2000);
+},[ReadNotifOne,intervalStop]);
+
 
 return (
   <>
@@ -103,18 +117,18 @@ return (
         >
           <i className="dripicons-bell noti-icon" />
           <span className="badge badge-danger badge-pill noti-icon-badge">
-            {count===0?null:count}
+            {data.length===0?null:data.length}
           </span>
         </button>
         <div className="dropdown-menu dropdown-menu-right dropdown-lg">
           {/* item*/}
-          <h6 className="dropdown-item-text">Notifications {count}</h6>
-          <div className="slimscroll notification-list">
+          <h6 className="dropdown-item-text">Notifications {data.length}</h6>
+          <div className="slimscroll notification-list" style={{"overflow":"auto","max-height":"300px"}}>
             {/* item*/}
 
             {/* item*/}
-            {data.map((item,index)=>{
-              return item;
+            {data.length<=0?"Notification not found":data.map((item,index)=>{
+              return Notify({type:"Message",data:item,title:"Notification",indexValue:index,click:ReadMessage}).message;
             })}
             {/* item*/}
           </div>

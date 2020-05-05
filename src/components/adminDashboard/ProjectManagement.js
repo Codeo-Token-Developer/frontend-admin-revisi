@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
 import { urlContext } from "../../Context";
 
-import CardListingApproval from "./componentListingApproval/CardListingApproval";
+import CardProjectManagement from "./componentProjectManagement/CardProjectManagement";
 
-function ListingApproval() {
+function ProjectManagement() {
   const baseURL = useContext(urlContext);
 
   return (
@@ -16,16 +16,16 @@ function ListingApproval() {
                 <li className="breadcrumb-item">
                   <a href="#admin">Admin</a>
                 </li>
-                <li className="breadcrumb-item active">Listing Approval</li>
+                <li className="breadcrumb-item active">Project Management</li>
               </ol>
             </div>
-            <h4 className="page-title">Listing Approval</h4>
+            <h4 className="page-title">Project Management</h4>
           </div>
         </div>
       </div>
-      <CardListingApproval baseURL={baseURL} />
+      <CardProjectManagement baseURL={baseURL} />
     </>
   );
 }
 
-export default ListingApproval;
+export default ProjectManagement;

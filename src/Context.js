@@ -1,6 +1,6 @@
 import { createContext } from "react";
 
-const url = "https://codeo-admin.herokuapp.com";
+const url = "http://34.87.27.86";
 
 // const url="http://localhost:5001";
 

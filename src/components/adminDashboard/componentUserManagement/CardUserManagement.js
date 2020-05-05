@@ -12,6 +12,9 @@ import {
 
 import { adminContext } from "../../../Context";
 
+const $ = require("jquery");
+$.Datatable = require("datatables.net-bs");
+
 export default function CardUserManagement(props) {
   let admin = useContext(adminContext);
   let [data, setData] = useState(undefined);
@@ -59,6 +62,16 @@ export default function CardUserManagement(props) {
           }
           setMsgs(msg);
         });
+
+      if (!$.fn.dataTable.isDataTable("#datatable")) {
+        $("#datatable").DataTable({
+          fnDrawCallback: function () {
+            $("#datatable_wrapper").removeClass("form-inline");
+            $(".paginate_button a").addClass("page-link");
+            $(".paginate_button").addClass("page-item");
+          },
+        });
+      }
     }
 
     getUsers();
@@ -121,43 +134,32 @@ export default function CardUserManagement(props) {
       <div className="col-12">
         <div className="card">
           <div className="card-body">
-            <button
-              type="button"
-              className="btn btn-gradient-primary waves-effect waves-light float-right mb-3"
-              data-toggle="modal"
-              data-animation="bounce"
-              data-target=".bs-example-modal-lg"
-            >
-              + Add New
-            </button>
-            <h4 className="header-title mt-0">User Details</h4>
+            <h4 className="header-title mt-0 mb-3">User Management</h4>
             <div className="table-responsive dash-social">
-              <table id="datatable" className="table">
-                {loading === true ? (
-                  <DataList
-                    admin={admin}
-                    data={data}
-                    indexs={indexs}
-                    setIndex={setIndex}
-                    DeleteUsers={DeleteUsers}
-                    EditUsers={EditUsers}
-                    statusModal={statusModal}
-                    toggleModal={toggleModal}
-                    userModal={userModal}
-                    toggleUserModal={toggleUserModal}
-                    color={color}
-                    dalert={dalert}
-                    toggleAlert={toggleAlert}
-                    msgs={msgs}
-                  />
-                ) : loading === false ? (
-                  <div class="spinner-border text-primary" role="status">
-                    <span class="sr-only">Loading...</span>
-                  </div>
-                ) : (
-                  <div>{msgs}</div>
-                )}
-              </table>
+              {loading === true ? (
+                <DataList
+                  admin={admin}
+                  data={data}
+                  indexs={indexs}
+                  setIndex={setIndex}
+                  DeleteUsers={DeleteUsers}
+                  EditUsers={EditUsers}
+                  statusModal={statusModal}
+                  toggleModal={toggleModal}
+                  userModal={userModal}
+                  toggleUserModal={toggleUserModal}
+                  color={color}
+                  dalert={dalert}
+                  toggleAlert={toggleAlert}
+                  msgs={msgs}
+                />
+              ) : loading === false ? (
+                <div class="spinner-border text-primary" role="status">
+                  <span class="sr-only">Loading...</span>
+                </div>
+              ) : (
+                <div>{msgs}</div>
+              )}
             </div>
           </div>
           {/*end card-body*/}
@@ -341,9 +343,13 @@ function UsersDetails(props) {
                   props.data.verification === null ? (
                   "Unknown Verification"
                 ) : props.data.verification ? (
-                  <span className="badge badge-success">Verify</span>
+                  <span className="alert alert-success">
+                    <i className="fa fa-check mr-1"></i> Verify
+                  </span>
                 ) : (
-                  <span className="badge badge-danger">Not Verify</span>
+                  <span className="alert alert-danger">
+                    <i className="fa fa-times mr-1"></i> Not Verify
+                  </span>
                 )}
               </td>
             </tr>
@@ -406,46 +412,52 @@ function DataList(props) {
 
   return (
     <>
-      <thead className="thead-light">
-        <tr>
-          <th>No</th>
-          <th>Name</th>
-          <th>Verification</th>
-          <th>Registration time</th>
-          <th>Email</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        {props.data === undefined || props.data === null
-          ? []
-          : props.data.map((item, index) => {
-              return (
-                <>
-                  <tr>
-                    <td>{index + 1}</td>
-                    <td>{item.username}</td>
-                    <td>
-                      {item.verification ? (
-                        <div className="alert alert-success">Verify</div>
-                      ) : (
-                        <div className="alert alert-danger">Not Verify</div>
-                      )}
-                    </td>
-                    <td>
-                      {item.created_at === undefined || item.created_at === null
-                        ? "Unknown"
-                        : new Date(item.created_at).toLocaleDateString() +
-                          " " +
-                          new Date(item.created_at).toLocaleTimeString()}
-                    </td>
-                    <td>{item.email}</td>
+      <table id="datatable" className="table">
+        <thead className="thead-light">
+          <tr>
+            <th>No</th>
+            <th>Name</th>
+            <th>Verification</th>
+            <th>Registration time</th>
+            <th>Email</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {props.data === undefined || props.data === null
+            ? []
+            : props.data.map((item, index) => {
+                return (
+                  <>
+                    <tr>
+                      <td>{index + 1}</td>
+                      <td>{item.username}</td>
+                      <td>
+                        {item.verification ? (
+                          <span className="alert alert-success">
+                            <i className="fa fa-check mr-1"></i> Verify
+                          </span>
+                        ) : (
+                          <span className="alert alert-danger">
+                            <i className="fa fa-times mr-1"></i> Not Verify
+                          </span>
+                        )}
+                      </td>
+                      <td>
+                        {item.created_at === undefined ||
+                        item.created_at === null
+                          ? "Unknown"
+                          : new Date(item.created_at).toLocaleDateString() +
+                            " " +
+                            new Date(item.created_at).toLocaleTimeString()}
+                      </td>
+                      <td>{item.email}</td>
 
-                    <td>
-                      {/*
+                      <td>
+                        {/*
                                 <button className="mr-2 btn btn-success" value={item._id} onClick={()=>EditUsers(item._id)}><i className="fas fa-edit text-white font-16"></i></button>
                                 */}
-                      {/*
+                        {/*
                   <button
                   className="mr-2 btn btn-success"
                   value={item._id}
@@ -454,48 +466,49 @@ function DataList(props) {
                   <i className="fas fa-edit text-white font-16"></i>
                   </button>
                 */}
-                      <button
-                        className="mr-2 btn btn-info"
-                        value={item._id}
-                        onClick={() => toggleUserModals(index)}
-                      >
-                        <i className="fas fa-users text-white font-16"></i>
-                      </button>
-
-                      {props.admin === undefined ||
-                      props.admin === null ? null : props.admin.role ===
-                        "super" ? (
                         <button
-                          className="mr-2 btn btn-danger"
-                          value={index}
-                          onClick={() => modalToggle(index)}
+                          className="mr-2 btn btn-info"
+                          value={item._id}
+                          onClick={() => toggleUserModals(index)}
                         >
-                          <i className="fas fa-trash-alt text-white font-16"></i>
+                          <i className="fas fa-users text-white font-16"></i>
                         </button>
-                      ) : null}
-                    </td>
-                  </tr>
-                </>
-              );
-            })}
-        <UsersDetails
-          data={props.data[props.indexs]}
-          statusModal={props.userModal}
-          toggleModal={props.toggleUserModal}
-        />
-        <DeleteUsersConfirm
-          admin={props.admin}
-          data={props.data[props.indexs]}
-          statusModal={props.statusModal}
-          toggleModal={props.toggleModal}
-          dalert={props.dalert}
-          toggleAlert={props.toggleAlert}
-          DeleteUsers={props.DeleteUsers}
-          color={props.color}
-          dalertToggle={props.dalertToggle}
-          msgs={props.msgs}
-        />
-      </tbody>
+
+                        {props.admin === undefined ||
+                        props.admin === null ? null : props.admin.role ===
+                          "super" ? (
+                          <button
+                            className="mr-2 btn btn-danger"
+                            value={index}
+                            onClick={() => modalToggle(index)}
+                          >
+                            <i className="fas fa-trash-alt text-white font-16"></i>
+                          </button>
+                        ) : null}
+                      </td>
+                    </tr>
+                  </>
+                );
+              })}
+          <UsersDetails
+            data={props.data[props.indexs]}
+            statusModal={props.userModal}
+            toggleModal={props.toggleUserModal}
+          />
+          <DeleteUsersConfirm
+            admin={props.admin}
+            data={props.data[props.indexs]}
+            statusModal={props.statusModal}
+            toggleModal={props.toggleModal}
+            dalert={props.dalert}
+            toggleAlert={props.toggleAlert}
+            DeleteUsers={props.DeleteUsers}
+            color={props.color}
+            dalertToggle={props.dalertToggle}
+            msgs={props.msgs}
+          />
+        </tbody>
+      </table>
     </>
   );
 }

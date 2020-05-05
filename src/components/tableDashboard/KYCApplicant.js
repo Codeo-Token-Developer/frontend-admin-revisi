@@ -1,65 +1,78 @@
-import React ,{useState,useEffect,useContext} from 'react';
-
+import React, { useState, useEffect, useContext } from "react";
 
 import axios from "axios";
-import {DataList} from '../adminDashboard/componentKYCApproval/CardInfoKYC';
+import { DataList } from "../adminDashboard/componentKYCApproval/CardInfoKYC";
 
-import {urlContext} from "../../Context";
+import { urlContext } from "../../Context";
+
+const $ = require("jquery");
+$.Datatable = require("datatables.net-bs");
 
 function KYCTable(props) {
+  let [msgs, setMsgs] = useState("");
+  let [data, setData] = useState(undefined);
+  const [loading, setLoading] = useState(false);
 
-  let [msgs,setMsgs]=useState("");
-  let [data,setData]=useState(undefined);
-  const [loading,setLoading]=useState(false);
+  let baseUrl = useContext(urlContext);
 
-  let baseUrl=useContext(urlContext);
+  useEffect(() => {
+    function getKyc() {
+      axios({
+        url: `${baseUrl}/kyc`,
+        method: "GET",
+        headers: {
+          adminToken: localStorage.getItem("admincodeotoken"),
+        },
+      })
+        .then(({ data }) => {
+          setData(data.kycs);
+          setLoading(true);
 
-    useEffect(()=>{
-
-      function getKyc(){
-        axios({
-          url:`${baseUrl}/kyc`,
-          method:"GET",
-          headers:{
-            adminToken:localStorage.getItem("admincodeotoken")
+          if (!$.fn.dataTable.isDataTable("#datatable")) {
+            $("#datatable").DataTable({
+              fnDrawCallback: function () {
+                $("#datatable_wrapper").removeClass("form-inline");
+                $(".paginate_button a").addClass("page-link");
+                $(".paginate_button").addClass("page-item");
+              },
+            });
           }
-        }).then(({data})=>{
-            setData(data.kycs);
-            setLoading(true);
-        }).catch(err=>{
+        })
+        .catch((err) => {
           setLoading(null);
-          let msg="";
+          let msg = "";
           if (err.response === undefined) {
-            msg=err.message;
+            msg = err.message;
           } else {
-            msg=err.response.data.message;
+            msg = err.response.data.message;
           }
           setMsgs(msg);
         });
-      };
-      getKyc();
+    }
+    getKyc();
+  });
 
-    });
-
-    return (
-        <>
-        <div class="col-6">
-            <div class="card">
-                <div class="card-body order-list">
-                <h4 class="header-title mt-0 mb-3">New KYC Application</h4>
-                  {(loading===true) ? (
-                    <DataList baseUrl={baseUrl} data={data} />
-                  ) : (loading===false)?
-                  <div class="spinner-border text-primary" role="status">
-                    <span class="sr-only">Loading...</span>
-                  </div>:<div>{msgs}</div>
-                  }
-                </div>
-            </div>
+  return (
+    <>
+      <div class="col-6">
+        <div class="card">
+          <div class="card-body order-list">
+            <h4 class="header-title mt-0 mb-3">New KYC Application</h4>
+            {loading === true ? (
+              <DataList baseUrl={baseUrl} data={data} />
+            ) : loading === false ? (
+              <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+            ) : (
+              <div>{msgs}</div>
+            )}
+          </div>
         </div>
-        </>
-    );
-};
+      </div>
+    </>
+  );
+}
 
 // function Detail() {
 //   return (

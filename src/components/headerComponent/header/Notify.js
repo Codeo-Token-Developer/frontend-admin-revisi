@@ -13,7 +13,7 @@ function ViewNotify(props) {
     setModal(!dmodal);
   }else if(action==="close"){
     setModal(!dmodal);
-    props.click(props.index);
+    props.click(props.index,props.data._id);
   }
   };
 
@@ -27,7 +27,7 @@ function ViewNotify(props) {
           <p className="notify-details">
             {props.title}
             <small className="text-muted">
-              {props.message}
+              {props.data.text}
             </small>
           </p>
         </button>
@@ -36,7 +36,7 @@ function ViewNotify(props) {
                   <i className="mdi mdi-message" /> {props.title}
             </ModalHeader>
             <ModalBody>
-                  {props.message}
+                  {props.data.text}
             </ModalBody>
           </Modal>
         </>
@@ -48,14 +48,14 @@ export default function Notifications(action){
     case 'Order':
       return {message:(
         <>
-          <ViewNotify title={action.title} message={action.message} index={action.indexValue} click={action.click} />
+          <ViewNotify data={action.data} title={action.title} index={action.indexValue} click={action.click} />
         </>
       )};
     case 'Wallet':
     return {
       message:(
         <>
-        <ViewNotify title={action.title} message={action.message} index={action.indexValue} click={action.click} />
+        <ViewNotify data={action.data} title={action.title} index={action.indexValue} click={action.click} />
       </>
     )
     };
@@ -63,17 +63,34 @@ export default function Notifications(action){
     return {
       message:(
         <>
-        <ViewNotify title={action.title} message={action.message} index={action.indexValue} click={action.click} />
+        <ViewNotify data={action.data} title={action.title} index={action.indexValue} click={action.click} />
         </>
       )
     };
     case "Message":
       return {message:(
         <>
-        <ViewNotify title={action.title} message={action.message} index={action.indexValue} click={action.click} />
+        <ViewNotify data={action.data} title={action.title} index={action.indexValue} click={action.click} />
         </>
       )};
     default:
       return {message:action.message};
   }
 }
+
+// let ENDPOINT=`https://codeo-backend-user.herokuapp.com`;
+//   let soketio=SocketIo(ENDPOINT);
+//   soketio.on("user-notif",(socket)=>{
+//     alert(JSON.stringify(socket))
+//   });
+
+// let socketdata=[
+  // {message:"Message1",status:false},{message:"Message2",status:false},{message:"Message3",status:false},{message:"Message4",status:false},
+  // {message:"Message5",status:false},{message:"Message6",status:false},{message:"Message7",status:false},{message:"Message8",status:false},
+  // {message:"Message9",status:false},{message:"Message10",status:false}];
+  //   socketdata.reverse().forEach((item,index)=>{
+  //     inc++;
+  //     socketData.push(Notify({type:"Message",message:item.message,title:"Notification",indexValue:index,userId:"",click:ReadMessage}).message);
+  //   });
+  //   setData(socketData);
+  //   setCount(inc);
