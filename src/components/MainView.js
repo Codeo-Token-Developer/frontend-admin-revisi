@@ -20,7 +20,9 @@ import DashboardLaunchpad from "./DashboardLaunchpad";
 import ListingApproval from "./adminDashboard/ListingApproval";
 import UserInvestment from "./adminDashboard/UserInvestment";
 import PlacementAgencies from "./adminDashboard/PlacementAgencies";
+import ProjectManagement from "./adminDashboard/ProjectManagement";
 import BannerLaunchpad from "./adminDashboard/BannerLaunchpad";
+import DetailProjectManagement from "./adminDashboard/DetailProjectManagement";
 
 import { urlContext, adminContext } from "../Context";
 
@@ -91,6 +93,12 @@ function MainView() {
               </Route>
               <Route path={`${path}/placementAgencies`}>
                 <PlacementAgencies />
+              </Route>
+              <Route path={`${path}/projectManagement/:ID`}>
+                <DetailProjectManagement />
+              </Route>
+              <Route path={`${path}/projectManagement`}>
+                <ProjectManagement />
               </Route>
               <Route path={`${path}/bannerLaunchpad`}>
                 <BannerLaunchpad />

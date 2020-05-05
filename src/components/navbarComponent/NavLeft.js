@@ -149,6 +149,12 @@ const NavMetricaAnalytic = () => {
               </Link>
             </li>
             <li className="nav-item">
+              <Link className="nav-link" to={`${url}/projectManagement`}>
+                <i className="dripicons-document" />
+                Project Management
+              </Link>
+            </li>
+            <li className="nav-item">
               <Link className="nav-link" to={`${url}/bannerLaunchpad`}>
                 <i className="dripicons-photo" />
                 Banner Slider

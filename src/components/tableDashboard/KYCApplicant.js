@@ -5,6 +5,9 @@ import { DataList } from "../adminDashboard/componentKYCApproval/CardInfoKYC";
 
 import { urlContext } from "../../Context";
 
+const $ = require("jquery");
+$.Datatable = require("datatables.net-bs");
+
 function KYCTable(props) {
   let [msgs, setMsgs] = useState("");
   let [data, setData] = useState(undefined);
@@ -24,6 +27,16 @@ function KYCTable(props) {
         .then(({ data }) => {
           setData(data.kycs);
           setLoading(true);
+
+          if (!$.fn.dataTable.isDataTable("#datatable")) {
+            $("#datatable").DataTable({
+              fnDrawCallback: function () {
+                $("#datatable_wrapper").removeClass("form-inline");
+                $(".paginate_button a").addClass("page-link");
+                $(".paginate_button").addClass("page-item");
+              },
+            });
+          }
         })
         .catch((err) => {
           setLoading(null);
