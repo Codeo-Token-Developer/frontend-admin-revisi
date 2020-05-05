@@ -16,18 +16,25 @@ import Ledger from "./adminDashboard/Ledger";
 import General from "./adminDashboard/General";
 import BankAccount from "./adminDashboard/BankAccount";
 // Launchpad PAGES
-import DashboardLaunchpad from "./DashboardLaunchpad";
-import ListingApproval from "./adminDashboard/ListingApproval";
-import UserInvestment from "./adminDashboard/UserInvestment";
-import PlacementAgencies from "./adminDashboard/PlacementAgencies";
-import ProjectManagement from "./adminDashboard/ProjectManagement";
-import BannerLaunchpad from "./adminDashboard/BannerLaunchpad";
-import DetailProjectManagement from "./adminDashboard/DetailProjectManagement";
+// import DashboardLaunchpad from "./DashboardLaunchpad";
+// import ListingApproval from "./launcpadDashboard/ListingApproval";
+// import UserInvestment from "./launcpadDashboard/UserInvestment";
+// import PlacementAgencies from "./launcpadDashboard/PlacementAgencies";
+// import ProjectManagement from "./launcpadDashboard/ProjectManagement";
+// import BannerLaunchpad from "./launcpadDashboard/BannerLaunchpad";
+// import DetailProjectManagement from "./launcpadDashboard/DetailProjectManagement";
 
 import { urlContext, adminContext } from "../Context";
 
 import axios from "axios";
 import Swal from "sweetalert2";
+import ListingApproval from "./lauchpadDashboard/ListingApproval";
+import UserInvestment from "./lauchpadDashboard/UserInvestment";
+import PlacementAgencies from "./lauchpadDashboard/PlacementAgencies";
+import ProjectManagement from "./lauchpadDashboard/ProjectManagement";
+import BannerLaunchpad from "./lauchpadDashboard/BannerLaunchpad";
+import DetailProjectManagement from "./lauchpadDashboard/DetailProjectManagement";
+import DashboardLaunchpad from "./DashboardLaunchpad";
 
 function MainView() {
   let { path } = useRouteMatch();
