@@ -100,7 +100,7 @@ function CardDetailProjectManagement(props) {
             <div className="col-lg-12">
               <div className="table-responsive">
                 {loading === true ? (
-                  <DataList data={data} />
+                  <DataList data={data} toggleModal={toggleModal} />
                 ) : (
                   <div class="spinner-border text-primary" role="status">
                     <span class="sr-only">Loading...</span>
@@ -223,20 +223,56 @@ function ProcessAction(props) {
   return (
     <>
       <Modal isOpen={props.statusModal}>
-        <ModalHeader toggle={props.toggleModal}>
-          <i className="fas fa-users text-white font-16 mr-1"></i> Add Banner
-        </ModalHeader>
+        <ModalHeader toggle={props.toggleModal}>Transfer Confirm</ModalHeader>
         <ModalBody>
           <form>
-            <div className="custom-file mb-3">
-              <input
-                type="file"
-                className="custom-file-input"
-                id="customFile"
-              />
-              <label className="custom-file-label" htmlFor="customFile">
-                Choose file
-              </label>
+            <div className="form-group mb-0">
+              <label className="full-left">Receiver</label>
+              <div className="input-group mt-3">
+                <div className="input-group-prepend">
+                  <span className="input-group-text bg-light" id="basic-addon1">
+                    Address
+                  </span>
+                </div>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="0-X"
+                  aria-label="Address"
+                  aria-describedby="basic-addon1"
+                  name="address"
+                  required
+                />
+              </div>
+              <br />
+              <label className="full-left">Total</label>
+              <div className="input-group mt-3">
+                <div className="input-group-prepend">
+                  <span className="input-group-text bg-light" id="basic-addon1">
+                    CODEO
+                  </span>
+                </div>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="CODEO"
+                  aria-label="CODEO"
+                  aria-describedby="basic-addon1"
+                  required
+                />
+              </div>
+              <br />
+              <label className="full-left">TXHASH</label>
+              <div className="input-group mt-3">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="TXHASH"
+                  aria-label="TXHASH"
+                  aria-describedby="basic-addon1"
+                  required
+                />
+              </div>
             </div>
           </form>
         </ModalBody>
