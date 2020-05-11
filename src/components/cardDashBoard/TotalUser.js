@@ -64,8 +64,8 @@ const TotalUser = () => {
 
 const Card = (props) => {
     return (
-        <div>
-            <div className="card card-eco">
+    <div>
+        <div className="card card-eco">
             <div className="card-body">
                 <h4 className="title-text mt-0">{props.titleData}</h4>
                 <div className="d-flex justify-content-between">
