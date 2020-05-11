@@ -145,7 +145,7 @@ const DataList = (props) => {
               <td>{index + 1}</td>
               <td>{user[1]}</td>
               <td>{user[2] === " " ? "Unknown Country" : user[2]}</td>
-              <td>{user[3]}</td>
+              <td>{new Date(user[3]).toLocaleDateString()+" "+new Date(user[3]).toLocaleTimeString()}</td>
               <td>
                 <span className={`badge badge-boxed badge-soft-${isLog}`}>
                   {user[4]}

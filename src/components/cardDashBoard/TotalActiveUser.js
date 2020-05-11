@@ -18,7 +18,7 @@ const TotalActiveUser = (props) => {
             }
         })
         .then(({data}) => {
-            setTotalActiveUser(data.total)
+            setTotalActiveUser(data.total);
             setLoading(true);
         })
         .catch(err => {

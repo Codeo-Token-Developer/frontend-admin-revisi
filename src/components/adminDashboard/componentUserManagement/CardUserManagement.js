@@ -466,13 +466,11 @@ function DataList(props) {
                   <i className="fas fa-edit text-white font-16"></i>
                   </button>
                 */}
-                        <button
+                        <a href="/operationMain/UserDetail"
                           className="mr-2 btn btn-info"
-                          value={item._id}
-                          onClick={() => toggleUserModals(index)}
                         >
                           <i className="fas fa-users text-white font-16"></i>
-                        </button>
+                        </a>
 
                         {props.admin === undefined ||
                         props.admin === null ? null : props.admin.role ===
