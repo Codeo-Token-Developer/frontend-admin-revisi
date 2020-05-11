@@ -26,10 +26,10 @@ function UserDetail() {
 
         </TabPane>
         <TabPane tabId="2">
-            <Wallet />
+            
         </TabPane>
         <TabPane tabId="3">
-            <BuyTradeHistory />
+            
         </TabPane>
         <TabPane tabId="4">
             <TransferHistory />
@@ -38,6 +38,10 @@ function UserDetail() {
             <DepositWithdraw />
         </TabPane>
     </TabContent>
+    <Wallet />
+    <BuyTradeHistory />
+    <TransferHistory />
+    <DepositWithdraw />
         </>
     );
 }
