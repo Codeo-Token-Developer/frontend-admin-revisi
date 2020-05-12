@@ -10,6 +10,8 @@ import {
   ModalFooter,
 } from "reactstrap";
 
+import FileView from "react-file-viewer";
+
 const $ = require("jquery");
 $.Datatable = require("datatables.net-bs");
 
@@ -145,15 +147,66 @@ export function DataList(props) {
   );
 }
 
+
 export function ViewKYC(props) {
   const [modal, setModal] = useState(false);
   const [dalert, setdalert] = useState(false);
+  let fileSupport={
+    "image/jpeg":"jpeg",
+    "image/png":"png",
+    "application/pdf":"pdf",
+    "application/msword":"doc",
+    "application/msword":"dot",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document":"docx",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.template":"dotx",
+  };
 
-  const toggle = () => setModal(!modal);
+  const toggle = () =>{
+    cekType();
+    setModal(!modal);
+  };
   const dalertToggle = () => setdalert(!dalert);
 
   const [msgs, setMsgs] = useState("");
   const [color, setColor] = useState("danger");
+
+  const [getDataFirebase,setDataFirebase]=useState("");
+
+  const cekType=React.useCallback(()=>{
+    //https://firebasestorage.googleapis.com/v0/b/codeo-72d1c.appspot.com/o/documents%2FDashboard_admin.PNG?
+    //alt=media&token=7cc7cd2b-8372-4ba8-b6fc-1bd2953270d5
+    let url=props.data.document_image;
+    if(url.includes("https://")){
+      let urlApi=url.split("?alt=media&token")[0];
+      axios({
+        url:urlApi,
+        method:"GET"
+      }).then(({data})=>{
+        if(Object.keys(fileSupport).includes(data.contentType)){
+          setDataFirebase({
+            type:fileSupport[data.contentType],
+            updateAt:data.update
+          });
+        }else{
+          setDataFirebase({
+            type:"Unknown MimeType Files",
+            updateAt:data.update
+          });
+        }
+      }).catch(err=>{
+        let msg="";
+        if (err.response === undefined) {
+          msg = err.message;
+        } else {
+          msg = err.response.data.message;
+        }
+        setdalert(true);
+        setColor("danger");
+        setMsgs("File Error  : " + msg);
+      });
+    }
+
+  },[props.data.document_image]);
 
   function ApprovalKYC(e) {
     setdalert(true);
@@ -188,7 +241,6 @@ export function ViewKYC(props) {
     setdalert(true);
     setColor("info");
     setMsgs(" Please wait, a few minutes, the request is being processed. ");
-    alert(e.userId)
     axios({
       url: `${props.baseUrl}/kyc/reject/${e.idKyc}/${e.userId}`,
       method: "PATCH",
@@ -271,6 +323,7 @@ export function ViewKYC(props) {
         setMsgs("Request Error  : " + msg);
       });
   }
+
   return (
     <div>
       <Button color="primary" size="lg" onClick={toggle}>
@@ -291,17 +344,16 @@ export function ViewKYC(props) {
         </ModalHeader>
         <ModalBody>
           <table className="table table-responsive">
-            {props.data._id}
             <tr>
-              <td>File </td>
-              <td>:</td>
-              <td>
-                <Button
-                  onClick={() => window.open(props.data.document_image)}
-                  color="success"
-                >
-                  Show File
-                </Button>
+            <td>
+              {/*
+                https://file-examples.com/wp-content/uploads/2017/02/file-sample_100kB.doc
+                http://www.cplusplus.com/files/tutorial.pdf
+                props.data.document_image
+              */}
+                {
+                  ["jpg","png","pdf"].includes(getDataFirebase.type)?null:null
+                }
               </td>
             </tr>
             <tr>
