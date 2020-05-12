@@ -104,16 +104,16 @@ export function DataList(props) {
                     <td>{item.user}</td>
                     <td>
                       {item.approved_status === true ? (
-                        <span className="badge badge-success">Approved</span>
+                        <span className="badge badge-boxed badge-soft-success">Approved</span>
                       ) : item.approved_status === false ? (
-                        <span className="badge badge-danger">Not Approved</span>
+                        <span className="badge badge-boxed badge-soft-danger">Not Approved</span>
                       ) : null}
                     </td>
                     <td>
                       {item.lock_status === true ? (
-                        <span className="badge badge-success">Locked</span>
+                        <span className="badge badge-boxed badge-soft-success">Locked</span>
                       ) : item.lock_status === false ? (
-                        <span className="badge badge-danger">Not Locked</span>
+                        <span className="badge badge-boxed badge-soft-danger">Not Locked</span>
                       ) : null}
                     </td>
                     <td>
@@ -147,74 +147,75 @@ export function DataList(props) {
 
 export function ViewKYC(props) {
   const [modal, setModal] = useState(false);
-  const [alert, setAlert] = useState(false);
+  const [dalert, setdalert] = useState(false);
 
   const toggle = () => setModal(!modal);
-  const alertToggle = () => setAlert(!alert);
+  const dalertToggle = () => setdalert(!dalert);
 
   const [msgs, setMsgs] = useState("");
   const [color, setColor] = useState("danger");
 
   function ApprovalKYC(e) {
-    setAlert(true);
+    setdalert(true);
     setColor("info");
     setMsgs(" Please wait, a few minutes, the request is being processed. ");
     axios({
-      url: `${props.baseUrl}/kyc/approve/${e}`,
+      url: `${props.baseUrl}/kyc/approve/${e.idKyc}/${e.userId}`,
       method: "PATCH",
       headers: {
         adminToken: localStorage.getItem("admincodeotoken"),
       },
     })
       .then(({ data }) => {
-        setAlert(true);
+        setdalert(true);
         setColor("success");
         setMsgs(data.message);
       })
       .catch((err) => {
         let msg = "";
-        if (err.response === undefined) {
+        if (err.response.data.message === undefined) {
           msg = err.message;
         } else {
           msg = err.response.data.message;
         }
         setColor("danger");
-        setAlert(true);
+        setdalert(true);
         setMsgs("Request Error  : " + msg);
       });
   }
 
   function RejectKYC(e) {
-    setAlert(true);
+    setdalert(true);
     setColor("info");
     setMsgs(" Please wait, a few minutes, the request is being processed. ");
+    alert(e.userId)
     axios({
-      url: `${props.baseUrl}/kyc/reject/${e}`,
+      url: `${props.baseUrl}/kyc/reject/${e.idKyc}/${e.userId}`,
       method: "PATCH",
       headers: {
         adminToken: localStorage.getItem("admincodeotoken"),
       },
     })
       .then(({ data }) => {
-        setAlert(true);
+        setdalert(true);
         setColor("success");
         setMsgs(data.message);
       })
       .catch((err) => {
         let msg = "";
-        if (err.response === undefined) {
+        if (err.response.data.message === undefined) {
           msg = err.message;
         } else {
           msg = err.response.data.message;
         }
-        setAlert(true);
+        setdalert(true);
         setColor("danger");
         setMsgs("Request Error  : " + msg);
       });
   }
 
   function LockedKYC(e) {
-    setAlert(true);
+    setdalert(true);
     setColor("info");
     setMsgs(" Please wait, a few minutes, the request is being processed. ");
     axios({
@@ -225,7 +226,7 @@ export function ViewKYC(props) {
       },
     })
       .then(({ data }) => {
-        setAlert(true);
+        setdalert(true);
         setColor("success");
         setMsgs(data.message);
       })
@@ -236,14 +237,14 @@ export function ViewKYC(props) {
         } else {
           msg = err.response.data.message;
         }
-        setAlert(true);
+        setdalert(true);
         setColor("danger");
         setMsgs("Request Error  : " + msg);
       });
   }
 
   function UnlockKYC(e) {
-    setAlert(true);
+    setdalert(true);
     setColor("info");
     setMsgs(" Please wait, a few minutes, the request is being processed. ");
     axios({
@@ -254,7 +255,7 @@ export function ViewKYC(props) {
       },
     })
       .then(({ data }) => {
-        setAlert(true);
+        setdalert(true);
         setColor("success");
         setMsgs(data.message);
       })
@@ -265,7 +266,7 @@ export function ViewKYC(props) {
         } else {
           msg = err.response.data.message;
         }
-        setAlert(true);
+        setdalert(true);
         setColor("danger");
         setMsgs("Request Error  : " + msg);
       });
@@ -347,11 +348,11 @@ export function ViewKYC(props) {
           <Alert
             style={{ height: "auto" }}
             color={color}
-            isOpen={alert}
-            toggle={alertToggle}
+            isOpen={dalert}
+            toggle={dalertToggle}
           >
             {color === "danger" ? (
-              <i class="mdi mdi-alert-outline alert-icon"></i>
+              <i class="mdi mdi-dalert-outline dalert-icon"></i>
             ) : color === "info" ? (
               <div class="spinner-border" role="status">
                 <span class="sr-only">Loading...</span>
@@ -362,11 +363,11 @@ export function ViewKYC(props) {
         </ModalBody>
         <ModalFooter>
           {props.data.approved_status === true ? (
-            <Button color="danger" onClick={() => RejectKYC(props.data._id)}>
+            <Button color="danger" onClick={() => RejectKYC({idKyc:props.data._id,userId:props.data.user})}>
               Reject KYC
             </Button>
           ) : props.data.approved_status === false ? (
-            <Button color="success" onClick={() => ApprovalKYC(props.data._id)}>
+            <Button color="success" onClick={() => ApprovalKYC({idKyc:props.data._id,userId:props.data.user})}>
               Approve KYC
             </Button>
           ) : null}

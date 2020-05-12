@@ -2,592 +2,68 @@ import React from "react";
 
 import {
     Nav,NavItem,NavLink,
-    TabContent,TabPane
+    TabContent,TabPane,
 } from "reactstrap";
 
+import {
+    useParams
+} from "react-router-dom";
+
+//Component
+import UserDetails from "./componentUserDetail/UserDetails";
+import WalletInfo from "./componentUserDetail/WalletInfo";
+import Deposit from "./componentUserDetail/Deposit";
+import TransferHistory from "./componentUserDetail/TransferHistory";
+import BuyTradeHistory from "./componentUserDetail/BuyTradeHistory";
+//Component
+
 function UserDetail() {
-    
-    const [activeTabs,setActiveTabs]=React.useState('2');
-    const toggle=()=>{
-        setActiveTabs(!activeTabs);
+    let {id}=useParams();
+
+    const [activeTabs,setActiveTabs]=React.useState('1');
+    const toggle=(tab)=>{
+        if(activeTabs!==tab){
+            setActiveTabs(tab);
+        }
     };
 
     return (
         <>
     <Nav>
-        <NavItem>
-            <NavLink onClick={toggle}>UserDetail</NavLink>
-            <NavLink>Wallet</NavLink>
+        <NavItem className="d-flex m-2">
+            <NavLink style={{"cursor":"pointer","font-size":"18px","font-weight":"bold","opacity":"0.9"}} className={activeTabs==="1"?"btn userMButton text-white":"text-white"} onClick={()=>toggle("1")}>User Detail</NavLink>
+            <NavLink style={{"cursor":"pointer","font-size":"18px","font-weight":"bold","opacity":"0.9"}} className={activeTabs==="2"?"btn userMButton text-white":"text-white"} onClick={()=>toggle("2")}>Wallet</NavLink>
+            <NavLink style={{"cursor":"pointer","font-size":"18px","font-weight":"bold","opacity":"0.9"}} className={activeTabs==="3"?"btn userMButton text-white":"text-white"} onClick={()=>toggle("3")}>Buy Trade History</NavLink>
+            <NavLink style={{"cursor":"pointer","font-size":"18px","font-weight":"bold","opacity":"0.9"}} className={activeTabs==="4"?"btn userMButton text-white":"text-white"} onClick={()=>toggle("4")}>Sell Trade History</NavLink>
+            <NavLink style={{"cursor":"pointer","font-size":"18px","font-weight":"bold","opacity":"0.9"}} className={activeTabs==="5"?"btn userMButton text-white":"text-white"} onClick={()=>toggle("5")}>Transfer/Receive</NavLink>
+            <NavLink style={{"cursor":"pointer","font-size":"18px","font-weight":"bold","opacity":"0.9"}} className={activeTabs==="6"?"btn userMButton text-white":"text-white"} onClick={()=>toggle("6")}>Deposit/WD</NavLink>
         </NavItem>
     </Nav>
 
-    <TabContent>
+    <TabContent activeTab={activeTabs}>
+        {/*TabPane tabId 0 for viewer error*/}
         <TabPane tabId="1">
-
+            <UserDetails id={id} />
         </TabPane>
         <TabPane tabId="2">
-            
+            <WalletInfo />
         </TabPane>
         <TabPane tabId="3">
-            
+            <BuyTradeHistory />
         </TabPane>
         <TabPane tabId="4">
-            <TransferHistory />
+            <BuyTradeHistory />
         </TabPane>
         <TabPane tabId="5">
-            <DepositWithdraw />
+            <TransferHistory />
+        </TabPane>
+        <TabPane tabId="6">
+            <Deposit />
         </TabPane>
     </TabContent>
-    <Wallet />
-    <BuyTradeHistory />
-    <TransferHistory />
-    <DepositWithdraw />
         </>
     );
 }
 
-function Wallet() {
-    
-    return (
-        <div className="row card text-center">
-               
-                <div className="card-body table-responsive" style={{backgroundColor: "#151933"}}>
-                    <table className="table table-borderless">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>Wallet Type</th>
-                                <th>Wallet Address</th>
-                                <th>Balance</th>
-                                <th>Details</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>BTC</td>
-                                <td>BTC User Address</td>
-                                <td>0.0000</td>
-                                <td>
-                                    <span className="text-success m-2">Add Balance</span>
-                                    <span className="text-success m-2">Pub Key</span>
-                                    <span className="text-success m-2">Lock</span>
-                                    <span className="text-success m-2">Terminate</span>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>ETH</td>
-                                <td>ETH User Address</td>
-                                <td>0.0000</td>
-                                <td>
-                                    <span className="text-success m-2">Add Balance</span>
-                                    <span className="text-success m-2">Pub Key</span>
-                                    <span className="text-success m-2">Lock</span>
-                                    <span className="text-success m-2">Terminate</span>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>LTC</td>
-                                <td>LTC User Address</td>
-                                <td>0.0000</td>
-                                <td>
-                                    <span className="text-success m-2">Add Balance</span>
-                                    <span className="text-success m-2">Pub Key</span>
-                                    <span className="text-success m-2">Lock</span>
-                                    <span className="text-success m-2">Terminate</span>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <th scope="row">4</th>
-                                <td>TRX</td>
-                                <td>TRX User Address</td>
-                                <td>0.0000</td>
-                                <td>
-                                    <span className="text-success m-2">Add Balance</span>
-                                    <span className="text-success m-2">Pub Key</span>
-                                    <span className="text-success m-2">Lock</span>
-                                    <span className="text-success m-2">Terminate</span>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <th scope="row">5</th>
-                                <td>Codeo</td>
-                                <td>BTC User Address</td>
-                                <td>0.0000</td>
-                                <td>
-                                    <span className="text-success m-2">Add Balance</span>
-                                    <span className="text-success m-2">Pub Key</span>
-                                    <span className="text-success m-2">Lock</span>
-                                    <span className="text-success m-2">Terminate</span>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <th scope="row">6</th>
-                                <td>BNB</td>
-                                <td>BNB User Address</td>
-                                <td>0.0000</td>
-                                <td>
-                                    <span className="text-success m-2">Add Balance</span>
-                                    <span className="text-success m-2">Pub Key</span>
-                                    <span className="text-success m-2">Lock</span>
-                                    <span className="text-success m-2">Terminate</span>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-    );
-}
-
-function BuyTradeHistory() {
-    
-    return (
-        <>
-        <div className="row card text-center">
-
-                <div className="card-body table-responsive" style={{backgroundColor: "#151933"}}>
-                    
-                <table className="table table-borderless">
-            <tbody>
-            <tr>
-                <td></td>
-                <td></td>
-                <td>
-                    <div className="input-group">
-                        <tr>
-                            <td>
-                                Search
-                            </td>
-                            <td>
-                                <input type="text" className="w-100" placeholder="Keyword" />
-                            </td>
-                        </tr>
-                       
-                    </div>
-                </td>
-
-                <td>
-                    <div className="input-group">
-                        <tr>
-                            <td>
-                                From
-                            </td>
-                            <td>
-                                <input type="text" className="w-100" placeholder="Date Picker" />
-                            </td>
-                        </tr>
-                       
-                    </div>
-                </td>
-
-                <td>
-                    <div className="input-group">
-                        <tr>
-                            <td>
-                                To 
-                            </td>
-                            <td>
-                                <input type="text" className="w-100" placeholder="Date Picker" />
-                            </td>
-                        </tr>
-                       
-                    </div>
-                </td>
-
-                <td>
-                   <select className="m-2">
-                       <option>Market Pair</option>
-                   </select>
-                </td>
-
-                <td>
-                   <select className="m-2">
-                       <option>Status</option>
-                   </select>
-                </td>
-                
-                <td>
-                   <button className="btn btn-primary">Filter</button>
-                </td>
-
-                <td></td>
-                <td></td>
-            </tr>
-            </tbody>
-        </table>
-
-                    <table className="table table-borderless">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>TX Id</th>
-                                <th>Created At</th>
-                                <th>Username</th>
-                                <th>Pair</th>
-                                <th>Price</th>
-                                <th>Amount</th>
-                                <th>Pending</th>
-                                <th>Total</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th>1</th>
-                                <th>258900489</th>
-                                <th>24/09/202021:12:30</th>
-                                <th>DIANJAYA </th>
-                                <th>BTC/USD</th>
-                                <th>10000</th>
-                                <th>0.225</th>
-                                <th>0</th>
-                                <th>2000</th>
-                                <th>Success</th>
-                            </tr>
-
-                            <tr>
-                                <th>2</th>
-                                <th>258900489</th>
-                                <th>24/09/202021:12:30</th>
-                                <th>DIANJAYA </th>
-                                <th>BTC/USD</th>
-                                <th>10000</th>
-                                <th>0.225</th>
-                                <th>0</th>
-                                <th>2000</th>
-                                <th>Success</th>
-                            </tr>
-                        </tbody>
-
-                        <tfoot>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>Total</td>
-                                <td>0.0025</td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
-            </div>
-
-            </>
-    );
-}
-
-function TransferHistory() {
-    
-    return (
-        <>
-        <div className="row card text-center">
-
-                <div className="card-body table-responsive" style={{backgroundColor: "#151933"}}>
-                    
-                <table className="table table-borderless">
-            <tbody>
-            <tr>
-                <td></td>
-                <td></td>
-                <td>
-                    <div className="input-group">
-                        <tr>
-                            <td>
-                                Search
-                            </td>
-                            <td>
-                                <input type="text" className="w-100" placeholder="Keyword" />
-                            </td>
-                        </tr>
-                       
-                    </div>
-                </td>
-
-                <td>
-                    <div className="input-group">
-                        <tr>
-                            <td>
-                                From
-                            </td>
-                            <td>
-                                <input type="text" className="w-100" placeholder="Date Picker" />
-                            </td>
-                        </tr>
-                       
-                    </div>
-                </td>
-
-                <td>
-                    <div className="input-group">
-                        <tr>
-                            <td>
-                                To 
-                            </td>
-                            <td>
-                                <input type="text" className="w-100" placeholder="Date Picker" />
-                            </td>
-                        </tr>
-                       
-                    </div>
-                </td>
-
-                <td>
-                   <select className="m-2">
-                       <option>Transfer</option>
-                   </select>
-                </td>
-
-                <td>
-                   <select className="m-2">
-                       <option>Asset</option>
-                   </select>
-                </td>
-                
-                <td>
-                   <button className="btn btn-primary">Filter</button>
-                </td>
-
-                <td></td>
-                <td></td>
-            </tr>
-            </tbody>
-        </table>
-
-                    <table className="table table-borderless">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>TX Id</th>
-                                <th>Time</th>
-                                <th>Type</th>
-                                <th>Coin</th>
-                                <th>Amount</th>
-                                <th>Receiver /send</th>
-                                <th>Status</th>
-                                <th>TX Hash</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th></th>
-                                <th>25890048</th>
-                                <th>24/09/202021:12:30</th>
-                                <th>TRANSFER COIN</th>
-                                <th>BTC</th>
-                                <th>1.07</th>
-                                <th>35Fd4afdsXCh4787EDFJcrl4jg4m5srt66</th>
-                                <th>Success</th>
-                                <th>https://explorer.blockchain/4353459034u590345903490</th>
-                            </tr>
-
-                            <tr>
-                                <th></th>
-                                <th>25353057</th>
-                                <th>24/09/202021:12:30</th>
-                                <th>RECEIVE COIN</th>
-                                <th>ETH</th>
-                                <th>2</th>
-                                <th>35Fd6hgfdf65h4787EDFJcrl4jg4m76562</th>
-                                <th>Success</th>
-                                <th>https://explorer.blockchain/4353459034u590345903490</th>
-                            </tr>
-                        </tbody>
-
-                        
-                    </table>
-                </div>
-            </div>
-
-            </>
-    );
-}
-
-
-function DepositWithdraw() {
-    
-    return (
-        <>
-        <div className="row card text-center">
-
-                <div className="card-body table-responsive" style={{backgroundColor: "#151933"}}>
-
-                <table className="table table-borderless">
-            <tbody>
-            <tr>
-                <td></td>
-                <td></td>
-                <td>
-                    <div className="input-group">
-                        <tr>
-                            <td>
-                                Search
-                            </td>
-                            <td>
-                                <input type="text" className="w-100" placeholder="Keyword" />
-                            </td>
-                        </tr>
-                       
-                    </div>
-                </td>
-
-                <td>
-                    <div className="input-group">
-                        <tr>
-                            <td>
-                                From
-                            </td>
-                            <td>
-                                <input type="text" className="w-100" placeholder="Date Picker" />
-                            </td>
-                        </tr>
-                       
-                    </div>
-                </td>
-
-                <td>
-                    <div className="input-group">
-                        <tr>
-                            <td>
-                                To 
-                            </td>
-                            <td>
-                                <input type="text" className="w-100" placeholder="Date Picker" />
-                            </td>
-                        </tr>
-                       
-                    </div>
-                </td>
-
-                <td>
-                   <select className="m-2">
-                       <option>Transfer</option>
-                   </select>
-                </td>
-
-                <td>
-                   <select className="m-2">
-                       <option>Asset</option>
-                   </select>
-                </td>
-                
-                <td>
-                   <button className="btn btn-primary">Filter</button>
-                </td>
-
-                <td></td>
-                <td></td>
-            </tr>
-            </tbody>
-        </table>
-
-
-                    <div><h5>BANK DEPOSIT WITHDRAW</h5></div>
-                    <table className="table table-borderless">
-                           
-                        <thead>
-                            
-                            <tr>
-                                <th></th>
-                                <th>TX Id</th>
-                                <th>Time</th>
-                                <th>Type</th>
-                                <th>BANK NAME</th>
-                                <th>Amount</th>
-                                <th>BANK Account</th>
-                                <th>Transfer Process</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th></th>
-                                <th>25890048</th>
-                                <th>24/09/202021:12:30</th>
-                                <th>DEPOSIT</th>
-                                <th>BANK BCA</th>
-                                <th>1.07</th>
-                                <th>Bank BCA acc No.2481717266 acc name : andriwijaya</th>
-                                <th>28/11/202004:24:11</th>
-                                <th>Success</th>
-                            </tr>
-
-                            <tr>
-                                <th></th>
-                                <th>25890048</th>
-                                <th>24/09/202021:12:30</th>
-                                <th>WITHDRAW</th>
-                                <th>BANK BCA</th>
-                                <th>2.07</th>
-                                <th>Bank BCA acc No.2481717266 acc name : andriwijaya</th>
-                                <th>28/11/202004:24:11</th>
-                                <th>Success</th>
-                            </tr>
-                        </tbody>
-
-                        
-                    </table>
-
-
-                    <div><h5>CREDIT CARD AND PAYPAL DEPOSIT / WITHDRAW</h5></div>
-                    <table className="table table-borderless">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>TX Id</th>
-                                <th>Time</th>
-                                <th>Type</th>
-                                <th>Method</th>
-                                <th>Amount $</th>
-                                <th>CARD NUMBER/EMAIL </th>
-                                <th>Transfer Process</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th></th>
-                                <th>25890048</th>
-                                <th>24/09/202021:12:30</th>
-                                <th>TRANSFER COIN</th>
-                                <th>BTC</th>
-                                <th>1.07</th>
-                                <th>35Fd4afdsXCh4787EDFJcrl4jg4m5srt66</th>
-                                <th>Success</th>
-                                <th>Success</th>
-                            </tr>
-
-                            <tr>
-                                <th></th>
-                                <th>25353057</th>
-                                <th>24/09/202021:12:30</th>
-                                <th>RECEIVE COIN</th>
-                                <th>ETH</th>
-                                <th>2</th>
-                                <th>35Fd6hgfdf65h4787EDFJcrl4jg4m76562</th>
-                                <th>Success</th>
-                                <th>Success</th>
-                            </tr>
-                        </tbody>
-
-                        
-                    </table>
-                </div>
-            </div>
-
-            </>
-    );
-}
 
 export default UserDetail;

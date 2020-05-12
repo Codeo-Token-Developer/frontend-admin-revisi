@@ -107,7 +107,7 @@ function MainView() {
               <Route path={`${path}/bannerLaunchpad`}>
                 <BannerLaunchpad />
               </Route>
-              <Route path={`${path}/UserDetail/`}>
+              <Route path={`${path}/UserDetail/:id`}>
                 <UserDetails />
               </Route>
             </Switch>

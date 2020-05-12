@@ -77,27 +77,6 @@ export default function CardUserManagement(props) {
     getUsers();
   });
 
-  function EditUsers(e) {
-    axios({
-      url: `${props.baseUrl}/users/me/${e}`,
-      method: "GET",
-      headers: {
-        adminToken: localStorage.getItem("admincodeotoken"),
-      },
-    })
-      .then(({ data }) => {
-        alert(JSON.stringify(data));
-      })
-      .catch((err) => {
-        if (err.response === undefined) {
-          alert(err.message);
-        } else {
-          alert(err.response.data.message);
-        }
-        console.log(err);
-      });
-  }
-
   function DeleteUsers(e) {
     setAlert(true);
     setColor("info");
@@ -143,7 +122,6 @@ export default function CardUserManagement(props) {
                   indexs={indexs}
                   setIndex={setIndex}
                   DeleteUsers={DeleteUsers}
-                  EditUsers={EditUsers}
                   statusModal={statusModal}
                   toggleModal={toggleModal}
                   userModal={userModal}
@@ -271,140 +249,7 @@ function DeleteUsersConfirm(props) {
   );
 }
 
-function UsersDetails(props) {
-  return (
-    <>
-      <Modal isOpen={props.statusModal}>
-        <ModalHeader toggle={props.toggleModal}>
-          <i className="fas fa-users text-white font-16"></i> User Details
-        </ModalHeader>
-        <ModalBody>
-          <table className="table table-responsive">
-            <div>
-              {props.data === undefined || props.data === null ? (
-                <img
-                  className="text-center"
-                  width="200"
-                  height="200"
-                  src="/assets/images/picture1.jpg"
-                  alt="profile_picture"
-                />
-              ) : props.data.avatar === undefined ||
-                props.data.avatar === null ? (
-                <img
-                  className="text-center"
-                  width="200"
-                  height="200"
-                  src="/assets/images/picture1.jpg"
-                  alt="profile_picture"
-                />
-              ) : (
-                <img
-                  className="text-center"
-                  width="200"
-                  height="200"
-                  src={props.data.avatar}
-                  alt="profile_picture"
-                />
-              )}
-            </div>
-            <br />
-            <h4>{props.data.full_name}</h4>
-            <tr>
-              <td>Email</td>
-              <td>:</td>
-              <td>
-                {props.data === undefined || props.data === null
-                  ? "Unknown Email"
-                  : props.data.email === undefined || props.data.email === null
-                  ? "Unknown Email"
-                  : props.data.email}
-              </td>
-            </tr>
-            <tr>
-              <td>Username</td>
-              <td>:</td>
-              <td>
-                {props.data === undefined || props.data === null
-                  ? "Unknown Username"
-                  : props.data.username === undefined ||
-                    props.data.username === null
-                  ? "Unknown Username"
-                  : props.data.username}
-              </td>
-            </tr>
-            <tr>
-              <td>Status Verification</td>
-              <td>:</td>
-              <td>
-                {props.data === undefined || props.data === null ? (
-                  "Unknown Verification"
-                ) : props.data.verification === undefined ||
-                  props.data.verification === null ? (
-                  "Unknown Verification"
-                ) : props.data.verification ? (
-                  <span className="alert alert-success">
-                    <i className="fa fa-check mr-1"></i> Verify
-                  </span>
-                ) : (
-                  <span className="alert alert-danger">
-                    <i className="fa fa-times mr-1"></i> Not Verify
-                  </span>
-                )}
-              </td>
-            </tr>
-            <tr>
-              <td>Registration Time</td>
-              <td>:</td>
-              <td>
-                {props.data === undefined || props.data === null
-                  ? "Unknown Registration Time"
-                  : props.data.email === undefined ||
-                    props.data.created_at === null
-                  ? "Unknown Registration Time"
-                  : new Date(props.data.created_at).toLocaleDateString() +
-                    " " +
-                    new Date(props.data.created_at).toLocaleTimeString()}
-              </td>
-            </tr>
-            <tr>
-              <td>Last Login</td>
-              <td>:</td>
-              <td>
-                {props.data === undefined || props.data === null
-                  ? "Unknown Last Login"
-                  : props.data.updatedAt === undefined ||
-                    props.data.updatedAt === null
-                  ? "Unknown Last Login"
-                  : new Date(props.data.updatedAt).toLocaleDateString() +
-                    " " +
-                    new Date(props.data.updatedAt).toLocaleTimeString()}
-              </td>
-            </tr>
-            <tr>
-              <td>Country </td>
-              <td>:</td>
-              <td>
-                {props.data === undefined || props.data === null
-                  ? "Unknown Country"
-                  : props.data.id_country === undefined ||
-                    props.data.id_country === null
-                  ? "Unknown Country"
-                  : props.data.id_country}
-              </td>
-            </tr>
-          </table>
-        </ModalBody>
-      </Modal>
-    </>
-  );
-}
-
 function DataList(props) {
-  const toggleUserModals = (init) => {
-    props.toggleUserModal();
-    props.setIndex(init);
-  };
   const modalToggle = (init) => {
     props.toggleModal();
     props.setIndex(init);
@@ -466,7 +311,7 @@ function DataList(props) {
                   <i className="fas fa-edit text-white font-16"></i>
                   </button>
                 */}
-                        <a href="/operationMain/UserDetail"
+                        <a href={`/operationMain/UserDetail/${index}`}
                           className="mr-2 btn btn-info"
                         >
                           <i className="fas fa-users text-white font-16"></i>
@@ -488,11 +333,7 @@ function DataList(props) {
                   </>
                 );
               })}
-          <UsersDetails
-            data={props.data[props.indexs]}
-            statusModal={props.userModal}
-            toggleModal={props.toggleUserModal}
-          />
+         
           <DeleteUsersConfirm
             admin={props.admin}
             data={props.data[props.indexs]}
