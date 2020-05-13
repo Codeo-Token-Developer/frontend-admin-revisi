@@ -51,7 +51,7 @@ function Details(props) {
         }
         getUsers();
     },[]);
-
+    
     if(color==="danger"){
         return (
             <Alert

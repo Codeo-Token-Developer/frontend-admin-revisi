@@ -1,7 +1,115 @@
-import React from "react";
+import React, { useDebugValue } from "react";
 
 export default function BuyTradeHistory() {
     
+    const [data,setData]=React.useState(undefined);
+       
+    const [selection,setSelection]=React.useState(undefined);
+    const [logicSelection,setLogicSelection]=React.useState({
+        searchKeyword:"",
+        fromData:"",
+        toData:"",
+        marketPair:"",
+        status:"",
+    });
+
+    const [datax,setDatax]=React.useState(undefined);
+
+    const dummyData=[
+
+        {
+            no:1,
+            TX_Id:258900489,
+            CreatedAt:new Date("2020-05-1").toISOString(),
+            Username:"DIANJAYA",
+            Pair:"BTC/USDT",
+            Price:"10000",
+            Amount:"0.225",
+            Pending:"0",
+            Total:"2000",
+            Status:"Success",
+        },
+        {
+            no:2,
+            TX_Id:258900489,
+            CreatedAt:new Date("2020-05-3").toISOString(),
+            Username:"YIANJAYA",
+            Pair:"ETH/USDT",
+            Price:"10000",
+            Amount:"0.225",
+            Pending:"0",
+            Total:"2000",
+            Status:"Success"
+        },
+        {
+            no:3,
+            TX_Id:258900489,
+            CreatedAt:new Date("2020-05-5").toISOString(),
+            Username:"XIANJAYA",
+            Pair:"ETH/USDT",
+            Price:"10000",
+            Amount:"0.225",
+            Pending:"0",
+            Total:"2000",
+            Status:"Failed"
+        },
+        {
+            no:4,
+            TX_Id:258900489,
+            CreatedAt:new Date("2020-05-7").toISOString(),
+            Username:"YIANJAYA",
+            Pair:"BTC/USDT",
+            Price:"10000",
+            Amount:"0.225",
+            Pending:"0",
+            Total:"2000",
+            Status:"Failed",
+        },
+        {
+            no:5,
+            TX_Id:258900489,
+            CreatedAt:new Date("2020-05-9").toISOString(),
+            Username:"BIANJAYA",
+            Pair:"BTC/USDT",
+            Price:"10000",
+            Amount:"0.225",
+            Pending:"0",
+            Total:"2000",
+            Status:"Failed",
+        },
+
+    ];
+
+    const handleChange=(e)=>{
+        setLogicSelection({...logicSelection,[e.target.name]:e.target.value});
+    };
+
+    const filterSort=()=>{
+        let searchDatax=dummyData.map((item)=>{
+            return Object.values(item);
+        }).filter((item)=>{
+            return logicSelection.searchKeyword===""?item:item.includes(logicSelection.searchKeyword)?item:null;
+        }).filter((item)=>{
+            return logicSelection.marketPair===""?item:item.includes(logicSelection.marketPair);
+        }).filter((item)=>{
+            return logicSelection.status===""?item:item.includes(logicSelection.status);
+        }).filter((item,index)=>{
+            let now=new Date(item[2]);
+            let fromDate=new Date(logicSelection.fromData);
+            let toDate=new Date(logicSelection.toData);
+            if(now.getDate()>=fromDate.getDate()&&now.getDate()<=toDate.getDate()){
+                return item;
+            }else{
+                return null;
+            }
+        });
+        setSelection(searchDatax);
+    };
+
+    const sortData=(dummyData)=>{
+        
+    };
+
     return (
         <>
         <div className="row card text-center">
@@ -20,7 +128,7 @@ export default function BuyTradeHistory() {
                                 Search
                             </td>
                             <td>
-                                <input type="text" className="form-control" placeholder="Keyword" />
+                                <input type="text" name="searchKeyword" className="form-control" placeholder="Keyword" onChange={handleChange} />
                             </td>
                         </tr>
                        
@@ -34,7 +142,7 @@ export default function BuyTradeHistory() {
                                 From
                             </td>
                             <td>
-                                <input type="text" className="form-control" placeholder="Date Picker" />
+                                <input type="date" name="fromData" className="form-control" placeholder="Date Picker" onChange={handleChange} />
                             </td>
                         </tr>
                        
@@ -48,7 +156,7 @@ export default function BuyTradeHistory() {
                                 To 
                             </td>
                             <td>
-                                <input type="text" className="form-control" placeholder="Date Picker" />
+                                <input type="date" name="toData" className="form-control" placeholder="Date Picker" onChange={handleChange} />
                             </td>
                         </tr>
                        
@@ -56,33 +164,41 @@ export default function BuyTradeHistory() {
                 </td>
 
                 <td>
-                    <div class="dropdown">
+                    <select name="marketPair" class="btn btn-secondary dropdown-toggle" style={{"background":"#1C233F","boxShadow":"none","border":"none"}} onChange={handleChange}>
+                        <option value="NONE">...</option>
+                        <option value="BTC/USDT">BTC/USDT</option>
+                        <option value="ETH/USDT">ETH/USDT</option>
+                    </select>
+                    {/* {<div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" style={{"background":"#1C233F","boxShadow":"none","border":"none"}} type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                        Market Pair
                     </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <option class="dropdown-item" href="#">Action</option>
-                            <option class="dropdown-item" href="#">Another action</option>
-                            <option class="dropdown-item" href="#">Something else here</option>
+                            <button name="marketPair" class="dropdown-item btn btn-default" onClick={handleChange}>BTC/USDT</button>
+                            <button name="marketPair" class="dropdown-item btn btn-default" onClick={handleChange}>ETH/USDT</button>
                         </div>
-                    </div>
+                    </div>} */}
                 </td>
 
                 <td>
-                    <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" style={{"background":"#1C233F","boxShadow":"none","border":"none"}} type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <select name="status" class="btn btn-secondary dropdown-toggle" style={{"background":"#1C233F","boxShadow":"none","border":"none"}} onChange={handleChange}>
+                        <option value="NONE">...</option>
+                        <option value="Success">Success</option>
+                        <option value="Failed">Failed</option>
+                    </select>
+                    {/* <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" onChange={handleChange} style={{"background":"#1C233F","boxShadow":"none","border":"none"}} type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                        Status
                     </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <option class="dropdown-item" href="#">Action</option>
-                            <option class="dropdown-item" href="#">Another action</option>
-                            <option class="dropdown-item" href="#">Something else here</option>
+                            <button class="dropdown-item btn btn-default">Success</button>
+                            <button class="dropdown-item btn btn-default">Failed</button>
                         </div>
-                    </div>
+                    </div> */}
                 </td>
                 
                 <td>
-                   <button className="btn btn-primary">Filter</button>
+                   <button className="btn btn-primary" onClick={filterSort}>Filter</button>
                 </td>
 
                 <td></td>
@@ -107,7 +223,35 @@ export default function BuyTradeHistory() {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
+                            {/* <td>no:1,
+            TX_Id:258900489,
+            CreatedAt:new Date("2020-05-1").toISOString(),
+            Username:"DIANJAYA",
+            Pair:"BTC/USDT",
+            Price:"10000",
+            Amount:"0.225",
+            Pending:"0",
+            Total:"2000",
+            Status:"Success",</td> */}
+                            {selection===undefined||selection===null?[]:selection.map((item,index)=>{
+
+                                return (
+                                <tr>
+                                    <th>{index+1}</th>
+                                    <th>{item[1]}</th>
+                                    <th>{new Date(item[2]).toLocaleDateString()}</th>
+                                    <th>{item[3]} </th>
+                                    <th>{item[4]}</th>
+                                    <th>{item[5]}</th>
+                                    <th>{item[6]}</th>
+                                    <th>{item[7]}</th>
+                                    <th>{item[8]}</th>
+                                    <th>{item[9]}</th>
+                                </tr>
+                                );
+                            })}
+
+                            {/* <tr>
                                 <th>1</th>
                                 <th>258900489</th>
                                 <th>24/09/202021:12:30</th>
@@ -118,12 +262,12 @@ export default function BuyTradeHistory() {
                                 <th>0</th>
                                 <th>2000</th>
                                 <th>Success</th>
-                            </tr>
+                            </tr> */}
 
-                            <tr>
+                            {/* <tr>
                                 <th>2</th>
                                 <th>258900489</th>
-                                <th>24/09/202021:12:30</th>
+                                <th>{new Date().toISOString()}</th>
                                 <th>DIANJAYA </th>
                                 <th>BTC/USD</th>
                                 <th>10000</th>
@@ -131,7 +275,9 @@ export default function BuyTradeHistory() {
                                 <th>0</th>
                                 <th>2000</th>
                                 <th>Success</th>
-                            </tr>
+                            </tr> */}
+
+
                         </tbody>
 
                         <tfoot>

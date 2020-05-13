@@ -34,7 +34,7 @@ export default function TransferHistory() {
                                 From
                             </td>
                             <td>
-                                <input type="text" className="form-control" placeholder="Date Picker" />
+                                <input type="date" className="form-control" placeholder="Date Picker" />
                             </td>
                         </tr>
                        
@@ -48,7 +48,7 @@ export default function TransferHistory() {
                                 To 
                             </td>
                             <td>
-                                <input type="text" className="form-control" placeholder="Date Picker" />
+                                <input type="date" className="form-control" placeholder="Date Picker" />
                             </td>
                         </tr>
                        
