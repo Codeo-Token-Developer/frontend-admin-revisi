@@ -1,9 +1,9 @@
 import React, { useDebugValue } from "react";
 
 export default function BuyTradeHistory() {
-    
+
     const [data,setData]=React.useState(undefined);
-       
+
     const [selection,setSelection]=React.useState(undefined);
     const [logicSelection,setLogicSelection]=React.useState({
         searchKeyword:"",
@@ -108,7 +108,11 @@ export default function BuyTradeHistory() {
             let now=new Date(item[2]);
             let fromDate=new Date(logicSelection.fromData);
             let toDate=new Date(logicSelection.toData);
-            if(now.getDate()>=fromDate.getDate()&&now.getDate()<=toDate.getDate()){
+            if(now.getDate()>=fromDate.getDate()&&now.getMonth()>=fromDate.getMonth()&&
+            now.getFullYear()>=fromDate.getFullYear()){
+                return item;
+            }else if(now.getDate()<=toDate.getDate()&&
+            now.getMonth()<=toDate.getMonth()&&now.getFullYear()<=toDate.getFullYear()){
                 return item;
             }else{
                 return null;
@@ -119,7 +123,7 @@ export default function BuyTradeHistory() {
     };
 
     const sortData=(dummyData)=>{
-        
+
     };
 
     return (
@@ -127,7 +131,7 @@ export default function BuyTradeHistory() {
         <div className="row card text-center">
 
                 <div className="card-body table-responsive" style={{backgroundColor: "#151933"}}>
-                    
+
                 <table className="table table-borderless">
             <tbody>
             <tr>
@@ -143,7 +147,7 @@ export default function BuyTradeHistory() {
                                 <input type="text" name="searchKeyword" className="form-control" placeholder="Keyword" onChange={handleChange} />
                             </td>
                         </tr>
-                       
+
                     </div>
                 </td>
 
@@ -157,7 +161,7 @@ export default function BuyTradeHistory() {
                                 <input type="date" name="fromData" className="form-control" placeholder="Date Picker" onChange={handleChange} />
                             </td>
                         </tr>
-                       
+
                     </div>
                 </td>
 
@@ -165,13 +169,13 @@ export default function BuyTradeHistory() {
                     <div className="input-group">
                         <tr>
                             <td>
-                                To 
+                                To
                             </td>
                             <td>
                                 <input type="date" name="toData" className="form-control" placeholder="Date Picker" onChange={handleChange} />
                             </td>
                         </tr>
-                       
+
                     </div>
                 </td>
 
@@ -208,7 +212,7 @@ export default function BuyTradeHistory() {
                         </div>
                     </div> */}
                 </td>
-                
+
                 <td>
                    <button className="btn btn-primary" onClick={filterSort}>Filter</button>
                 </td>

@@ -55,7 +55,7 @@ function UserLoginTable() {
         }
       })
       .catch((err) => {
-        setLoading(null);
+        //setLoading(null);
         let msg = "";
         if (err.response === undefined) {
           msg = err.message;
@@ -69,10 +69,10 @@ function UserLoginTable() {
   //}, [baseUrl]);
 
   useEffect(() => {
-    
+
     // socket = Io(ENDPOINT);
     // socket.on("user-login", (data) => {
-      
+
     //   let find = false;
     //   let loginStatus = data.isLogin;
     //   let loginUsers = users;
