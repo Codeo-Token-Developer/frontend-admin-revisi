@@ -77,7 +77,18 @@ export default function BuyTradeHistory() {
             Total:"2000",
             Status:"Failed",
         },
-
+        {
+            no:6,
+            TX_Id:258900489,
+            CreatedAt:new Date("2020-06-9").toISOString(),
+            Username:"MIANJAYA",
+            Pair:"BTC/USDT",
+            Price:"10000",
+            Amount:"0.225",
+            Pending:"0",
+            Total:"2000",
+            Status:"Failed",
+        },
     ];
 
     const handleChange=(e)=>{
@@ -92,7 +103,7 @@ export default function BuyTradeHistory() {
         }).filter((item)=>{
             return logicSelection.marketPair===""||logicSelection.marketPair==="MARKETPAIR"?item:item.includes(logicSelection.marketPair)?item:null;
         }).filter((item)=>{
-            return logicSelection.status===""||logicSelection.marketPair==="STATUS"?item:item.includes(logicSelection.status)?item:null;
+            return logicSelection.status===""||logicSelection.status==="STATUS"?item:item.includes(logicSelection.status)?item:null;
         }).filter((item,index)=>{
             let now=new Date(item[2]);
             let fromDate=new Date(logicSelection.fromData);
