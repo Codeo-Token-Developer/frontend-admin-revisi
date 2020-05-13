@@ -90,9 +90,9 @@ export default function BuyTradeHistory() {
         }).filter((item)=>{
             return logicSelection.searchKeyword===""?item:item.includes(logicSelection.searchKeyword)?item:null;
         }).filter((item)=>{
-            return logicSelection.marketPair===""?item:item.includes(logicSelection.marketPair);
+            return logicSelection.marketPair===""||logicSelection.marketPair==="MARKETPAIR"?item:item.includes(logicSelection.marketPair)?item:null;
         }).filter((item)=>{
-            return logicSelection.status===""?item:item.includes(logicSelection.status);
+            return logicSelection.status===""||logicSelection.marketPair==="STATUS"?item:item.includes(logicSelection.status)?item:null;
         }).filter((item,index)=>{
             let now=new Date(item[2]);
             let fromDate=new Date(logicSelection.fromData);
@@ -103,6 +103,7 @@ export default function BuyTradeHistory() {
                 return null;
             }
         });
+        setSelection(undefined);
         setSelection(searchDatax);
     };
 
@@ -165,7 +166,7 @@ export default function BuyTradeHistory() {
 
                 <td>
                     <select name="marketPair" class="btn btn-secondary dropdown-toggle" style={{"background":"#1C233F","boxShadow":"none","border":"none"}} onChange={handleChange}>
-                        <option value="NONE">...</option>
+                        <option value="MARKETPAIR">...</option>
                         <option value="BTC/USDT">BTC/USDT</option>
                         <option value="ETH/USDT">ETH/USDT</option>
                     </select>
@@ -182,7 +183,7 @@ export default function BuyTradeHistory() {
 
                 <td>
                     <select name="status" class="btn btn-secondary dropdown-toggle" style={{"background":"#1C233F","boxShadow":"none","border":"none"}} onChange={handleChange}>
-                        <option value="NONE">...</option>
+                        <option value="STATUS">...</option>
                         <option value="Success">Success</option>
                         <option value="Failed">Failed</option>
                     </select>
@@ -223,16 +224,7 @@ export default function BuyTradeHistory() {
                             </tr>
                         </thead>
                         <tbody>
-                            {/* <td>no:1,
-            TX_Id:258900489,
-            CreatedAt:new Date("2020-05-1").toISOString(),
-            Username:"DIANJAYA",
-            Pair:"BTC/USDT",
-            Price:"10000",
-            Amount:"0.225",
-            Pending:"0",
-            Total:"2000",
-            Status:"Success",</td> */}
+
                             {selection===undefined||selection===null?[]:selection.map((item,index)=>{
 
                                 return (
