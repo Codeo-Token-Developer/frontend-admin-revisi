@@ -142,7 +142,7 @@ export default function BuyTradeHistory() {
                 return item;
             }else{
                 return null;
-            } 
+            }
         });
         setSelection(undefined);
         setSelection(searchDatax);
