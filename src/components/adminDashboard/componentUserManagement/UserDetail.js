@@ -20,7 +20,7 @@ import BuyTradeHistory from "./componentUserDetail/BuyTradeHistory";
 function UserDetail() {
     let {id}=useParams();
 
-    const [activeTabs,setActiveTabs]=React.useState('1');
+    const [activeTabs,setActiveTabs]=React.useState("1");
     const toggle=(tab)=>{
         if(activeTabs!==tab){
             setActiveTabs(tab);
@@ -30,13 +30,13 @@ function UserDetail() {
     return (
         <>
     <Nav>
-        <NavItem className="d-flex m-2">
-            <NavLink style={{"cursor":"pointer","font-size":"18px","font-weight":"bold","opacity":"0.9"}} className={activeTabs==="1"?"btn userMButton text-white":"text-white"} onClick={()=>toggle("1")}>User Detail</NavLink>
-            <NavLink style={{"cursor":"pointer","font-size":"18px","font-weight":"bold","opacity":"0.9"}} className={activeTabs==="2"?"btn userMButton text-white":"text-white"} onClick={()=>toggle("2")}>Wallet</NavLink>
-            <NavLink style={{"cursor":"pointer","font-size":"18px","font-weight":"bold","opacity":"0.9"}} className={activeTabs==="3"?"btn userMButton text-white":"text-white"} onClick={()=>toggle("3")}>Buy Trade History</NavLink>
-            <NavLink style={{"cursor":"pointer","font-size":"18px","font-weight":"bold","opacity":"0.9"}} className={activeTabs==="4"?"btn userMButton text-white":"text-white"} onClick={()=>toggle("4")}>Sell Trade History</NavLink>
-            <NavLink style={{"cursor":"pointer","font-size":"18px","font-weight":"bold","opacity":"0.9"}} className={activeTabs==="5"?"btn userMButton text-white":"text-white"} onClick={()=>toggle("5")}>Transfer/Receive</NavLink>
-            <NavLink style={{"cursor":"pointer","font-size":"18px","font-weight":"bold","opacity":"0.9"}} className={activeTabs==="6"?"btn userMButton text-white":"text-white"} onClick={()=>toggle("6")}>Deposit/WD</NavLink>
+        <NavItem className="d-flex m-4">
+            <NavLink style={{"cursor":"pointer","font-size":"18px","font-weight":"500","opacity":"0.9"}} className={activeTabs==="1"?"btn btn-info text-white":"text-white"} onClick={()=>toggle("1")}>User Detail</NavLink>
+            <NavLink style={{"cursor":"pointer","font-size":"18px","font-weight":"500","opacity":"0.9"}} className={activeTabs==="2"?"btn btn-info text-white":"text-white"} onClick={()=>toggle("2")}>Wallet</NavLink>
+            <NavLink style={{"cursor":"pointer","font-size":"18px","font-weight":"500","opacity":"0.9"}} className={activeTabs==="3"?"btn btn-info text-white":"text-white"} onClick={()=>toggle("3")}>Buy Trade History</NavLink>
+            <NavLink style={{"cursor":"pointer","font-size":"18px","font-weight":"500","opacity":"0.9"}} className={activeTabs==="4"?"btn btn-info text-white":"text-white"} onClick={()=>toggle("4")}>Sell Trade History</NavLink>
+            <NavLink style={{"cursor":"pointer","font-size":"18px","font-weight":"500","opacity":"0.9"}} className={activeTabs==="5"?"btn btn-info text-white":"text-white"} onClick={()=>toggle("5")}>Transfer/Receive</NavLink>
+            <NavLink style={{"cursor":"pointer","font-size":"18px","font-weight":"500","opacity":"0.9"}} className={activeTabs==="6"?"btn btn-info text-white":"text-white"} onClick={()=>toggle("6")}>Deposit/WD</NavLink>
         </NavItem>
     </Nav>
 

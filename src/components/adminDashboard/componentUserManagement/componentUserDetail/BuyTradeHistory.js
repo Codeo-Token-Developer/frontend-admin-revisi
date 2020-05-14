@@ -18,20 +18,20 @@ export default function BuyTradeHistory() {
     const dummyData=[
 
         {
-            no:1,
-            TX_Id:258900489,
+            no:"1",
+            TX_Id:"258900481",
             CreatedAt:new Date("2020-05-1").toISOString(),
             Username:"DIANJAYA",
             Pair:"BTC/USDT",
             Price:"10000",
-            Amount:"0.225",
+            Amount:"0.125",
             Pending:"0",
             Total:"2000",
             Status:"Success",
         },
         {
-            no:2,
-            TX_Id:258900489,
+            no:"2",
+            TX_Id:"258900482",
             CreatedAt:new Date("2020-05-3").toISOString(),
             Username:"YIANJAYA",
             Pair:"ETH/USDT",
@@ -42,53 +42,77 @@ export default function BuyTradeHistory() {
             Status:"Success"
         },
         {
-            no:3,
-            TX_Id:258900489,
+            no:"3",
+            TX_Id:"258900483",
             CreatedAt:new Date("2020-05-5").toISOString(),
             Username:"XIANJAYA",
             Pair:"ETH/USDT",
             Price:"10000",
-            Amount:"0.225",
+            Amount:"0.325",
             Pending:"0",
             Total:"2000",
             Status:"Failed"
         },
         {
-            no:4,
-            TX_Id:258900489,
+            no:"4",
+            TX_Id:"258900484",
             CreatedAt:new Date("2020-05-7").toISOString(),
             Username:"YIANJAYA",
             Pair:"BTC/USDT",
             Price:"10000",
-            Amount:"0.225",
+            Amount:"0.425",
             Pending:"0",
             Total:"2000",
             Status:"Failed",
         },
         {
-            no:5,
-            TX_Id:258900489,
+            no:"5",
+            TX_Id:"258900485",
             CreatedAt:new Date("2020-05-9").toISOString(),
             Username:"BIANJAYA",
             Pair:"BTC/USDT",
             Price:"10000",
-            Amount:"0.225",
+            Amount:"0.525",
             Pending:"0",
             Total:"2000",
             Status:"Failed",
         },
         {
-            no:6,
-            TX_Id:258900489,
+            no:"6",
+            TX_Id:"258900486",
             CreatedAt:new Date("2020-06-9").toISOString(),
             Username:"MIANJAYA",
             Pair:"BTC/USDT",
             Price:"10000",
-            Amount:"0.225",
+            Amount:"0.625",
             Pending:"0",
             Total:"2000",
             Status:"Failed",
         },
+        {
+            no:"6",
+            TX_Id:"258900486",
+            CreatedAt:new Date("2020-06-29").toISOString(),
+            Username:"MIANJAYA",
+            Pair:"ETH/USDT",
+            Price:"10000",
+            Amount:"0.625",
+            Pending:"0",
+            Total:"2000",
+            Status:"Failed",
+        },
+        {
+            no:"7",
+            TX_Id:"258900481",
+            CreatedAt:new Date("2020-04-14").toISOString(),
+            Username:"DIANJAYA",
+            Pair:"BTC/USDT",
+            Price:"10000",
+            Amount:"0.125",
+            Pending:"0",
+            Total:"2000",
+            Status:"Success",
+        }, 
     ];
 
     const handleChange=(e)=>{
@@ -106,24 +130,22 @@ export default function BuyTradeHistory() {
             return logicSelection.status===""||logicSelection.status==="STATUS"?item:item.includes(logicSelection.status)?item:null;
         }).filter((item,index)=>{
             let now=new Date(item[2]);
+            let defaultDate=new Date(),dateGet=[27,28,29,30,31],nowDefault=undefined;
+            if(!dateGet.includes(defaultDate.getDate())){
+
+            }
             let fromDate=new Date(logicSelection.fromData);
             let toDate=new Date(logicSelection.toData);
-            if(now.getDate()>=fromDate.getDate()&&now.getMonth()>=fromDate.getMonth()&&
-            now.getFullYear()>=fromDate.getFullYear()){
-                return item;
-            }else if(now.getDate()<=toDate.getDate()&&
-            now.getMonth()<=toDate.getMonth()&&now.getFullYear()<=toDate.getFullYear()){
+            if(now.getDate()>=fromDate.getDate()&&now.getMonth()===fromDate.getMonth()&&
+            now.getFullYear()>=fromDate.getFullYear()&&now.getDate()<=toDate.getDate()&&
+            now.getMonth()===toDate.getMonth()&&now.getFullYear()<=toDate.getFullYear()){
                 return item;
             }else{
                 return null;
-            }
+            } 
         });
         setSelection(undefined);
         setSelection(searchDatax);
-    };
-
-    const sortData=(dummyData)=>{
-
     };
 
     return (
@@ -180,8 +202,8 @@ export default function BuyTradeHistory() {
                 </td>
 
                 <td>
-                    <select name="marketPair" class="btn btn-secondary dropdown-toggle" style={{"background":"#1C233F","boxShadow":"none","border":"none"}} onChange={handleChange}>
-                        <option value="MARKETPAIR">...</option>
+                    <select name="marketPair" class="btn text-white" style={{"background":"#1C233F","boxShadow":"none","border":"none"}} onChange={handleChange}>
+                        <option value="MARKETPAIR">...</option> 
                         <option value="BTC/USDT">BTC/USDT</option>
                         <option value="ETH/USDT">ETH/USDT</option>
                     </select>
@@ -197,7 +219,7 @@ export default function BuyTradeHistory() {
                 </td>
 
                 <td>
-                    <select name="status" class="btn btn-secondary dropdown-toggle" style={{"background":"#1C233F","boxShadow":"none","border":"none"}} onChange={handleChange}>
+                    <select name="status" class="btn text-white" style={{"background":"#1C233F","boxShadow":"none","border":"none"}} onChange={handleChange}>
                         <option value="STATUS">...</option>
                         <option value="Success">Success</option>
                         <option value="Failed">Failed</option>
@@ -223,6 +245,8 @@ export default function BuyTradeHistory() {
             </tbody>
         </table>
 
+                    {selection===undefined||selection===null||selection.length<=0?"Entry data empty":
+
                     <table className="table table-borderless border border-light">
                         <thead>
                             <tr>
@@ -246,7 +270,7 @@ export default function BuyTradeHistory() {
                                 <tr>
                                     <th>{index+1}</th>
                                     <th>{item[1]}</th>
-                                    <th>{new Date(item[2]).toLocaleDateString()}</th>
+                                    <th>{new Date(item[2]).toLocaleDateString()+" "+new Date(item[2]).toLocaleTimeString()}</th>
                                     <th>{item[3]} </th>
                                     <th>{item[4]}</th>
                                     <th>{item[5]}</th>
@@ -301,6 +325,7 @@ export default function BuyTradeHistory() {
                             </tr>
                         </tfoot>
                     </table>
+                    }
                 </div>
             </div>
 
