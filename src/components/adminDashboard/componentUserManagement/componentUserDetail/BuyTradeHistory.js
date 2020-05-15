@@ -104,7 +104,7 @@ export default function BuyTradeHistory() {
         {
             no:"7",
             TX_Id:"258900481",
-            CreatedAt:new Date("2020-04-14").toISOString(),
+            CreatedAt:new Date("2020-04-23").toISOString(),
             Username:"DIANJAYA",
             Pair:"BTC/USDT",
             Price:"10000",
@@ -112,7 +112,7 @@ export default function BuyTradeHistory() {
             Pending:"0",
             Total:"2000",
             Status:"Success",
-        }, 
+        },
     ];
 
     const handleChange=(e)=>{
@@ -130,15 +130,9 @@ export default function BuyTradeHistory() {
             return logicSelection.status===""||logicSelection.status==="STATUS"?item:item.includes(logicSelection.status)?item:null;
         }).filter((item,index)=>{
             let now=new Date(item[2]);
-            let defaultDate=new Date(),dateGet=[27,28,29,30,31],nowDefault=undefined;
-            if(!dateGet.includes(defaultDate.getDate())){
-
-            }
             let fromDate=new Date(logicSelection.fromData);
             let toDate=new Date(logicSelection.toData);
-            if(now.getDate()>=fromDate.getDate()&&now.getMonth()===fromDate.getMonth()&&
-            now.getFullYear()>=fromDate.getFullYear()&&now.getDate()<=toDate.getDate()&&
-            now.getMonth()===toDate.getMonth()&&now.getFullYear()<=toDate.getFullYear()){
+            if(true){
                 return item;
             }else{
                 return null;
@@ -203,7 +197,7 @@ export default function BuyTradeHistory() {
 
                 <td>
                     <select name="marketPair" class="btn text-white" style={{"background":"#1C233F","boxShadow":"none","border":"none"}} onChange={handleChange}>
-                        <option value="MARKETPAIR">...</option> 
+                        <option value="MARKETPAIR">...</option>
                         <option value="BTC/USDT">BTC/USDT</option>
                         <option value="ETH/USDT">ETH/USDT</option>
                     </select>
