@@ -130,15 +130,9 @@ export default function BuyTradeHistory() {
             return logicSelection.status===""||logicSelection.status==="STATUS"?item:item.includes(logicSelection.status)?item:null;
         }).filter((item,index)=>{
             let now=new Date(item[2]);
-            let defaultDate=new Date(),dateGet=[27,28,29,30,31],nowDefault=undefined;
-            if(!dateGet.includes(defaultDate.getDate())){
-
-            }
             let fromDate=new Date(logicSelection.fromData);
             let toDate=new Date(logicSelection.toData);
-            if(now.getDate()>=fromDate.getDate()&&now.getMonth()===fromDate.getMonth()&&
-            now.getFullYear()>=fromDate.getFullYear()&&now.getDate()<=toDate.getDate()&&
-            now.getMonth()===toDate.getMonth()&&now.getFullYear()<=toDate.getFullYear()){
+            if(now>=fromDate&&now<=toDate){
                 return item;
             }else{
                 return null;

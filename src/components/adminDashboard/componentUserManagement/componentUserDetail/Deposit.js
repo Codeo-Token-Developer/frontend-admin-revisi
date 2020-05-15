@@ -119,9 +119,7 @@ function Deposit() {
                 let now=new Date(item[2]);
                 let fromDate=new Date(logicSelection.fromData);
                 let toDate=new Date(logicSelection.toData);
-                if(now.getDate()>=fromDate.getDate()&&now.getMonth()===fromDate.getMonth()&&
-                now.getFullYear()>=fromDate.getFullYear()&&now.getDate()<=toDate.getDate()&&
-                now.getMonth()===toDate.getMonth()&&now.getFullYear()<=toDate.getFullYear()){
+                if(now>=fromDate&&now<=toDate){
                     return item;
                 }else{
                     return null;
@@ -148,9 +146,7 @@ function Deposit() {
                 let now=new Date(item[2]);
                 let fromDate=new Date(logicSelection.fromData);
                 let toDate=new Date(logicSelection.toData);
-                if(now.getDate()>=fromDate.getDate()&&now.getMonth()===fromDate.getMonth()&&
-                now.getFullYear()>=fromDate.getFullYear()&&now.getDate()<=toDate.getDate()&&
-                now.getMonth()===toDate.getMonth()&&now.getFullYear()<=toDate.getFullYear()){
+                if(now>=fromDate&&now<=toDate){
                     return item;
                 }else{
                     return null;
