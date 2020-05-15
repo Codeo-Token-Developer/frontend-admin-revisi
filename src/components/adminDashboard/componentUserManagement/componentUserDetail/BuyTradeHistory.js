@@ -1,4 +1,7 @@
-import React, { useDebugValue } from "react";
+import React from "react";
+
+const $ = require("jquery");
+$.Datatable = require("datatables.net-bs");
 
 export default function BuyTradeHistory() {
 
@@ -14,6 +17,18 @@ export default function BuyTradeHistory() {
     });
 
     const [datax,setDatax]=React.useState(undefined);
+
+    React.useEffect(()=>{
+        if (!$.fn.dataTable.isDataTable("#datatable")) {
+            $("#datatable").DataTable({
+              fnDrawCallback: function () {
+                $("#datatable_wrapper").removeClass("form-inline");
+                $(".paginate_button a").addClass("page-link");
+                $(".paginate_button").addClass("page-item");
+              },
+            });
+          }
+    },[]);
 
     const dummyData=[
 
@@ -241,7 +256,7 @@ export default function BuyTradeHistory() {
 
                     {selection===undefined||selection===null||selection.length<=0?"Entry data empty":
 
-                    <table className="table table-borderless border border-light">
+                    <table id="datatable" className="table table-borderless border border-light">
                         <thead>
                             <tr>
                                 <th></th>
