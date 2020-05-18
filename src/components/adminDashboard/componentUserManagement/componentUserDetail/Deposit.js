@@ -29,6 +29,19 @@ function Deposit() {
         {
             no:"1",
             TX_Id:"25890048",
+            Time:new Date("2020-01-1").toISOString(),
+            Type:"WITHDRAW",
+            BANK_NAME:"BANK BCA",
+            Amount:"0.123",
+            BANK_Account:"35Fd4afdsXCh4787EDFJcrl4jg4m5srt66",
+            Transfer_Process:"Failed",
+            Status:"https://explorer.blockchain/4353459034u590345903490",
+        },
+
+
+        {
+            no:"2",
+            TX_Id:"25890048",
             Time:new Date("2020-05-1").toISOString(),
             Type:"WITHDRAW",
             BANK_NAME:"BANK BCA",
@@ -39,7 +52,7 @@ function Deposit() {
         },
 
         {
-            no:"2",
+            no:"3",
             TX_Id:"25890048",
             Time:new Date("2020-05-3").toISOString(),
             Type:"DEPOSIT",
@@ -51,7 +64,7 @@ function Deposit() {
         },
 
         {
-            no:"3",
+            no:"4",
             TX_Id:"25890048",
             Time:new Date("2020-05-5").toISOString(),
             Type:"DEPOSIT",
@@ -141,7 +154,7 @@ function Deposit() {
                 }else{
                     return null;
                 }
-            });
+            }).sort();
             setSelection(undefined);
             setSelection(searchDatax);
         }else if(["TRANSFER_COIN","RECEIVE_COIN","NONE"].includes(logicSelection.status)){
@@ -168,7 +181,7 @@ function Deposit() {
                 }else{
                     return null;
                 }
-            });
+            }).sort();
             setSelection(undefined);
             setSelection(searchDatax);
         }
@@ -249,6 +262,8 @@ function Deposit() {
             </tbody>
         </table>
 
+        {
+            typeDW===false?null:
                 <div className="table">
                     <div className="float-left m-2"><h5>BANK DEPOSIT WITHDRAW</h5></div>
                     <div className="float-right m-2">
@@ -267,10 +282,10 @@ function Deposit() {
                     />
                     </div>
 
-                    <table ref={PDFref} id="bankTable" style={{"fontSize":"12px"}} className="table table-borderless border border-light">
+                    <table ref={PDFref} id="bankTable" style={{"fontSize":"12px","color":""}} className="table table-borderless border border-light">
                     <thead>
                     {
-                        typeDW===false||selection===undefined||selection===null||selection.length<=0?<div className="float=left">Entry data empty</div>:
+                        typeDW===false||selection===undefined||selection===null||selection.length<=0?<tr><th>Entry data empty</th></tr>:
                     
                         <tr>
                                 <th></th>
@@ -306,8 +321,9 @@ function Deposit() {
 
                     </table>
             </div>
-
-
+            }
+                {
+                    typeTR===false?null:
                     <div className="table">
                     <div className="float-left">
                         <h5>CREDIT CARD AND PAYPAL DEPOSIT / WITHDRAW</h5>
@@ -328,10 +344,10 @@ function Deposit() {
                         />
                     </div>
 
-                    <table ref={refPdf} id="creditCard" className="table table-borderless border border-light">
+                    <table ref={refPdf} id="creditCard" style={{"fontSize":"12px","color":""}} className="table table-borderless border border-light">
                     <thead>
                     {
-                        typeTR===false||selection===undefined||selection===null||selection.length<=0?<div className="float=left">Entry data empty</div>:
+                        typeTR===false||selection===undefined||selection===null||selection.length<=0?<tr><th>Entry data empty</th></tr>:
                     
                         <tr>
                                 <th></th>
@@ -339,8 +355,8 @@ function Deposit() {
                                 <th>Time</th>
                                 <th>Type</th>
                                 <th>Method</th>
-                                <th>Amount $</th>
-                                <th>CARD NUMBER/EMAIL </th>
+                                <th>Amount</th>
+                                <th>CARD NUMBER/EMAIL</th>
                                 <th>Transfer Process</th>
                                 <th>Status</th>
                         </tr>
@@ -370,7 +386,7 @@ function Deposit() {
                     
                     </table>
                 </div>
-                    
+                }
                     
                 </div>
             </div>
