@@ -149,15 +149,6 @@ export function DataList(props) {
 export function ViewKYC(props) {
   const [modal, setModal] = useState(false);
   const [dalert, setdalert] = useState(false);
-  let fileSupport={
-    "image/jpeg":"jpeg",
-    "image/png":"png",
-    "application/pdf":"pdf",
-    "application/msword":"doc",
-    "application/msword":"dot",
-    "application/vnd.openxmlformats-officedocument.wordprocessingml.document":"docx",
-    "application/vnd.openxmlformats-officedocument.wordprocessingml.template":"dotx",
-  };
 
   const toggle = () =>{
     setModal(!modal);
@@ -369,20 +360,20 @@ export function ViewKYC(props) {
         </ModalBody>
         <ModalFooter>
           {props.data.approved_status === true ? (
-            <Button color="danger" onClick={() => RejectKYC({idKyc:props.data._id,userId:props.data.user})}>
+            <Button color="light" className="text-danger" onClick={() => RejectKYC({idKyc:props.data._id,userId:props.data.user})}>
               Reject KYC
             </Button>
           ) : props.data.approved_status === false ? (
-            <Button color="success" onClick={() => ApprovalKYC({idKyc:props.data._id,userId:props.data.user})}>
+            <Button color="light" className="text-success" onClick={() => ApprovalKYC({idKyc:props.data._id,userId:props.data.user})}>
               Approve KYC
             </Button>
           ) : null}
           {props.data.lock_status === true ? (
-            <Button color="danger" onClick={() => UnlockKYC(props.data._id)}>
+            <Button color="light" className="text-danger" onClick={() => UnlockKYC(props.data._id)}>
               Unlock KYC
             </Button>
           ) : props.data.lock_status === false ? (
-            <Button color="success" onClick={() => LockedKYC(props.data._id)}>
+            <Button color="light" className="text-success" onClick={() => LockedKYC(props.data._id)}>
               Lock KYC
             </Button>
           ) : null}
