@@ -51,7 +51,10 @@ function Details(props) {
         }
         getUsers();
     },[]);
-    
+
+    let dataUser=undefined;
+
+    dataUser=data===undefined?null:data.filter((item)=>item._id===props.id?item:null)
     if(color==="danger"){
         return (
             <Alert
@@ -70,7 +73,7 @@ function Details(props) {
             {msgs}
           </Alert>
         );
-    }else if(data===undefined?null:data[props.id]===undefined?true:false){
+    }else if(data===undefined?null:dataUser[0]===undefined?true:false){
     return (
         <div className="m-3">
             User Not Found
@@ -82,8 +85,8 @@ function Details(props) {
             <div className="row justify-content-center">
                 
                 <div className="col-sm-4 col-md-4 justify-content-center">
-                    <img width="300" height="300" src={data===undefined?null:data[props.id].avatar===undefined?Avatar:data[props.id].avatar} alt="avatar" />
-                    <h4>{data===undefined?null:data[props.id].full_name}</h4>
+                    <img width="300" height="300" src={data===undefined?null:dataUser[0].avatar===undefined?Avatar:dataUser[0].avatar} alt="avatar" />
+                    <h4>{data===undefined?null:dataUser[0].full_name}</h4>
                </div>
                <div className="col-sm-8 col-md-8">
                    <div className="row">
@@ -91,7 +94,7 @@ function Details(props) {
                             Username
                        </div>
                        <div style={{"font-size":"14px"}} className="col">
-                         {data===undefined?null:data[props.id].username}
+                         {data===undefined?null:dataUser[0].username}
                        </div>
                    </div>
 
@@ -100,7 +103,7 @@ function Details(props) {
                             Email
                        </div>
                        <div style={{"font-size":"14px"}} className="col">
-                         {data===undefined?null:data[props.id].email}
+                         {data===undefined?null:dataUser[0].email}
                        </div>
                    </div>
 
@@ -109,7 +112,7 @@ function Details(props) {
                             Verification
                        </div>
                        <div style={{"font-size":"14px"}} className="col">
-                         {data===undefined?null:(data[props.id].verification===true)?<div className="p-2 badge badge-boxed badge-soft-success">Verify</div>:<div className="badge badge-boxed badge-soft-danger">Not Verify</div>}
+                         {data===undefined?null:(dataUser[0].verification===true)?<div className="p-2 badge badge-boxed badge-soft-success">Verify</div>:<div className="badge badge-boxed badge-soft-danger">Not Verify</div>}
                        </div>
                    </div>
 
@@ -118,7 +121,7 @@ function Details(props) {
                             Login
                        </div>
                        <div style={{"font-size":"14px"}} className="col">
-                            {data===undefined?null:(data[props.id].isLogin===true)?<div className="p-2 badge badge-boxed badge-soft-success">Login</div>:<div className="badge badge-boxed badge-soft-danger">Not Login</div>}
+                            {data===undefined?null:(dataUser[0].isLogin===true)?<div className="p-2 badge badge-boxed badge-soft-success">Login</div>:<div className="badge badge-boxed badge-soft-danger">Not Login</div>}
                        </div>
                    </div>
 
@@ -127,7 +130,7 @@ function Details(props) {
                             Google Authenticator 2FA
                        </div>
                        <div style={{"font-size":"14px"}} className="col">
-                             {data===undefined?null:(data[props.id].approval_verified===true)?<div className="p-2 badge badge-boxed badge-soft-success">Active</div>:<div className="badge badge-boxed badge-soft-danger">Not Active</div>}
+                             {data===undefined?null:(dataUser[0].approval_verified===true)?<div className="p-2 badge badge-boxed badge-soft-success">Active</div>:<div className="badge badge-boxed badge-soft-danger">Not Active</div>}
                         </div>
                    </div>
 
@@ -136,7 +139,7 @@ function Details(props) {
                             Registration Time
                        </div>
                        <div style={{"font-size":"14px"}} className="col">
-                            {data===undefined?null:new Date(data[props.id].created_at).toLocaleDateString()+" "+new Date(data[props.id].created_at).toLocaleTimeString()}
+                            {data===undefined?null:new Date(dataUser[0].created_at).toLocaleDateString()+" "+new Date(dataUser[0].created_at).toLocaleTimeString()}
                         </div>
                    </div>
 
@@ -145,7 +148,7 @@ function Details(props) {
                             Last Login Time
                        </div>
                        <div style={{"font-size":"14px"}} className="col">
-                            {data===undefined?null:new Date(data[props.id].updatedAt).toLocaleDateString()+" "+new Date(data[props.id].updatedAt).toLocaleTimeString()}
+                            {data===undefined?null:new Date(dataUser[0].updatedAt).toLocaleDateString()+" "+new Date(dataUser[0].updatedAt).toLocaleTimeString()}
                         </div>
                    </div>
 
@@ -154,7 +157,7 @@ function Details(props) {
                             Refferal Address
                        </div>
                        <div style={{"font-size":"14px"}} className="col">
-                            {data===undefined?null:data[props.id].referral_address===undefined?"Refferal unknown":data[props.id].referral_address}
+                            {data===undefined?null:dataUser[0].referral_address===undefined?"Refferal unknown":dataUser[0].referral_address}
                        </div>
                    </div>
 
@@ -164,7 +167,7 @@ function Details(props) {
                             Country
                        </div>
                        <div style={{"font-size":"14px"}} className="col">
-                         {data===undefined?null:(data[props.id].id_country===undefined)?<div className="p-2 badge badge-boxed badge-soft-danger">Unknown Country</div>:<div className="badge badge-boxed badge-soft-success">{data[props.id].id_country}</div>}
+                         {data===undefined?null:(dataUser[0].id_country===undefined)?<div className="p-2 badge badge-boxed badge-soft-danger">Unknown Country</div>:<div className="badge badge-boxed badge-soft-success">{dataUser[0].id_country}</div>}
                        </div>
                    </div>
 

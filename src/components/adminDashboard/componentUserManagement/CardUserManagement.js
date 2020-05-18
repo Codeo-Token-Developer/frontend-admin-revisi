@@ -311,7 +311,7 @@ function DataList(props) {
                   <i className="fas fa-edit text-white font-16"></i>
                   </button>
                 */}
-                        <a href={`/operationMain/UserDetail/${index}`}
+                        <a href={`/operationMain/UserDetail/${item._id}`}
                           className="mr-2 btn btn-info"
                         >
                           <i className="fas fa-users text-white font-16"></i>

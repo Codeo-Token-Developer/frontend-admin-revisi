@@ -1,5 +1,12 @@
 import React from "react";
 
+import ReactToPdf from "react-to-pdf";
+import Excel from "react-html-table-to-excel";
+
+import { Button } from "reactstrap";
+
+const PDFref=React.createRef();
+
 const $ = require("jquery");
 $.Datatable = require("datatables.net-bs");
 
@@ -29,6 +36,13 @@ export default function BuyTradeHistory() {
             });
           }
     },[]);
+
+    const options = {
+        orientation: 'landscape',
+        unit: 'in',
+        color:"black"
+    };
+
 
     const dummyData=[
 
@@ -255,7 +269,23 @@ export default function BuyTradeHistory() {
         </table>
 
                     {selection===undefined||selection===null||selection.length<=0?"Entry data empty":
-
+                    <div className="table">
+                    <div className="float-left m-3">History</div>
+                    <div className="float-right m-3">
+                    <ReactToPdf targetRef={PDFref} options={options} filename="bankDepositWithDraw.pdf">
+                    {({toPdf}) => (
+                        <Button color="light" className="text-danger" onClick={toPdf}>Export to PDF</Button>
+                    )}
+                    </ReactToPdf>
+                    <Excel
+                        id="test-table-xls-button"
+                        className="btn btn-light text-warning"
+                        table="bankTable"
+                        filename="tablexls"
+                        sheet="tablexls"
+                        buttonText="Export to XLS"
+                    />
+                    </div>
                     <table id="datatable" className="table table-borderless border border-light">
                         <thead>
                             <tr>
@@ -334,6 +364,7 @@ export default function BuyTradeHistory() {
                             </tr>
                         </tfoot>
                     </table>
+                    </div>
                     }
                 </div>
             </div>
