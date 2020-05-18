@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import Axios from "axios";
 import { Link } from "react-router-dom";
 
+import ReactHTML from "react-html-parser";
+
 const $ = require("jquery");
 $.Datatable = require("datatables.net-bs");
 
@@ -150,7 +152,7 @@ const DataCMSList = (props) => {
                   <tr>
                     <td>{item.title}</td>
                     <td>{item.category}</td>
-                    <td>{item.description}</td>
+                    <td>{ReactHTML(item.description)}</td>
                     <td>
                       <Link href="#" className="mr-2">
                         <i className="fas fa-edit text-info font-16"></i>

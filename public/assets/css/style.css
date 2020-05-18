@@ -9510,3 +9510,11 @@ hr.thick {
   }
 }
 /*# sourceMappingURL=style.css.map */
+
+.userMButton {
+  background-color: #efc245;
+}
+
+.userMButton:hover {
+  background-color: #edc044;
+}

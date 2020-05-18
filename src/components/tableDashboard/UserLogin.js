@@ -45,17 +45,19 @@ function UserLoginTable() {
         // console.log(newData);
 
         if (!$.fn.dataTable.isDataTable("#datatable2")) {
-          $("#datatable2").DataTable({
+          
+         let table=$("#datatable2").DataTable({
             fnDrawCallback: function () {
               $("#datatable2_wrapper").removeClass("form-inline");
               $(".paginate_button a").addClass("page-link");
               $(".paginate_button").addClass("page-item");
             },
           });
+
         }
       })
       .catch((err) => {
-        setLoading(null);
+        //setLoading(null);
         let msg = "";
         if (err.response === undefined) {
           msg = err.message;
@@ -69,10 +71,10 @@ function UserLoginTable() {
   //}, [baseUrl]);
 
   useEffect(() => {
-    
+
     // socket = Io(ENDPOINT);
     // socket.on("user-login", (data) => {
-      
+
     //   let find = false;
     //   let loginStatus = data.isLogin;
     //   let loginUsers = users;
@@ -145,7 +147,7 @@ const DataList = (props) => {
               <td>{index + 1}</td>
               <td>{user[1]}</td>
               <td>{user[2] === " " ? "Unknown Country" : user[2]}</td>
-              <td>{user[3]}</td>
+              <td>{new Date(user[3]).toLocaleDateString()+" "+new Date(user[3]).toLocaleTimeString()}</td>
               <td>
                 <span className={`badge badge-boxed badge-soft-${isLog}`}>
                   {user[4]}

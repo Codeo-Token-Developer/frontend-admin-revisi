@@ -1,7 +1,7 @@
 import React from "react";
 
 import {
-  Modal,ModalHeader,ModalBody
+  Modal,ModalHeader,ModalBody,ModalFooter
 } from "reactstrap";
 
 function ViewNotify(props) {
@@ -16,8 +16,6 @@ function ViewNotify(props) {
     props.click(props.index,props.data._id);
   }
   };
-
-
   return (
         <>
         <button className="dropdown-item notify-item active" onClick={()=>toggleModal("open")}>
@@ -26,18 +24,28 @@ function ViewNotify(props) {
           </div>
           <p className="notify-details">
             {props.title}
+            <div>
             <small className="text-muted">
-              {props.data.text}
+              {props.data.text.length<=100?props.data.text:props.data.text.substr(0,100)+" ..."}
             </small>
+            <small>
+              {new Date(props.data.updatedAt).toLocaleDateString()+" "+new Date(props.data.updatedAt).toLocaleTimeString()}
+            </small>
+            </div>
           </p>
         </button>
-          <Modal isOpen={dmodal}>
+          <Modal isOpen={dmodal} toggle={()=>toggleModal("close")}>
             <ModalHeader toggle={()=>toggleModal("close")}>
                   <i className="mdi mdi-message" /> {props.title}
             </ModalHeader>
             <ModalBody>
                   {props.data.text}
             </ModalBody>
+            <ModalFooter>
+            <span>
+              {new Date(props.data.updatedAt).toLocaleDateString()+" "+new Date(props.data.updatedAt).toLocaleTimeString()}
+            </span>
+            </ModalFooter>
           </Modal>
         </>
   );
@@ -48,14 +56,14 @@ export default function Notifications(action){
     case 'Order':
       return {message:(
         <>
-          <ViewNotify data={action.data} title={action.title} index={action.indexValue} click={action.click} />
+          <ViewNotify error={action.errors} data={action.data} title={action.title} index={action.indexValue} click={action.click} />
         </>
       )};
     case 'Wallet':
     return {
       message:(
         <>
-        <ViewNotify data={action.data} title={action.title} index={action.indexValue} click={action.click} />
+        <ViewNotify error={action.errors} data={action.data} title={action.title} index={action.indexValue} click={action.click} />
       </>
     )
     };
@@ -63,14 +71,14 @@ export default function Notifications(action){
     return {
       message:(
         <>
-        <ViewNotify data={action.data} title={action.title} index={action.indexValue} click={action.click} />
+        <ViewNotify error={action.errors} data={action.data} title={action.title} index={action.indexValue} click={action.click} />
         </>
       )
     };
     case "Message":
       return {message:(
         <>
-        <ViewNotify data={action.data} title={action.title} index={action.indexValue} click={action.click} />
+        <ViewNotify error={action.errors} data={action.data} title={action.title} index={action.indexValue} click={action.click} />
         </>
       )};
     default:

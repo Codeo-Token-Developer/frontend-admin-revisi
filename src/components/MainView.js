@@ -8,7 +8,11 @@ import NavLeft from "./navbarComponent/NavLeft";
 // Component Pages
 // ADMIN PAGES
 import Dashboard from "./Dashboard";
+
+//user management
 import UserManagement from "./adminDashboard/UserManagement";
+import UserDetails from "./adminDashboard/componentUserManagement/UserDetail";
+
 import KYCApproval from "./adminDashboard/KYCApproval";
 
 import CMSUpdate from "./adminDashboard/CMSUpdate";
@@ -109,6 +113,9 @@ function MainView() {
               </Route>
               <Route path={`${path}/bannerLaunchpad`}>
                 <BannerLaunchpad />
+              </Route>
+              <Route path={`${path}/UserDetail/:id`}>
+                <UserDetails />
               </Route>
             </Switch>
           </div>
