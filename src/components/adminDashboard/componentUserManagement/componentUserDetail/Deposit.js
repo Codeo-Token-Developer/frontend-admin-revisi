@@ -1,8 +1,12 @@
 import React from "react";
 
+import ReactToPdf from "react-to-pdf";
 import Excel from "react-html-table-to-excel";
 
-const tablePdf=React.createRef();
+import { Button } from "reactstrap";
+
+const PDFref=React.createRef();
+const refPdf=React.createRef();
 
 function Deposit() {
 
@@ -59,6 +63,12 @@ function Deposit() {
         },
 
     ];
+
+    const options = {
+        orientation: 'landscape',
+        unit: 'in',
+        color:"black"
+    };
 
 //https://stackblitz.com/edit/react-component-to-pdf?file=DocService.js
     const dummyDataCard=[
@@ -242,16 +252,22 @@ function Deposit() {
                 <div className="table">
                     <div className="float-left m-2"><h5>BANK DEPOSIT WITHDRAW</h5></div>
                     <div className="float-right m-2">
-                        <Excel
-                    id="test-table-xls-button"
-                    className="btn btn-light text-warning"
-                    table="table-to-xls"
-                    filename="tablexls"
-                    sheet="tablexls"
-                    buttonText="Export to XLS"/>
+                    <ReactToPdf targetRef={PDFref} options={options} filename="bankDepositWithDraw.pdf">
+                    {({toPdf}) => (
+                        <Button color="light" className="text-danger" onClick={toPdf}>Export to PDF</Button>
+                    )}
+                    </ReactToPdf>
+                    <Excel
+                        id="test-table-xls-button"
+                        className="btn btn-light text-warning"
+                        table="bankTable"
+                        filename="tablexls"
+                        sheet="tablexls"
+                        buttonText="Export to XLS"
+                    />
                     </div>
 
-                    <table id="table-to-xls" style={{width:"500",height:"500"}} className="table table-borderless border border-light" ref={tablePdf}>
+                    <table ref={PDFref} id="bankTable" style={{"fontSize":"12px"}} className="table table-borderless border border-light">
                     <thead>
                     {
                         typeDW===false||selection===undefined||selection===null||selection.length<=0?<div className="float=left">Entry data empty</div>:
@@ -297,7 +313,11 @@ function Deposit() {
                         <h5>CREDIT CARD AND PAYPAL DEPOSIT / WITHDRAW</h5>
                     </div>
                     <div className="float-right m-2">
-                        <span className="m-2">Export to PDF</span>
+                        <ReactToPdf targetRef={refPdf} options={options} filename="bankDepositWithDraw.pdf">
+                            {({toPdf}) => (
+                                <Button color="light" className="text-danger" onClick={toPdf}>Export to PDF</Button>
+                            )}
+                        </ReactToPdf>
                         <Excel
                             id="test-table-xls-button"
                             className="btn btn-light text-warning"
@@ -308,7 +328,7 @@ function Deposit() {
                         />
                     </div>
 
-                    <table id="creditCard" className="table table-borderless border border-light">
+                    <table ref={refPdf} id="creditCard" className="table table-borderless border border-light">
                     <thead>
                     {
                         typeTR===false||selection===undefined||selection===null||selection.length<=0?<div className="float=left">Entry data empty</div>:
