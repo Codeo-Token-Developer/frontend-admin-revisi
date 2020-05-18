@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Axios from "axios";
-import { Link } from "react-router-dom";
 
 import ReactHTML from "react-html-parser";
+
+import {Button} from "reactstrap";
 
 const $ = require("jquery");
 $.Datatable = require("datatables.net-bs");
@@ -49,7 +50,7 @@ function CardCMSUpdate(props) {
         },
       });
     }
-  }, [props.baseURL, dataCMS]);
+  });
 
   function EditDataCMS(e) {
     Axios({
@@ -154,10 +155,10 @@ const DataCMSList = (props) => {
                     <td>{item.category}</td>
                     <td>{ReactHTML(item.description)}</td>
                     <td>
-                      <Link href="#" className="mr-2">
+                      <Button color="light" href="#" className="mr-2">
                         <i className="fas fa-edit text-info font-16"></i>
-                      </Link>
-                      <Link
+                      </Button>
+                      <Button color="light"
                         href="#"
                         value={item._id}
                         onClick={() => props.DeleteDataCMS(item._id)}
@@ -166,7 +167,7 @@ const DataCMSList = (props) => {
                           style={{ cursor: "pointer" }}
                           className="fas fa-trash-alt text-danger font-16"
                         ></i>
-                      </Link>
+                      </Button>
                     </td>
                   </tr>
                 );
