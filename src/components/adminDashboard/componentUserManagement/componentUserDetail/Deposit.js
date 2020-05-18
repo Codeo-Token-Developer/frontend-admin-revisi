@@ -1,5 +1,11 @@
 import React from "react";
 
+import PDF from "react-to-pdf";
+
+import Excel from "react-html-table-to-excel";
+
+const tablePdf=React.createRef();
+
 function Deposit() {
 
     const [selection,setSelection]=React.useState(undefined);
@@ -12,6 +18,9 @@ function Deposit() {
         toData:"",
         status:"",
     });
+
+    //https://www.npmjs.com/package/react-to-pdf
+    //https://www.npmjs.com/package/react-html-table-to-excel
 
     const dummyDataBank=[
 
@@ -53,7 +62,7 @@ function Deposit() {
 
     ];
 
-
+//https://stackblitz.com/edit/react-component-to-pdf?file=DocService.js
     const dummyDataCard=[
 
         {
@@ -100,7 +109,7 @@ function Deposit() {
 
     const filterSort=()=>{
     
-        if(["DEPOSIT","WITHDRAW"].includes(logicSelection.status)){
+        if(["DEPOSIT","WITHDRAW","NONE"].includes(logicSelection.status)){
             setDW(true);
             setTR(false);
             let searchDatax=dummyDataBank.map((item)=>{
@@ -119,9 +128,7 @@ function Deposit() {
                 let now=new Date(item[2]);
                 let fromDate=new Date(logicSelection.fromData);
                 let toDate=new Date(logicSelection.toData);
-                if(now.getDate()>=fromDate.getDate()&&now.getMonth()===fromDate.getMonth()&&
-                now.getFullYear()>=fromDate.getFullYear()&&now.getDate()<=toDate.getDate()&&
-                now.getMonth()===toDate.getMonth()&&now.getFullYear()<=toDate.getFullYear()){
+                if(now>=fromDate&&now<=toDate){
                     return item;
                 }else{
                     return null;
@@ -129,7 +136,7 @@ function Deposit() {
             });
             setSelection(undefined);
             setSelection(searchDatax);
-        }else if(["TRANSFER_COIN","RECEIVE_COIN"].includes(logicSelection.status)){
+        }else if(["TRANSFER_COIN","RECEIVE_COIN","NONE"].includes(logicSelection.status)){
             setDW(false);
             setTR(true);
             let searchDatax=dummyDataCard.map((item)=>{
@@ -148,9 +155,7 @@ function Deposit() {
                 let now=new Date(item[2]);
                 let fromDate=new Date(logicSelection.fromData);
                 let toDate=new Date(logicSelection.toData);
-                if(now.getDate()>=fromDate.getDate()&&now.getMonth()===fromDate.getMonth()&&
-                now.getFullYear()>=fromDate.getFullYear()&&now.getDate()<=toDate.getDate()&&
-                now.getMonth()===toDate.getMonth()&&now.getFullYear()<=toDate.getFullYear()){
+                if(now>=fromDate&&now<=toDate){
                     return item;
                 }else{
                     return null;
@@ -251,8 +256,20 @@ function Deposit() {
 
 
                     <div className="float-left m-2"><h5>BANK DEPOSIT WITHDRAW</h5></div>
-                    
-                    <table className="table table-borderless border border-light">
+                    <div className="float-right m-2">
+                        <PDF targetRef={tablePdf} filename="BankDepositWithdraw.pdf">
+                            {({toPdf})=><button className="text-danger btn btn-light" onClick={toPdf}>Export to PDF</button>}
+                        </PDF>
+                        <Excel
+                    id="test-table-xls-button"
+                    className="btn btn-light text-warning"
+                    table="table-to-xls"
+                    filename="tablexls"
+                    sheet="tablexls"
+                    buttonText="Export to XLS"/>
+                    </div>
+
+                    <table id="table-to-xls" style={{width:"500",height:"500"}} className="table table-borderless border border-light" ref={tablePdf}>
                     <thead>
                     {
                         typeDW===false||selection===undefined||selection===null||selection.length<=0?<div className="float=left">Entry data empty</div>:
@@ -363,6 +380,7 @@ function Deposit() {
 
 
                     <div className="float-left m-2"><h5>CREDIT CARD AND PAYPAL DEPOSIT / WITHDRAW</h5></div>
+                    <div className="float-right m-2"><span className="m-2">Export to PDF</span><span className="m-2">Export to EXCEL</span></div>
 
                     <table className="table table-borderless border border-light">
                     <thead>

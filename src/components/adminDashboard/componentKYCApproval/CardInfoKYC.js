@@ -162,51 +162,12 @@ export function ViewKYC(props) {
   };
 
   const toggle = () =>{
-    cekType();
     setModal(!modal);
   };
   const dalertToggle = () => setdalert(!dalert);
 
   const [msgs, setMsgs] = useState("");
   const [color, setColor] = useState("danger");
-
-  const [getDataFirebase,setDataFirebase]=useState("");
-
-  const cekType=React.useCallback(()=>{
-    //https://firebasestorage.googleapis.com/v0/b/codeo-72d1c.appspot.com/o/documents%2FDashboard_admin.PNG?
-    //alt=media&token=7cc7cd2b-8372-4ba8-b6fc-1bd2953270d5
-    let url=props.data.document_image;
-    if(url.includes("https://")){
-      let urlApi=url.split("?alt=media&token")[0];
-      axios({
-        url:urlApi,
-        method:"GET"
-      }).then(({data})=>{
-        if(Object.keys(fileSupport).includes(data.contentType)){
-          setDataFirebase({
-            type:fileSupport[data.contentType],
-            updateAt:data.update
-          });
-        }else{
-          setDataFirebase({
-            type:"Unknown MimeType Files",
-            updateAt:data.update
-          });
-        }
-      }).catch(err=>{
-        let msg="";
-        if (err.response === undefined) {
-          msg = err.message;
-        } else {
-          msg = err.response.data.message;
-        }
-        setdalert(true);
-        setColor("danger");
-        setMsgs("File Error  : " + msg);
-      });
-    }
-
-  },[props.data.document_image]);
 
   function ApprovalKYC(e) {
     setdalert(true);
@@ -345,16 +306,11 @@ export function ViewKYC(props) {
         <ModalBody>
           <table className="table table-responsive">
             <tr>
+              <td>Document Image</td>
+              <td>:</td>
             <td>
-              {/*
-                https://file-examples.com/wp-content/uploads/2017/02/file-sample_100kB.doc
-                http://www.cplusplus.com/files/tutorial.pdf
-                props.data.document_image
-              */}
-                {
-                  ["jpg","png","pdf"].includes(getDataFirebase.type)?null:null
-                }
-              </td>
+              <a href={props.data.document_image} alt="kycFile" className="fa fa-download">View</a>
+            </td>
             </tr>
             <tr>
               <td>Id Number </td>

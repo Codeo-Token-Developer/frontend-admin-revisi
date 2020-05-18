@@ -45,13 +45,15 @@ function UserLoginTable() {
         // console.log(newData);
 
         if (!$.fn.dataTable.isDataTable("#datatable2")) {
-          $("#datatable2").DataTable({
+          
+         let table=$("#datatable2").DataTable({
             fnDrawCallback: function () {
               $("#datatable2_wrapper").removeClass("form-inline");
               $(".paginate_button a").addClass("page-link");
               $(".paginate_button").addClass("page-item");
             },
           });
+
         }
       })
       .catch((err) => {

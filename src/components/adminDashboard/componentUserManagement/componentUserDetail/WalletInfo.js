@@ -8,6 +8,9 @@ import {
 
 import axios from "axios";
 
+//https://www.npmjs.com/package/react-to-pdf
+//https://www.npmjs.com/package/react-html-table-to-excel
+
 export default function Wallet(params) {
 
     let baseUrl=React.useContext(urlContext);
