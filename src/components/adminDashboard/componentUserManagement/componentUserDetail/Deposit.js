@@ -1,7 +1,5 @@
 import React from "react";
 
-import PDF from "react-to-pdf";
-
 import Excel from "react-html-table-to-excel";
 
 const tablePdf=React.createRef();
@@ -170,9 +168,9 @@ function Deposit() {
     return (
         <div className="row card text-center">
 
-                <div className="card-body table-responsive" style={{backgroundColor: "#151933"}}>
+        <div className="card-body table-responsive" style={{backgroundColor: "#151933"}}>
 
-                <table className="table table-borderless m-3">
+        <table className="table table-borderless m-3">
             <tbody>
             <tr>
                 <td></td>
@@ -228,20 +226,7 @@ function Deposit() {
                         <option value="TRANSFER_COIN">Transfer Coin</option>
                         <option value="RECEIVE_COIN">Receive Coin</option>
                 </select>
-                    {/*
-                    //deposit 
-            //withdraw
-//transfer coin
-//receive coin
-                    <select style={{"background":"#151933","color":"whit"}} className="m-2">
-                        <option>Transfer</option>
-                    </select> */}
-                </td>
-
-                <td>
-                   {/* <select className="m-2">
-                       <option>Asset</option>
-                   </select> */}
+                   
                 </td>
                 
                 <td>
@@ -254,12 +239,9 @@ function Deposit() {
             </tbody>
         </table>
 
-
+                <div className="table">
                     <div className="float-left m-2"><h5>BANK DEPOSIT WITHDRAW</h5></div>
                     <div className="float-right m-2">
-                        <PDF targetRef={tablePdf} filename="BankDepositWithdraw.pdf">
-                            {({toPdf})=><button className="text-danger btn btn-light" onClick={toPdf}>Export to PDF</button>}
-                        </PDF>
                         <Excel
                     id="test-table-xls-button"
                     className="btn btn-light text-warning"
@@ -304,85 +286,29 @@ function Deposit() {
                                 );
                     })}
 
-                            {/* <tr>
-                                <th></th>
-                                <th>25890048</th>
-                                <th>24/09/202021:12:30</th>
-                                <th>TRANSFER COIN</th>
-                                <th>BTC</th>
-                                <th>1.07</th>
-                                <th>35Fd4afdsXCh4787EDFJcrl4jg4m5srt66</th>
-                                <th>Success</th>
-                                <th>https://explorer.blockchain/4353459034u590345903490</th>
-                            </tr>
-
-                            <tr>
-                                <th></th>
-                                <th>25353057</th>
-                                <th>24/09/202021:12:30</th>
-                                <th>RECEIVE COIN</th>
-                                <th>ETH</th>
-                                <th>2</th>
-                                <th>35Fd6hgfdf65h4787EDFJcrl4jg4m76562</th>
-                                <th>Success</th>
-                                <th>https://explorer.blockchain/4353459034u590345903490</th>
-                            </tr> */}
                         </tbody>
 
-                        
-                    
                     </table>
-
-                    {/* <table className="table table-borderless border border-light">
-                           
-                        <thead>
-                            
-                            <tr>
-                                <th></th>
-                                <th>TX Id</th>
-                                <th>Time</th>
-                                <th>Type</th>
-                                <th>BANK NAME</th>
-                                <th>Amount</th>
-                                <th>BANK Account</th>
-                                <th>Transfer Process</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th></th>
-                                <th>25890048</th>
-                                <th>24/09/202021:12:30</th>
-                                <th>DEPOSIT</th>
-                                <th>BANK BCA</th>
-                                <th>1.07</th>
-                                <th>Bank BCA acc No.2481717266 acc name : andriwijaya</th>
-                                <th>28/11/202004:24:11</th>
-                                <th>Success</th>
-                            </tr>
-
-                            <tr>
-                                <th></th>
-                                <th>25890048</th>
-                                <th>24/09/202021:12:30</th>
-                                <th>WITHDRAW</th>
-                                <th>BANK BCA</th>
-                                <th>2.07</th>
-                                <th>Bank BCA acc No.2481717266 acc name : andriwijaya</th>
-                                <th>28/11/202004:24:11</th>
-                                <th>Success</th>
-                            </tr>
-                        </tbody>
-
-                        
-                    </table> */}
+            </div>
 
 
-                    <div className="float-left m-2"><h5>CREDIT CARD AND PAYPAL DEPOSIT / WITHDRAW</h5></div>
-                    <div className="float-right m-2"><span className="m-2">Export to PDF</span><span className="m-2">Export to EXCEL</span></div>
+                    <div className="table">
+                    <div className="float-left">
+                        <h5>CREDIT CARD AND PAYPAL DEPOSIT / WITHDRAW</h5>
+                    </div>
+                    <div className="float-right m-2">
+                        <span className="m-2">Export to PDF</span>
+                        <Excel
+                            id="test-table-xls-button"
+                            className="btn btn-light text-warning"
+                            table="creditCard"
+                            filename="tablexls"
+                            sheet="tablexls"
+                            buttonText="Export to XLS"
+                        />
+                    </div>
 
-                    <table className="table table-borderless border border-light">
+                    <table id="creditCard" className="table table-borderless border border-light">
                     <thead>
                     {
                         typeTR===false||selection===undefined||selection===null||selection.length<=0?<div className="float=left">Entry data empty</div>:
@@ -418,77 +344,14 @@ function Deposit() {
                                 );
                     })}
 
-                            {/* <tr>
-                                <th></th>
-                                <th>25890048</th>
-                                <th>24/09/202021:12:30</th>
-                                <th>TRANSFER COIN</th>
-                                <th>BTC</th>
-                                <th>1.07</th>
-                                <th>35Fd4afdsXCh4787EDFJcrl4jg4m5srt66</th>
-                                <th>Success</th>
-                                <th>https://explorer.blockchain/4353459034u590345903490</th>
-                            </tr>
-
-                            <tr>
-                                <th></th>
-                                <th>25353057</th>
-                                <th>24/09/202021:12:30</th>
-                                <th>RECEIVE COIN</th>
-                                <th>ETH</th>
-                                <th>2</th>
-                                <th>35Fd6hgfdf65h4787EDFJcrl4jg4m76562</th>
-                                <th>Success</th>
-                                <th>https://explorer.blockchain/4353459034u590345903490</th>
-                            </tr> */}
                         </tbody>
 
                         
                     
                     </table>
+                </div>
                     
-                    {/* <table className="table table-borderless border border-light">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>TX Id</th>
-                                <th>Time</th>
-                                <th>Type</th>
-                                <th>Method</th>
-                                <th>Amount $</th>
-                                <th>CARD NUMBER/EMAIL </th>
-                                <th>Transfer Process</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th></th>
-                                <th>25890048</th>
-                                <th>24/09/202021:12:30</th>
-                                <th>TRANSFER COIN</th>
-                                <th>BTC</th>
-                                <th>1.07</th>
-                                <th>35Fd4afdsXCh4787EDFJcrl4jg4m5srt66</th>
-                                <th>Success</th>
-                                <th>Success</th>
-                            </tr>
-
-                            <tr>
-                                <th></th>
-                                <th>25353057</th>
-                                <th>24/09/202021:12:30</th>
-                                <th>RECEIVE COIN</th>
-                                <th>ETH</th>
-                                <th>2</th>
-                                <th>35Fd6hgfdf65h4787EDFJcrl4jg4m76562</th>
-                                <th>Success</th>
-                                <th>Success</th>
-                            </tr>
-                        </tbody>
-
-                        
-                    </table> */}
+                    
                 </div>
             </div>
     )

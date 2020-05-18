@@ -10,8 +10,6 @@ import {
   ModalFooter,
 } from "reactstrap";
 
-import FileView from "react-file-viewer";
-
 const $ = require("jquery");
 $.Datatable = require("datatables.net-bs");
 

@@ -1,20 +1,27 @@
 import React, { useState } from 'react'
 import Axios from 'axios';
 
+import Editor from "suneditor-react";
+import 'suneditor/dist/css/suneditor.min.css';
+
 function DropdownCMSUpdate(props) {
     const stateCMS = {
         title: "",
         category: "",
-        description: "",
     };
+    const [cmsDescription,setCmsDescription]=React.useState("");
     
     const [dataCMS, setDataCMS] = useState(stateCMS);
     
     const handleChangeCMS = (e) => {
-        setDataCMS({
-            ...dataCMS,
-            [e.target.name]: e.target.value,
-        });
+            setDataCMS({
+                ...dataCMS,
+                [e.target.name]: e.target.value,
+            });
+    };
+
+    const textareaChangeCMS=(content)=>{
+        setCmsDescription(content);
     };
     
     const onSubmitCMS = (e) => {
@@ -28,7 +35,7 @@ function DropdownCMSUpdate(props) {
             data: {
                 title: dataCMS.title,
                 category: dataCMS.category,
-                description: dataCMS.description,
+                description:cmsDescription,
             },
         }).then((res) => {
             alert("SUCCESS");
@@ -98,13 +105,14 @@ function DropdownCMSUpdate(props) {
                             <div className="col-md-12">
                             <div className="form-group">
                                 <label htmlFor="Description">Description</label>
-                                <textarea
+                                {/* <textarea
                                 className="form-control"
                                 name="description"
                                 id="Description"
                                 defaultValue={""}
                                 onChange={handleChangeCMS}
-                                />
+                                /> */}
+                                <Editor setDefaultStyle="background:#1C233F;boxShadow:none;border:none" onChange={textareaChangeCMS} />
                             </div>
                             </div>
                         </div>
