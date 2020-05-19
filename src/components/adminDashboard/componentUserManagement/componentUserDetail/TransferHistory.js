@@ -61,7 +61,7 @@ export default function TransferHistory() {
             Status:"Success",
             TXhash:"https://explorer.blockchain/4353459034u590345903490",
         },
-        
+
 
         {
             no:"4",
@@ -121,7 +121,7 @@ export default function TransferHistory() {
         <div className="row card text-center">
 
                 <div className="card-body table-responsive" style={{backgroundColor: "#151933"}}>
-                    
+
                 <table className="table table-borderless">
             <tbody>
             <tr>
@@ -137,7 +137,7 @@ export default function TransferHistory() {
                                 <input type="text" name="searchKeyword" className="form-control" placeholder="Keyword" onChange={handleChange} />
                             </td>
                         </tr>
-                       
+
                     </div>
                 </td>
 
@@ -151,7 +151,7 @@ export default function TransferHistory() {
                                 <input type="date" name="fromData" className="form-control" placeholder="Date Picker" onChange={handleChange} />
                             </td>
                         </tr>
-                       
+
                     </div>
                 </td>
 
@@ -159,13 +159,13 @@ export default function TransferHistory() {
                     <div className="input-group">
                         <tr>
                             <td>
-                                To 
+                                To
                             </td>
                             <td>
                                 <input type="date" name="toData" className="form-control" placeholder="Date Picker" onChange={handleChange} />
                             </td>
                         </tr>
-                       
+
                     </div>
                 </td>
 
@@ -185,7 +185,7 @@ export default function TransferHistory() {
                         <option value="Failed">Failed</option>
                     </select>
                 </td>
-                
+
                 <td>
                    <button className="btn btn-primary" onClick={filterSort}>Filter</button>
                 </td>
@@ -216,7 +216,7 @@ export default function TransferHistory() {
                     />
                     </div>
 
-                    
+
                     <table ref={PDFref} id="TradeHistory" className="table table-borderless border border-light">
                         <thead>
                             <tr>
@@ -273,7 +273,7 @@ export default function TransferHistory() {
                             </tr> */}
                         </tbody>
 
-                        
+
                     </table>
                     </div>
                     }
