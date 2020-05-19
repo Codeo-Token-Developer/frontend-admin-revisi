@@ -22,8 +22,14 @@
 //   }
 // };
 
+// var runEvent = function () {
+//   if(!$.fn.DataTable.isDataTable("#TradeHistory")) {
+//     $("#TradeHistory").DataTable();
+//   }
+// };
+
 // $(document).ready(function () {
-//   intervalId = setInterval(runEvent, 100);
+//   intervalId = setInterval(runEvent, 200);
 // });
 
 (function ($) {

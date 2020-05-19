@@ -6,7 +6,7 @@ import {
     Alert 
 } from "reactstrap";
 
-import Avatar from "../picture1.jpg";
+import Avatar from "../user.jpg";
 import axios from "axios";
 
 function Details(props) {

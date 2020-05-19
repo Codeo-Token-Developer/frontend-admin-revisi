@@ -5,16 +5,14 @@ import Excel from "react-html-table-to-excel";
 
 import { Button } from "reactstrap";
 
-import ReactPaginate from "react-pagination-list";
-
-const PDFref=React.createRef();
-
 const $ = require("jquery");
 $.Datatable = require("datatables.net-bs");
 
-export default function BuyTradeHistory() {
+let index=0;
 
-    const [data,setData]=React.useState(undefined);
+const PDFref=React.createRef();
+
+export default function BuyTradeHistory(props) {
 
     const [selection,setSelection]=React.useState(undefined);
     const [logicSelection,setLogicSelection]=React.useState({
@@ -25,19 +23,10 @@ export default function BuyTradeHistory() {
         status:"",
     });
 
-    const [datax,setDatax]=React.useState(undefined);
-
-    React.useEffect(()=>{
-          if(!$.fn.dataTable.isDataTable("#datatable")) {
-            $("#datatable").DataTable();
-          }
-    },[]);
-
     const options = {
       orientation: "portrait",
-      format:"c3",
+      format:"c2",
     };
-
 
     const dummyData=[
 
@@ -55,7 +44,7 @@ export default function BuyTradeHistory() {
       },
 
       {
-          no:"7",
+          no:"2",
           TX_Id:"258900481",
           CreatedAt:new Date("2020-01-23").toISOString(),
           Username:"DIANJAYA",
@@ -68,7 +57,7 @@ export default function BuyTradeHistory() {
       },
 
       {
-          no:"1",
+          no:"3",
           TX_Id:"258900481",
           CreatedAt:new Date("2020-02-3").toISOString(),
           Username:"DIANJAYA",
@@ -81,7 +70,7 @@ export default function BuyTradeHistory() {
       },
 
       {
-          no:"1",
+          no:"4",
           TX_Id:"25890048123",
           CreatedAt:new Date("2020-02-15").toISOString(),
           Username:"DIANJAYA",
@@ -94,7 +83,7 @@ export default function BuyTradeHistory() {
       },
 
       {
-          no:"1",
+          no:"5",
           TX_Id:"258900481",
           CreatedAt:new Date("2020-03-3").toISOString(),
           Username:"YIANJAYA",
@@ -107,7 +96,7 @@ export default function BuyTradeHistory() {
       },
 
       {
-          no:"1",
+          no:"6",
           TX_Id:"2589004851",
           CreatedAt:new Date("2020-03-20").toISOString(),
           Username:"DIANJAYA",
@@ -120,7 +109,7 @@ export default function BuyTradeHistory() {
       },
 
       {
-          no:"1",
+          no:"7",
           TX_Id:"258900481",
           CreatedAt:new Date("2020-04-3").toISOString(),
           Username:"DIANJAYA",
@@ -133,7 +122,7 @@ export default function BuyTradeHistory() {
       },
 
         {
-          no:"1",
+          no:"8",
           TX_Id:"258900481",
           CreatedAt:new Date("2020-04-23").toISOString(),
           Username:"DIANJAYA",
@@ -146,7 +135,7 @@ export default function BuyTradeHistory() {
         },
 
         {
-            no:"1",
+            no:"9",
             TX_Id:"258900481",
             CreatedAt:new Date("2020-05-1").toISOString(),
             Username:"DIANJAYA",
@@ -158,7 +147,7 @@ export default function BuyTradeHistory() {
             Status:"Success",
         },
         {
-            no:"2",
+            no:"10",
             TX_Id:"258900482",
             CreatedAt:new Date("2020-05-3").toISOString(),
             Username:"YIANJAYA",
@@ -170,7 +159,7 @@ export default function BuyTradeHistory() {
             Status:"Success"
         },
         {
-            no:"3",
+            no:"11",
             TX_Id:"258900483",
             CreatedAt:new Date("2020-05-5").toISOString(),
             Username:"XIANJAYA",
@@ -182,7 +171,7 @@ export default function BuyTradeHistory() {
             Status:"Failed"
         },
         {
-            no:"4",
+            no:"12",
             TX_Id:"258900484",
             CreatedAt:new Date("2020-05-7").toISOString(),
             Username:"YIANJAYA",
@@ -194,7 +183,7 @@ export default function BuyTradeHistory() {
             Status:"Failed",
         },
         {
-            no:"5",
+            no:"13",
             TX_Id:"258900485",
             CreatedAt:new Date("2020-05-9").toISOString(),
             Username:"BIANJAYA",
@@ -206,7 +195,7 @@ export default function BuyTradeHistory() {
             Status:"Failed",
         },
         {
-            no:"6",
+            no:"14",
             TX_Id:"258900486",
             CreatedAt:new Date("2020-06-9").toISOString(),
             Username:"MIANJAYA",
@@ -218,7 +207,7 @@ export default function BuyTradeHistory() {
             Status:"Failed",
         },
         {
-            no:"6",
+            no:"15",
             TX_Id:"258900486",
             CreatedAt:new Date("2020-06-29").toISOString(),
             Username:"MIANJAYA",
@@ -231,6 +220,40 @@ export default function BuyTradeHistory() {
         },
     ];
 
+    React.useEffect(()=>{
+        setSelection(dummyData.map((item)=>{
+            return Object.values(item);
+        }));
+
+
+        if (!$.fn.dataTable.isDataTable("#TradeHistory")) {
+           
+            $("#TradeHistory").DataTable({
+                data:dummyData.map((item)=>{
+                    return Object.values(item);
+                }),
+                fnDrawCallback: function () {
+                    $("#TradeHistory_wrapper").removeClass("form-inline");
+                    $(".paginate_button a").addClass("page-link");
+                    $(".paginate_button").addClass("page-item");
+                  },
+
+                columns:[
+                    {title:"1"},
+                    {title:"TX Id"},
+                    {title:"Created At"},
+                    {title:"Username"},
+                    {title:"Pair"},
+                    {title:"Price"},
+                    {title:"Amount"},
+                    {title:"Pending"},
+                    {title:"Total"},
+                    {title:"Status"}
+                ]
+            });
+   
+        }
+    },[]);
 
 
     const handleChange=(e)=>{
@@ -263,6 +286,8 @@ export default function BuyTradeHistory() {
     return (
         <>
         <div className="row card text-center">
+
+            
 
                 <div className="card-body table-responsive" style={{backgroundColor: "#151933"}}>
 
@@ -357,125 +382,111 @@ export default function BuyTradeHistory() {
             </tbody>
         </table>
 
-                    {selection===undefined||selection===null||selection.length<=0?"Entry data empty":
-                    <div className="table">
-                    <div className="float-left m-3">History</div>
-                    <div className="float-right m-3">
-                    <ReactToPdf targetRef={PDFref} options={options} filename="bankDepositWithDraw.pdf">
-                    {({toPdf}) => (
-                        <Button color="light" className="text-danger" onClick={toPdf}>Export to PDF</Button>
-                    )}
-                    </ReactToPdf>
-                    <Excel
-                        id="test-table-xls-button"
-                        className="btn btn-light text-warning"
-                        table="datatable"
-                        filename="tablexls"
-                        sheet="tablexls"
-                        buttonText="Export to XLS"
-                    />
-                    </div>
-                    <table ref={PDFref} id="datatable" className="table table-borderless border border-light m-1">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>TX Id</th>
-                                <th>Created At</th>
-                                <th>Username</th>
-                                <th>Pair</th>
-                                <th>Price</th>
-                                <th>Amount</th>
-                                <th>Pending</th>
-                                <th>Total</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                          <ReactPaginate
-                            data={selection}
-                            pageSize={10}
-                            renderItem={(item,key)=>(
-                              <tbody>
-                              <tr>
-                                  <th>{key+1}</th>
-                                  <th>{item[1]}</th>
-                                  <th>{new Date(item[2]).toLocaleDateString()+" "+new Date(item[2]).toLocaleTimeString()}</th>
-                                  <th>{item[3]} </th>
-                                  <th>{item[4]}</th>
-                                  <th>{item[5]}</th>
-                                  <th>{item[6]}</th>
-                                  <th>{item[7]}</th>
-                                  <th>{item[8]}</th>
-                                  <th>{item[9]}</th>
-                              </tr>
-                              </tbody>
-                            )}
-                          />
+        <table className="display table table-borderless" id="TradeHistory" width="100%">
 
-                            {/*selection===undefined||selection===null?[]:selection.map((item,index)=>{
-
-                                return (
-                                <tr>
-                                    <th>{index+1}</th>
-                                    <th>{item[1]}</th>
-                                    <th>{new Date(item[2]).toLocaleDateString()+" "+new Date(item[2]).toLocaleTimeString()}</th>
-                                    <th>{item[3]} </th>
-                                    <th>{item[4]}</th>
-                                    <th>{item[5]}</th>
-                                    <th>{item[6]}</th>
-                                    <th>{item[7]}</th>
-                                    <th>{item[8]}</th>
-                                    <th>{item[9]}</th>
-                                </tr>
-                                );
-                            })*/}
-
-                            {/* <tr>
-                                <th>1</th>
-                                <th>258900489</th>
-                                <th>24/09/202021:12:30</th>
-                                <th>DIANJAYA </th>
-                                <th>BTC/USD</th>
-                                <th>10000</th>
-                                <th>0.225</th>
-                                <th>0</th>
-                                <th>2000</th>
-                                <th>Success</th>
-                            </tr> */}
-
-                            {/* <tr>
-                                <th>2</th>
-                                <th>258900489</th>
-                                <th>{new Date().toISOString()}</th>
-                                <th>DIANJAYA </th>
-                                <th>BTC/USD</th>
-                                <th>10000</th>
-                                <th>0.225</th>
-                                <th>0</th>
-                                <th>2000</th>
-                                <th>Success</th>
-                            </tr> */}
-
-
-
-                        <tfoot>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>Total</td>
-                                <td>0.0025</td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                    </div>
-                    }
+        </table>
+                    
                 </div>
             </div>
-
             </>
     );
 }
+
+
+// {selection===undefined||selection===null||selection.length<=0?"Entry data empty":
+//                     <div className="table">
+//                     <div className="float-left m-3">History</div>
+//                     <div className="float-right m-3">
+//                     <ReactToPdf targetRef={PDFref} options={options} filename={props.filename}>
+//                     {({toPdf}) => (
+//                         <Button color="light" className="text-danger" onClick={toPdf}>Export to PDF</Button>
+//                     )}
+//                     </ReactToPdf>
+//                     <Excel
+//                         id="test-table-xls-button"
+//                         className="btn btn-light text-warning"
+//                         table="TradeHistory"
+//                         filename="tablexls"
+//                         sheet="tablexls"
+//                         buttonText="Export to XLS"
+//                     />
+//                     </div>
+//                     <table ref={PDFref} id="TradeHistory" className="table table-borderless border border-light m-1">
+//                         <thead>
+//                             <tr>
+//                                 <th></th>
+//                                 <th>TX Id</th>
+//                                 <th>Created At</th>
+//                                 <th>Username</th>
+//                                 <th>Pair</th>
+//                                 <th>Price</th>
+//                                 <th>Amount</th>
+//                                 <th>Pending</th>
+//                                 <th>Total</th>
+//                                 <th>Status</th>
+//                             </tr>
+//                         </thead>
+
+//                             <tbody>
+//                             {selection===undefined||selection===null?[]:selection.map((item,index)=>{
+
+//                                 return (
+//                                 <tr>
+//                                     <td>{index+1}</td>
+//                                     <td>{item[1]}</td>
+//                                     <td>{new Date(item[2]).toLocaleDateString()+" "+new Date(item[2]).toLocaleTimeString()}</td>
+//                                     <td>{item[3]} </td>
+//                                     <td>{item[4]}</td>
+//                                     <td>{item[5]}</td>
+//                                     <td>{item[6]}</td>
+//                                     <td>{item[7]}</td>
+//                                     <td>{item[8]}</td>
+//                                     <td>{item[9]}</td>
+//                                 </tr>
+//                                 );
+//                             })}
+
+//                             {/* <tr>
+//                                 <th>1</th>
+//                                 <th>258900489</th>
+//                                 <th>24/09/202021:12:30</th>
+//                                 <th>DIANJAYA </th>
+//                                 <th>BTC/USD</th>
+//                                 <th>10000</th>
+//                                 <th>0.225</th>
+//                                 <th>0</th>
+//                                 <th>2000</th>
+//                                 <th>Success</th>
+//                             </tr> */}
+
+//                             {/* <tr>
+//                                 <th>2</th>
+//                                 <th>258900489</th>
+//                                 <th>{new Date().toISOString()}</th>
+//                                 <th>DIANJAYA </th>
+//                                 <th>BTC/USD</th>
+//                                 <th>10000</th>
+//                                 <th>0.225</th>
+//                                 <th>0</th>
+//                                 <th>2000</th>
+//                                 <th>Success</th>
+//                             </tr> */}
+//                         </tbody>
+
+
+//                         <tfoot>
+//                             <tr>
+//                                 <td></td>
+//                                 <td></td>
+//                                 <td></td>
+//                                 <td></td>
+//                                 <td></td>
+//                                 <td>Total</td>
+//                                 <td>0.0025</td>
+//                                 <td></td>
+//                                 <td></td>
+//                             </tr>
+//                         </tfoot>
+//                     </table>
+//                     </div>
+//                     }

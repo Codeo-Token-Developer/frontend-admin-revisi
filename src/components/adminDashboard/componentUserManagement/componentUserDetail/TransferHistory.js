@@ -1,5 +1,12 @@
 import React from "react";
 
+import ReactToPdf from "react-to-pdf";
+import Excel from "react-html-table-to-excel";
+
+import { Button } from "reactstrap";
+
+const PDFref=React.createRef();
+
 export default function TransferHistory() {
 
     const [selection,setSelection]=React.useState(undefined);
@@ -10,6 +17,11 @@ export default function TransferHistory() {
         coin:"",
         status:"",
     });
+
+    const options = {
+        orientation: "portrait",
+        format:"c3",
+    };
 
 
     const dummyData=[
@@ -186,7 +198,26 @@ export default function TransferHistory() {
 
                     {
                         selection===undefined||selection===null||selection.length<=0?"Entry data empty":
-                    <table className="table table-borderless border border-light">
+                    <div className="table">
+                    <div className="float-left m-3">History</div>
+                    <div className="float-right m-3">
+                    <ReactToPdf targetRef={PDFref} options={options} filename="Trasnfer History">
+                    {({toPdf}) => (
+                        <Button color="light" className="text-danger" onClick={toPdf}>Export to PDF</Button>
+                    )}
+                    </ReactToPdf>
+                    <Excel
+                        id="test-table-xls-button"
+                        className="btn btn-light text-warning"
+                        table="TradeHistory"
+                        filename="tablexls"
+                        sheet="tablexls"
+                        buttonText="Export to XLS"
+                    />
+                    </div>
+
+                    
+                    <table ref={PDFref} id="TradeHistory" className="table table-borderless border border-light">
                         <thead>
                             <tr>
                                 <th></th>
@@ -244,6 +275,7 @@ export default function TransferHistory() {
 
                         
                     </table>
+                    </div>
                     }
                 </div>
             </div>

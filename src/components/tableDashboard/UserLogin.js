@@ -47,9 +47,6 @@ function UserLoginTable() {
         if (!$.fn.dataTable.isDataTable("#datatable2")) {
           
          let table=$("#datatable2").DataTable({
-          buttons: [
-            'copy', 'csv', 'excel', 'pdf', 'print'
-          ],
           fnDrawCallback: function () {
               $("#datatable2_wrapper").removeClass("form-inline");
               $(".paginate_button a").addClass("page-link");

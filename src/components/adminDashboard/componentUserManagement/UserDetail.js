@@ -49,10 +49,10 @@ function UserDetail() {
             <WalletInfo />
         </TabPane>
         <TabPane tabId="3">
-            <BuyTradeHistory />
+            <BuyTradeHistory filename="BuyTradeHistory.pdf" />
         </TabPane>
         <TabPane tabId="4">
-            <BuyTradeHistory />
+            <BuyTradeHistory filename="SellTradeHistory.pdf" />
         </TabPane>
         <TabPane tabId="5">
             <TransferHistory />
