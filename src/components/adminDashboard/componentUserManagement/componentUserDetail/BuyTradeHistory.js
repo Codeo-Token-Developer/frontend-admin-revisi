@@ -33,7 +33,7 @@ export default function BuyTradeHistory(props) {
       {
           no:"1",
           TX_Id:"258900481",
-          CreatedAt:new Date("2020-01-2").toISOString(),
+          CreatedAt:new Date("2020-01-2").toLocaleDateString()+" "+new Date("2020-01-2").toLocaleTimeString(),
           Username:"DIANJAYA",
           Pair:"BTC/USDT",
           Price:"10000",
@@ -46,7 +46,7 @@ export default function BuyTradeHistory(props) {
       {
           no:"2",
           TX_Id:"258900481",
-          CreatedAt:new Date("2020-01-23").toISOString(),
+          CreatedAt:new Date("2020-01-23").toLocaleDateString()+" "+new Date("2020-01-2").toLocaleTimeString(),
           Username:"DIANJAYA",
           Pair:"ETH/USDT",
           Price:"10000",
@@ -59,7 +59,7 @@ export default function BuyTradeHistory(props) {
       {
           no:"3",
           TX_Id:"258900481",
-          CreatedAt:new Date("2020-02-3").toISOString(),
+          CreatedAt:new Date("2020-02-3").toLocaleDateString()+" "+new Date("2020-01-2").toLocaleTimeString(),
           Username:"DIANJAYA",
           Pair:"BTC/USDT",
           Price:"10000",
@@ -72,7 +72,7 @@ export default function BuyTradeHistory(props) {
       {
           no:"4",
           TX_Id:"25890048123",
-          CreatedAt:new Date("2020-02-15").toISOString(),
+          CreatedAt:new Date("2020-02-15").toLocaleDateString()+" "+new Date("2020-01-2").toLocaleTimeString(),
           Username:"DIANJAYA",
           Pair:"ETH/USDT",
           Price:"10000",
@@ -85,7 +85,7 @@ export default function BuyTradeHistory(props) {
       {
           no:"5",
           TX_Id:"258900481",
-          CreatedAt:new Date("2020-03-3").toISOString(),
+          CreatedAt:new Date("2020-03-3").toLocaleDateString()+" "+new Date("2020-01-2").toLocaleTimeString(),
           Username:"YIANJAYA",
           Pair:"ETH/USDT",
           Price:"10000",
@@ -98,7 +98,7 @@ export default function BuyTradeHistory(props) {
       {
           no:"6",
           TX_Id:"2589004851",
-          CreatedAt:new Date("2020-03-20").toISOString(),
+          CreatedAt:new Date("2020-03-20").toLocaleDateString()+" "+new Date("2020-01-2").toLocaleTimeString(),
           Username:"DIANJAYA",
           Pair:"BTC/USDT",
           Price:"10000",
@@ -111,7 +111,7 @@ export default function BuyTradeHistory(props) {
       {
           no:"7",
           TX_Id:"258900481",
-          CreatedAt:new Date("2020-04-3").toISOString(),
+          CreatedAt:new Date("2020-04-3").toLocaleDateString()+" "+new Date("2020-01-2").toLocaleTimeString(),
           Username:"DIANJAYA",
           Pair:"ETH/USDT",
           Price:"10000",
@@ -124,7 +124,7 @@ export default function BuyTradeHistory(props) {
         {
           no:"8",
           TX_Id:"258900481",
-          CreatedAt:new Date("2020-04-23").toISOString(),
+          CreatedAt:new Date("2020-04-23").toLocaleDateString()+" "+new Date("2020-01-2").toLocaleTimeString(),
           Username:"DIANJAYA",
           Pair:"BTC/USDT",
           Price:"10000",
@@ -137,7 +137,7 @@ export default function BuyTradeHistory(props) {
         {
             no:"9",
             TX_Id:"258900481",
-            CreatedAt:new Date("2020-05-1").toISOString(),
+            CreatedAt:new Date("2020-05-1").toLocaleDateString()+" "+new Date("2020-01-2").toLocaleTimeString(),
             Username:"DIANJAYA",
             Pair:"BTC/USDT",
             Price:"10000",
@@ -149,7 +149,7 @@ export default function BuyTradeHistory(props) {
         {
             no:"10",
             TX_Id:"258900482",
-            CreatedAt:new Date("2020-05-3").toISOString(),
+            CreatedAt:new Date("2020-05-3").toLocaleDateString()+" "+new Date("2020-01-2").toLocaleTimeString(),
             Username:"YIANJAYA",
             Pair:"ETH/USDT",
             Price:"10000",
@@ -161,7 +161,7 @@ export default function BuyTradeHistory(props) {
         {
             no:"11",
             TX_Id:"258900483",
-            CreatedAt:new Date("2020-05-5").toISOString(),
+            CreatedAt:new Date("2020-05-5").toLocaleDateString()+" "+new Date("2020-01-2").toLocaleTimeString(),
             Username:"XIANJAYA",
             Pair:"ETH/USDT",
             Price:"10000",
@@ -173,7 +173,7 @@ export default function BuyTradeHistory(props) {
         {
             no:"12",
             TX_Id:"258900484",
-            CreatedAt:new Date("2020-05-7").toISOString(),
+            CreatedAt:new Date("2020-05-7").toLocaleDateString()+" "+new Date("2020-01-2").toLocaleTimeString(),
             Username:"YIANJAYA",
             Pair:"BTC/USDT",
             Price:"10000",
@@ -185,7 +185,7 @@ export default function BuyTradeHistory(props) {
         {
             no:"13",
             TX_Id:"258900485",
-            CreatedAt:new Date("2020-05-9").toISOString(),
+            CreatedAt:new Date("2020-05-9").toLocaleDateString()+" "+new Date("2020-01-2").toLocaleTimeString(),
             Username:"BIANJAYA",
             Pair:"BTC/USDT",
             Price:"10000",
@@ -197,7 +197,7 @@ export default function BuyTradeHistory(props) {
         {
             no:"14",
             TX_Id:"258900486",
-            CreatedAt:new Date("2020-06-9").toISOString(),
+            CreatedAt:new Date("2020-06-9").toLocaleDateString()+" "+new Date("2020-01-2").toLocaleTimeString(),
             Username:"MIANJAYA",
             Pair:"BTC/USDT",
             Price:"10000",
@@ -209,7 +209,7 @@ export default function BuyTradeHistory(props) {
         {
             no:"15",
             TX_Id:"258900486",
-            CreatedAt:new Date("2020-06-29").toISOString(),
+            CreatedAt:new Date("2020-06-29").toLocaleDateString()+" "+new Date("2020-01-2").toLocaleTimeString(),
             Username:"MIANJAYA",
             Pair:"ETH/USDT",
             Price:"10000",
@@ -434,7 +434,7 @@ export default function BuyTradeHistory(props) {
 //                                 <tr>
 //                                     <td>{index+1}</td>
 //                                     <td>{item[1]}</td>
-//                                     <td>{new Date(item[2]).toLocaleDateString()+" "+new Date(item[2]).toLocaleTimeString()}</td>
+//                                     <td>{new Date(item[2]).toLocaleDateString()+" "+new Date(item[2]).new Date("2020-01-2").toLocaleTimeString()}</td>
 //                                     <td>{item[3]} </td>
 //                                     <td>{item[4]}</td>
 //                                     <td>{item[5]}</td>
@@ -462,7 +462,7 @@ export default function BuyTradeHistory(props) {
 //                             {/* <tr>
 //                                 <th>2</th>
 //                                 <th>258900489</th>
-//                                 <th>{new Date().toISOString()}</th>
+//                                 <th>{new Date().toLocaleDateString()+" "+new Date("2020-01-2").toLocaleTimeString()}</th>
 //                                 <th>DIANJAYA </th>
 //                                 <th>BTC/USD</th>
 //                                 <th>10000</th>
