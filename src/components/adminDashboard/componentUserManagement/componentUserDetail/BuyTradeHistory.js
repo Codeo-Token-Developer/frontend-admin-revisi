@@ -5,6 +5,8 @@ import Excel from "react-html-table-to-excel";
 
 import { Button } from "reactstrap";
 
+import ReactPaginate from "react-pagination-list";
+
 const PDFref=React.createRef();
 
 const $ = require("jquery");
@@ -26,25 +28,122 @@ export default function BuyTradeHistory() {
     const [datax,setDatax]=React.useState(undefined);
 
     React.useEffect(()=>{
-        if (!$.fn.dataTable.isDataTable("#datatable")) {
-            $("#datatable").DataTable({
-              fnDrawCallback: function () {
-                $("#datatable_wrapper").removeClass("form-inline");
-                $(".paginate_button a").addClass("page-link");
-                $(".paginate_button").addClass("page-item");
-              },
-            });
+          if(!$.fn.dataTable.isDataTable("#datatable")) {
+            $("#datatable").DataTable();
           }
     },[]);
 
     const options = {
-        orientation: 'landscape',
-        unit: 'in',
-        color:"black"
+      orientation: "portrait",
+      format:"c3",
     };
 
 
     const dummyData=[
+
+      {
+          no:"1",
+          TX_Id:"258900481",
+          CreatedAt:new Date("2020-01-2").toISOString(),
+          Username:"DIANJAYA",
+          Pair:"BTC/USDT",
+          Price:"10000",
+          Amount:"0.125",
+          Pending:"0",
+          Total:"2000",
+          Status:"Success",
+      },
+
+      {
+          no:"7",
+          TX_Id:"258900481",
+          CreatedAt:new Date("2020-01-23").toISOString(),
+          Username:"DIANJAYA",
+          Pair:"ETH/USDT",
+          Price:"10000",
+          Amount:"0.125",
+          Pending:"0",
+          Total:"1234",
+          Status:"Success",
+      },
+
+      {
+          no:"1",
+          TX_Id:"258900481",
+          CreatedAt:new Date("2020-02-3").toISOString(),
+          Username:"DIANJAYA",
+          Pair:"BTC/USDT",
+          Price:"10000",
+          Amount:"0.125",
+          Pending:"0",
+          Total:"2000",
+          Status:"Success",
+      },
+
+      {
+          no:"1",
+          TX_Id:"25890048123",
+          CreatedAt:new Date("2020-02-15").toISOString(),
+          Username:"DIANJAYA",
+          Pair:"ETH/USDT",
+          Price:"10000",
+          Amount:"0.125",
+          Pending:"0",
+          Total:"2000",
+          Status:"Success",
+      },
+
+      {
+          no:"1",
+          TX_Id:"258900481",
+          CreatedAt:new Date("2020-03-3").toISOString(),
+          Username:"YIANJAYA",
+          Pair:"ETH/USDT",
+          Price:"10000",
+          Amount:"0.125",
+          Pending:"0",
+          Total:"2000",
+          Status:"Failed",
+      },
+
+      {
+          no:"1",
+          TX_Id:"2589004851",
+          CreatedAt:new Date("2020-03-20").toISOString(),
+          Username:"DIANJAYA",
+          Pair:"BTC/USDT",
+          Price:"10000",
+          Amount:"0.125",
+          Pending:"0",
+          Total:"2000",
+          Status:"Success",
+      },
+
+      {
+          no:"1",
+          TX_Id:"258900481",
+          CreatedAt:new Date("2020-04-3").toISOString(),
+          Username:"DIANJAYA",
+          Pair:"ETH/USDT",
+          Price:"10000",
+          Amount:"0.025",
+          Pending:"0",
+          Total:"5000",
+          Status:"Success",
+      },
+
+        {
+          no:"1",
+          TX_Id:"258900481",
+          CreatedAt:new Date("2020-04-23").toISOString(),
+          Username:"DIANJAYA",
+          Pair:"BTC/USDT",
+          Price:"10000",
+          Amount:"0.125",
+          Pending:"0",
+          Total:"2000",
+          Status:"Success",
+        },
 
         {
             no:"1",
@@ -130,19 +229,9 @@ export default function BuyTradeHistory() {
             Total:"2000",
             Status:"Failed",
         },
-        {
-            no:"7",
-            TX_Id:"258900481",
-            CreatedAt:new Date("2020-04-23").toISOString(),
-            Username:"DIANJAYA",
-            Pair:"BTC/USDT",
-            Price:"10000",
-            Amount:"0.125",
-            Pending:"0",
-            Total:"2000",
-            Status:"Success",
-        },
     ];
+
+
 
     const handleChange=(e)=>{
         setLogicSelection({...logicSelection,[e.target.name]:e.target.value});
@@ -280,13 +369,13 @@ export default function BuyTradeHistory() {
                     <Excel
                         id="test-table-xls-button"
                         className="btn btn-light text-warning"
-                        table="bankTable"
+                        table="datatable"
                         filename="tablexls"
                         sheet="tablexls"
                         buttonText="Export to XLS"
                     />
                     </div>
-                    <table id="datatable" className="table table-borderless border border-light">
+                    <table ref={PDFref} id="datatable" className="table table-borderless border border-light m-1">
                         <thead>
                             <tr>
                                 <th></th>
@@ -301,9 +390,28 @@ export default function BuyTradeHistory() {
                                 <th>Status</th>
                             </tr>
                         </thead>
-                        <tbody>
+                          <ReactPaginate
+                            data={selection}
+                            pageSize={10}
+                            renderItem={(item,key)=>(
+                              <tbody>
+                              <tr>
+                                  <th>{key+1}</th>
+                                  <th>{item[1]}</th>
+                                  <th>{new Date(item[2]).toLocaleDateString()+" "+new Date(item[2]).toLocaleTimeString()}</th>
+                                  <th>{item[3]} </th>
+                                  <th>{item[4]}</th>
+                                  <th>{item[5]}</th>
+                                  <th>{item[6]}</th>
+                                  <th>{item[7]}</th>
+                                  <th>{item[8]}</th>
+                                  <th>{item[9]}</th>
+                              </tr>
+                              </tbody>
+                            )}
+                          />
 
-                            {selection===undefined||selection===null?[]:selection.map((item,index)=>{
+                            {/*selection===undefined||selection===null?[]:selection.map((item,index)=>{
 
                                 return (
                                 <tr>
@@ -319,7 +427,7 @@ export default function BuyTradeHistory() {
                                     <th>{item[9]}</th>
                                 </tr>
                                 );
-                            })}
+                            })*/}
 
                             {/* <tr>
                                 <th>1</th>
@@ -348,7 +456,6 @@ export default function BuyTradeHistory() {
                             </tr> */}
 
 
-                        </tbody>
 
                         <tfoot>
                             <tr>
