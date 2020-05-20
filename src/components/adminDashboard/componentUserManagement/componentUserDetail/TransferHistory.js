@@ -23,7 +23,7 @@ export default function TransferHistory() {
 
     const options = {
         orientation: "portrait",
-        format:"c3",
+        format:"c2",
     };
 
 
@@ -64,7 +64,7 @@ export default function TransferHistory() {
             Status:"Success",
             TXhash:"https://explorer.blockchain/4353459034u590345903490",
         },
-        
+
 
         {
             no:"4",
@@ -212,7 +212,7 @@ export default function TransferHistory() {
                                 <input type="text" name="searchKeyword" className="form-control" placeholder="Keyword" onChange={handleChange} />
                             </td>
                         </tr>
-                       
+
                     </div>
                 </td>
 
@@ -226,7 +226,7 @@ export default function TransferHistory() {
                                 <input type="date" name="fromData" className="form-control" placeholder="Date Picker" onChange={handleChange} />
                             </td>
                         </tr>
-                       
+
                     </div>
                 </td>
 
@@ -234,13 +234,13 @@ export default function TransferHistory() {
                     <div className="input-group">
                         <tr>
                             <td>
-                                To 
+                                To
                             </td>
                             <td>
                                 <input type="date" name="toData" className="form-control" placeholder="Date Picker" onChange={handleChange} />
                             </td>
                         </tr>
-                       
+
                     </div>
                 </td>
 
@@ -260,7 +260,7 @@ export default function TransferHistory() {
                         <option value="Failed">Failed</option>
                     </select>
                 </td>
-                
+
                 <td>
                    <button className="btn btn-primary" onClick={filterSort}>Filter</button>
                 </td>
@@ -271,22 +271,27 @@ export default function TransferHistory() {
             </tbody>
         </table>
 
-        {/* <ReactToPdf targetRef={PDFref} options={options} filename="Trasnfer History">
-                    {({toPdf}) => (
-                        <Button color="light" className="text-danger" onClick={toPdf}>Export to PDF</Button>
-                    )}
-                    </ReactToPdf>
-                    <Excel
-                        id="test-table-xls-button"
-                        className="btn btn-light text-warning"
-                        table="TradeHistory"
-                        filename="tablexls"
-                        sheet="tablexls"
-                        buttonText="Export to XLS"
-                    /> */}
+                    <div className="clearfix">
+                    <div className="float-left m-3">Buy Trade History</div>
+                        <div className="float-right m-3">
+                                    <ReactToPdf targetRef={PDFref} options={options} filename="BuyTradeHistory">
+                                    {({toPdf}) => (
+                                        <Button color="light" className="text-danger" onClick={toPdf}>Export to PDF</Button>
+                                    )}
+                                    </ReactToPdf>
+                                    <Excel
+                                        id="test-table-xls-button"
+                                        className="btn btn-light text-warning"
+                                        table="TransferHistory"
+                                        filename="tablexls"
+                                        sheet="tablexls"
+                                        buttonText="Export to XLS"
+                                    />
+                        </div>
+                    </div>
 
                     
-                    <table className="display table table-borderless" id="TransferHistory" width="100%">
+                    <table ref={PDFref} className="display table table-borderless" id="TransferHistory" width="100%">
                     </table>
                     
                 </div>

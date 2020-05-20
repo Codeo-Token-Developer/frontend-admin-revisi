@@ -82,10 +82,13 @@ function Deposit() {
 
     ];
 
-    const options = {
-        orientation: 'landscape',
-        unit: 'in',
-        color:"black"
+    const optionsBank = {
+        orientation: "portrait",
+        format:"c2",
+    };
+    const optionsCard = {
+        orientation: "portrait",
+        format:"c2",
     };
 
 //https://stackblitz.com/edit/react-component-to-pdf?file=DocService.js
@@ -160,13 +163,6 @@ function Deposit() {
                     $(".paginate_button").addClass("page-item");
                   },
                 data:selection===undefined?[]:selection,
-                dom: 'Brtip',
-                buttons: [
-                    {
-                        extend: 'pdfHtml5',
-                        messageTop: 'PDF created by PDFMake with Buttons for DataTables.'
-                    }
-                ],
                 columns:[
                     {title:"No"},
                     {title:"TX Id"},
@@ -191,13 +187,6 @@ function Deposit() {
                     $(".paginate_button").addClass("page-item");
                   },
                 data:dataCard===undefined?[]:dataCard,
-                dom: 'Brtip',
-                buttons: [
-                    {
-                        extend: 'pdfHtml5',
-                        messageTop: 'PDF created by PDFMake with Buttons for DataTables.'
-                    }
-                ],
                 columns:[
                     {title:"No"},
                     {title:"TX Id"},
@@ -407,11 +396,11 @@ function Deposit() {
             </tbody>
         </table>
 
-            
-                <div className="table">
+
+                <div className="clearfix mt-5">
                     <div className="float-left m-2"><h5>BANK DEPOSIT WITHDRAW</h5></div>
                     <div className="float-right m-2">
-                    <ReactToPdf targetRef={PDFref} options={options} filename="bankDepositWithDraw.pdf">
+                    <ReactToPdf targetRef={PDFref} options={optionsBank} filename="bankDepositWithDraw.pdf">
                     {({toPdf}) => (
                         <Button color="light" className="text-danger" onClick={toPdf}>Export to PDF</Button>
                     )}
@@ -429,12 +418,12 @@ function Deposit() {
                 <table ref={PDFref} className="display table table-borderless" id="BankTable" width="100%">
                 </table>
                
-                    <div className="clearfix">
+                    <div className="clearfix mt-5">
                     <div className="float-left">
                         <h5>CREDIT CARD AND PAYPAL DEPOSIT / WITHDRAW</h5>
                     </div>
                     <div className="float-right m-2">
-                        <ReactToPdf targetRef={refPdf} options={options} filename="bankDepositWithDraw.pdf">
+                        <ReactToPdf targetRef={refPdf} options={optionsCard} filename="creditCardHistory.pdf">
                             {({toPdf}) => (
                                 <Button color="light" className="text-danger" onClick={toPdf}>Export to PDF</Button>
                             )}

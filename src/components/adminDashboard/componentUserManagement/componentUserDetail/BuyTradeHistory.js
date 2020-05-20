@@ -5,6 +5,7 @@ import { Button } from "reactstrap";
 import ReactToPdf from "react-to-pdf";
 import Excel from "react-html-table-to-excel";
 
+
 const PDFref=React.createRef();
 
 const $ = require("jquery");
@@ -24,6 +25,7 @@ export default function BuyBuyTradeHistory(props) {
     const options = {
       orientation: "portrait",
       format:"c2",
+      color:"black"
     };
 
     const dummyData=[
@@ -205,9 +207,21 @@ export default function BuyBuyTradeHistory(props) {
             Status:"Failed",
         },
         {
-            no:"15",
+            no:"16",
             TX_Id:"258900486",
             CreatedAt:new Date("2020-06-29").toISOString(),
+            Username:"MIANJAYA",
+            Pair:"ETH/USDT",
+            Price:"10000",
+            Amount:"0.625",
+            Pending:"0",
+            Total:"2000",
+            Status:"Failed",
+        },
+        {
+            no:"15",
+            TX_Id:"258900486",
+            CreatedAt:new Date("2020-06-20").toISOString(),
             Username:"MIANJAYA",
             Pair:"ETH/USDT",
             Price:"10000",
