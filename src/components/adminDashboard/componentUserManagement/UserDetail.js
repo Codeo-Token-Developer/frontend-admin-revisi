@@ -15,6 +15,7 @@ import WalletInfo from "./componentUserDetail/WalletInfo";
 import Deposit from "./componentUserDetail/Deposit";
 import TransferHistory from "./componentUserDetail/TransferHistory";
 import BuyTradeHistory from "./componentUserDetail/BuyTradeHistory";
+import SellTradeHistory from "./componentUserDetail/SellTradeHistory";
 //Component
 
 function UserDetail() {
@@ -49,10 +50,10 @@ function UserDetail() {
             <WalletInfo />
         </TabPane>
         <TabPane tabId="3">
-            <BuyTradeHistory filename="BuyTradeHistory.pdf" />
+            <BuyTradeHistory />
         </TabPane>
         <TabPane tabId="4">
-            <BuyTradeHistory filename="SellTradeHistory.pdf" />
+            <SellTradeHistory />
         </TabPane>
         <TabPane tabId="5">
             <TransferHistory />

@@ -5,12 +5,17 @@ import Excel from "react-html-table-to-excel";
 
 import { Button } from "reactstrap";
 
+const $ = require("jquery");
+$.Datatable = require("datatables.net-bs");
+
 const PDFref=React.createRef();
 const refPdf=React.createRef();
 
 function Deposit() {
 
     const [selection,setSelection]=React.useState(undefined);
+    const [dataCard,setDataCard]=React.useState(undefined);
+
     const [typeDW,setDW]=React.useState(false);
     const [typeTR,setTR]=React.useState(false);
 
@@ -128,6 +133,86 @@ function Deposit() {
         setLogicSelection({...logicSelection,[e.target.name]:e.target.value});
     };
 
+    React.useEffect(()=>{
+        setSelection(dummyDataBank.map((item,index)=>{
+            return Object.values(item);
+        }).filter((item,index)=>{
+          item[0]=index+1;
+          item[2]=new Date(item[2]).toLocaleDateString()+" "+new Date(item[2]).toLocaleTimeString();
+          return item;
+        }));
+
+        setDataCard(dummyDataCard.map((item,index)=>{
+            return Object.values(item);
+        }).filter((item,index)=>{
+          item[0]=index+1;
+          item[2]=new Date(item[2]).toLocaleDateString()+" "+new Date(item[2]).toLocaleTimeString();
+          return item;
+        }));
+      },[]);
+  
+        if (!$.fn.dataTable.isDataTable("#BankTable")) {
+            $("#BankTable").DataTable({
+                dom: '<"wrapper">tip',
+                fnDrawCallback: function () {
+                    $("#BankTable_wrapper").removeClass("form-inline");
+                    $(".paginate_button a").addClass("page-link");
+                    $(".paginate_button").addClass("page-item");
+                  },
+                data:selection===undefined?[]:selection,
+                dom: 'Brtip',
+                buttons: [
+                    {
+                        extend: 'pdfHtml5',
+                        messageTop: 'PDF created by PDFMake with Buttons for DataTables.'
+                    }
+                ],
+                columns:[
+                    {title:"No"},
+                    {title:"TX Id"},
+                    {title:"Time"},
+                    {title:"Type"},
+                    {title:"BANK_NAME"},
+                    {title:"Amount"},
+                    {title:"BANK_Account"},
+                    {title:"Transfer_Process"},
+                    {title:"Status"},
+                ],
+                destroy:true
+            });
+        }
+
+        if (!$.fn.dataTable.isDataTable("#CreditCard")) {
+            $("#CreditCard").DataTable({
+                dom: '<"wrapper">tip',
+                fnDrawCallback: function () {
+                    $("#CreditCard_wrapper").removeClass("form-inline");
+                    $(".paginate_button a").addClass("page-link");
+                    $(".paginate_button").addClass("page-item");
+                  },
+                data:dataCard===undefined?[]:dataCard,
+                dom: 'Brtip',
+                buttons: [
+                    {
+                        extend: 'pdfHtml5',
+                        messageTop: 'PDF created by PDFMake with Buttons for DataTables.'
+                    }
+                ],
+                columns:[
+                    {title:"No"},
+                    {title:"TX Id"},
+                    {title:"Time"},
+                    {title:"Type"},
+                    {title:"BANK_NAME"},
+                    {title:"Amount"},
+                    {title:"BANK_Account"},
+                    {title:"Transfer_Process"},
+                    {title:"Status"},
+                ],
+                destroy:true
+            });
+        }
+
     const filterSort=()=>{
     
         if(["DEPOSIT","WITHDRAW","NONE"].includes(logicSelection.status)){
@@ -146,17 +231,48 @@ function Deposit() {
                     return null;
                 }
             }).filter((item,index)=>{
-                let now=new Date(item[2]);
-                let fromDate=new Date(logicSelection.fromData);
-                let toDate=new Date(logicSelection.toData);
-                if(now>=fromDate&&now<=toDate){
+                if(logicSelection.fromData===""&&logicSelection.toData===""){
+                    item[2]=new Date(item[2]).toLocaleDateString()+" "+new Date(item[2]).toLocaleTimeString();
                     return item;
-                }else{
-                    return null;
-                }
-            }).sort();
-            setSelection(undefined);
-            setSelection(searchDatax);
+                  }else if(logicSelection.fromData===""||logicSelection.toData===""){
+                    item[2]=new Date(item[2]).toLocaleDateString()+" "+new Date(item[2]).toLocaleTimeString();
+                    return item;
+                  }else{
+                    let now=new Date(item[2]);
+                    let fromDate=new Date(logicSelection.fromData);
+                    let toDate=new Date(logicSelection.toData);
+                    if(now>=fromDate&&now<=toDate){
+                      item[0]=index+1;
+                      item[2]=new Date(item[2]).toLocaleDateString()+" "+new Date(item[2]).toLocaleTimeString();
+                        return item;
+                    }else{
+                        return null;
+                    }
+                  }
+            });
+           
+            $("#BankTable").DataTable({
+                destroy:true,
+                fnDrawCallback: function () {
+                    $("#BankTable_wrapper").removeClass("form-inline");
+                    $(".paginate_button a").addClass("page-link");
+                    $(".paginate_button").addClass("page-item");
+                  },
+                data:searchDatax,
+                dom: '<"wrapper">tip',
+                columns:[
+                    {title:"No"},
+                    {title:"TX Id"},
+                    {title:"Time"},
+                    {title:"Type"},
+                    {title:"BANK_NAME"},
+                    {title:"Amount"},
+                    {title:"BANK_Account"},
+                    {title:"Transfer_Process"},
+                    {title:"Status"},
+                ],
+              });
+
         }else if(["TRANSFER_COIN","RECEIVE_COIN","NONE"].includes(logicSelection.status)){
             setDW(false);
             setTR(true);
@@ -173,19 +289,48 @@ function Deposit() {
                     return null;
                 }
             }).filter((item,index)=>{
-                let now=new Date(item[2]);
-                let fromDate=new Date(logicSelection.fromData);
-                let toDate=new Date(logicSelection.toData);
-                if(now>=fromDate&&now<=toDate){
+                if(logicSelection.fromData===""&&logicSelection.toData===""){
+                    item[2]=new Date(item[2]).toLocaleDateString()+" "+new Date(item[2]).toLocaleTimeString();
                     return item;
-                }else{
-                    return null;
-                }
-            }).sort();
-            setSelection(undefined);
-            setSelection(searchDatax);
+                  }else if(logicSelection.fromData===""||logicSelection.toData===""){
+                    item[2]=new Date(item[2]).toLocaleDateString()+" "+new Date(item[2]).toLocaleTimeString();
+                    return item;
+                  }else{
+                    let now=new Date(item[2]);
+                    let fromDate=new Date(logicSelection.fromData);
+                    let toDate=new Date(logicSelection.toData);
+                    if(now>=fromDate&&now<=toDate){
+                      item[0]=index+1;
+                      item[2]=new Date(item[2]).toLocaleDateString()+" "+new Date(item[2]).toLocaleTimeString();
+                        return item;
+                    }else{
+                        return null;
+                    }
+                  }
+            });
+            $("#CreditCard").DataTable({
+                destroy:true,
+                fnDrawCallback: function () {
+                    $("#CreditCard_wrapper").removeClass("form-inline");
+                    $(".paginate_button a").addClass("page-link");
+                    $(".paginate_button").addClass("page-item");
+                  },
+                data:searchDatax,
+                dom: '<"wrapper">tip',
+                columns:[
+                    {title:"No"},
+                    {title:"TX Id"},
+                    {title:"Time"},
+                    {title:"Type"},
+                    {title:"BANK_NAME"},
+                    {title:"Amount"},
+                    {title:"BANK_Account"},
+                    {title:"Transfer_Process"},
+                    {title:"Status"},
+                ],
+              });
+            
         }
-    
     };
 
     return (
@@ -262,8 +407,7 @@ function Deposit() {
             </tbody>
         </table>
 
-        {
-            typeDW===false?null:
+            
                 <div className="table">
                     <div className="float-left m-2"><h5>BANK DEPOSIT WITHDRAW</h5></div>
                     <div className="float-right m-2">
@@ -275,56 +419,17 @@ function Deposit() {
                     <Excel
                         id="test-table-xls-button"
                         className="btn btn-light text-warning"
-                        table="bankTable"
+                        table="BankTable"
                         filename="tablexls"
                         sheet="tablexls"
                         buttonText="Export to XLS"
                     />
                     </div>
-
-                    <table ref={PDFref} id="bankTable" style={{"fontSize":"12px","color":""}} className="table table-borderless border border-light">
-                    <thead>
-                    {
-                        typeDW===false||selection===undefined||selection===null||selection.length<=0?<tr><th>Entry data empty</th></tr>:
-                    
-                        <tr>
-                                <th></th>
-                                <th>TX Id</th>
-                                <th>Time</th>
-                                <th>Type</th>
-                                <th>BANK NAME</th>
-                                <th>Amount</th>
-                                <th>BANK Account</th>
-                                <th>Transfer Process</th>
-                                <th>Status</th>
-                        </tr>
-                    }
-                        </thead>
-                        <tbody>
-                     {typeDW===false||selection===undefined||selection===null?null:selection.map((item,index)=>{
-                                return (
-                                    <tr>
-                                        <th>{index+1}</th>
-                                        <th>{item[1]}</th>
-                                        <th>{new Date(item[2]).toLocaleDateString()+" "+new Date(item[2]).toLocaleTimeString()}</th>
-                                        <th>{item[3]} </th>
-                                        <th>{item[4]}</th>
-                                        <th>{item[5]}</th>
-                                        <th>{item[6]}</th>
-                                        <th>{item[7]}</th>
-                                        <th>{item[8]}</th>
-                                    </tr>
-                                );
-                    })}
-
-                        </tbody>
-
-                    </table>
-            </div>
-            }
-                {
-                    typeTR===false?null:
-                    <div className="table">
+                </div>
+                <table ref={PDFref} className="display table table-borderless" id="BankTable" width="100%">
+                </table>
+               
+                    <div className="clearfix">
                     <div className="float-left">
                         <h5>CREDIT CARD AND PAYPAL DEPOSIT / WITHDRAW</h5>
                     </div>
@@ -337,56 +442,16 @@ function Deposit() {
                         <Excel
                             id="test-table-xls-button"
                             className="btn btn-light text-warning"
-                            table="creditCard"
+                            table="CreditCard"
                             filename="tablexls"
                             sheet="tablexls"
                             buttonText="Export to XLS"
                         />
                     </div>
-
-                    <table ref={refPdf} id="creditCard" style={{"fontSize":"12px","color":""}} className="table table-borderless border border-light">
-                    <thead>
-                    {
-                        typeTR===false||selection===undefined||selection===null||selection.length<=0?<tr><th>Entry data empty</th></tr>:
-                    
-                        <tr>
-                                <th></th>
-                                <th>TX Id</th>
-                                <th>Time</th>
-                                <th>Type</th>
-                                <th>Method</th>
-                                <th>Amount</th>
-                                <th>CARD NUMBER/EMAIL</th>
-                                <th>Transfer Process</th>
-                                <th>Status</th>
-                        </tr>
-                    }
-                        </thead>
-                        <tbody>
-                    
-                     {typeTR===false||selection===undefined||selection===null?null:selection.map((item,index)=>{
-                                return (
-                                    <tr>
-                                        <th>{index+1}</th>
-                                        <th>{item[1]}</th>
-                                        <th>{new Date(item[2]).toLocaleDateString()+" "+new Date(item[2]).toLocaleTimeString()}</th>
-                                        <th>{item[3]} </th>
-                                        <th>{item[4]}</th>
-                                        <th>{item[5]}</th>
-                                        <th>{item[6]}</th>
-                                        <th>{item[7]}</th>
-                                        <th>{item[8]}</th>
-                                    </tr>
-                                );
-                    })}
-
-                        </tbody>
-
-                        
-                    
+                    </div>
+                    <table ref={refPdf} className="display table table-borderless" id="CreditCard" width="100%">
+                                
                     </table>
-                </div>
-                }
                     
                 </div>
             </div>

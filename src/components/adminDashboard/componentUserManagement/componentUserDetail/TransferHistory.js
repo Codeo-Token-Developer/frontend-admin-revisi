@@ -7,6 +7,9 @@ import { Button } from "reactstrap";
 
 const PDFref=React.createRef();
 
+const $ = require("jquery");
+$.Datatable = require("datatables.net-bs");
+
 export default function TransferHistory() {
 
     const [selection,setSelection]=React.useState(undefined);
@@ -93,27 +96,99 @@ export default function TransferHistory() {
         setLogicSelection({...logicSelection,[e.target.name]:e.target.value});
     };
 
+    React.useEffect(()=>{
+        setSelection(dummyData.map((item,index)=>{
+            return Object.values(item);
+        }).filter((item,index)=>{
+          item[0]=index+1;
+          item[2]=new Date(item[2]).toLocaleDateString()+" "+new Date(item[2]).toLocaleTimeString();
+          return item;
+        }));
+      },[]);
+  
+        if (!$.fn.dataTable.isDataTable("#TransferHistory")) {
+            $("#TransferHistory").DataTable({
+                dom: '<"wrapper">tip',
+                fnDrawCallback: function () {
+                    $("#TransferHistory_wrapper").removeClass("form-inline");
+                    $(".paginate_button a").addClass("page-link");
+                    $(".paginate_button").addClass("page-item");
+                  },
+                data:selection===undefined?[]:selection,
+                dom: 'Brtip',
+                buttons: [
+                    {
+                        extend: 'pdfHtml5',
+                        messageTop: 'PDF created by PDFMake with Buttons for DataTables.'
+                    }
+                ],
+                columns:[
+                    {title:"No"},
+                    {title:"TX Id"},
+                    {title:"Time"},
+                    {title:"Type"},
+                    {title:"Coin"},
+                    {title:"Amount"},
+                    {title:"Receiver"},
+                    {title:"Status"},
+                    {title:"TXhash"},
+                ],
+                destroy:true
+            });
+        }
+
     const filterSort=()=>{
         let searchDatax=dummyData.map((item)=>{
             return Object.values(item);
+        }).filter((item,index)=>{
+            if(logicSelection.fromData===""&&logicSelection.toData===""){
+                item[2]=new Date(item[2]).toLocaleDateString()+" "+new Date(item[2]).toLocaleTimeString();
+                return item;
+              }else if(logicSelection.fromData===""||logicSelection.toData===""){
+                item[2]=new Date(item[2]).toLocaleDateString()+" "+new Date(item[2]).toLocaleTimeString();
+                return item;
+              }else{
+                let now=new Date(item[2]);
+                let fromDate=new Date(logicSelection.fromData);
+                let toDate=new Date(logicSelection.toData);
+                if(now>=fromDate&&now<=toDate){
+                  item[0]=index+1;
+                  item[2]=new Date(item[2]).toLocaleDateString()+" "+new Date(item[2]).toLocaleTimeString();
+                    return item;
+                }else{
+                    return null;
+                }
+              }
         }).filter((item)=>{
             return logicSelection.searchKeyword===""?item:item.includes(logicSelection.searchKeyword)?item:null;
         }).filter((item)=>{
             return logicSelection.coin===""||logicSelection.coin==="COIN"?item:item.includes(logicSelection.coin)?item:null;
         }).filter((item)=>{
             return logicSelection.status===""||logicSelection.status==="STATUS"?item:item.includes(logicSelection.status)?item:null;
-        }).filter((item,index)=>{
-            let now=new Date(item[2]);
-            let fromDate=new Date(logicSelection.fromData);
-            let toDate=new Date(logicSelection.toData);
-            if(now>=fromDate&&now<=toDate){
-                return item;
-            }else{
-                return null;
-            }
         });
-        setSelection(undefined);
-        setSelection(searchDatax);
+  
+        $("#TransferHistory").DataTable({
+          destroy:true,
+          fnDrawCallback: function () {
+              $("#TransferHistory_wrapper").removeClass("form-inline");
+              $(".paginate_button a").addClass("page-link");
+              $(".paginate_button").addClass("page-item");
+            },
+          data:searchDatax,
+          dom: '<"wrapper">tip',
+          columns:[
+            {title:"No"},
+            {title:"TX Id"},
+            {title:"Time"},
+            {title:"Type"},
+            {title:"Coin"},
+            {title:"Amount"},
+            {title:"Receiver"},
+            {title:"Status"},
+            {title:"TXhash"},
+          ],
+        });
+  
     };
 
     return (
@@ -122,7 +197,7 @@ export default function TransferHistory() {
 
                 <div className="card-body table-responsive" style={{backgroundColor: "#151933"}}>
                     
-                <table className="table table-borderless">
+            <table className="table table-borderless">
             <tbody>
             <tr>
                 <td></td>
@@ -196,12 +271,7 @@ export default function TransferHistory() {
             </tbody>
         </table>
 
-                    {
-                        selection===undefined||selection===null||selection.length<=0?"Entry data empty":
-                    <div className="table">
-                    <div className="float-left m-3">History</div>
-                    <div className="float-right m-3">
-                    <ReactToPdf targetRef={PDFref} options={options} filename="Trasnfer History">
+        {/* <ReactToPdf targetRef={PDFref} options={options} filename="Trasnfer History">
                     {({toPdf}) => (
                         <Button color="light" className="text-danger" onClick={toPdf}>Export to PDF</Button>
                     )}
@@ -213,70 +283,12 @@ export default function TransferHistory() {
                         filename="tablexls"
                         sheet="tablexls"
                         buttonText="Export to XLS"
-                    />
-                    </div>
+                    /> */}
 
                     
-                    <table ref={PDFref} id="TradeHistory" className="table table-borderless border border-light">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>TX Id</th>
-                                <th>Time</th>
-                                <th>Type</th>
-                                <th>Coin</th>
-                                <th>Amount</th>
-                                <th>Receiver /send</th>
-                                <th>Status</th>
-                                <th>TX Hash</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                     {selection===undefined||selection===null?<div>Entry data empty</div>:selection.map((item,index)=>{
-
-                            return (
-                            <tr>
-                                <th>{index+1}</th>
-                                <th>{item[1]}</th>
-                                <th>{new Date(item[2]).toLocaleDateString()+" "+new Date(item[2]).toLocaleTimeString()}</th>
-                                <th>{item[3]} </th>
-                                <th>{item[4]}</th>
-                                <th>{item[5]}</th>
-                                <th>{item[6]}</th>
-                                <th>{item[7]}</th>
-                                <th>{item[8]}</th>
-                            </tr>
-                            );
-                            })}
-                            {/* <tr>
-                                <th></th>
-                                <th>25890048</th>
-                                <th>24/09/202021:12:30</th>
-                                <th>TRANSFER COIN</th>
-                                <th>BTC</th>
-                                <th>1.07</th>
-                                <th>35Fd4afdsXCh4787EDFJcrl4jg4m5srt66</th>
-                                <th>Success</th>
-                                <th>https://explorer.blockchain/4353459034u590345903490</th>
-                            </tr>
-
-                            <tr>
-                                <th></th>
-                                <th>25353057</th>
-                                <th>24/09/202021:12:30</th>
-                                <th>RECEIVE COIN</th>
-                                <th>ETH</th>
-                                <th>2</th>
-                                <th>35Fd6hgfdf65h4787EDFJcrl4jg4m76562</th>
-                                <th>Success</th>
-                                <th>https://explorer.blockchain/4353459034u590345903490</th>
-                            </tr> */}
-                        </tbody>
-
-                        
+                    <table className="display table table-borderless" id="TransferHistory" width="100%">
                     </table>
-                    </div>
-                    }
+                    
                 </div>
             </div>
 

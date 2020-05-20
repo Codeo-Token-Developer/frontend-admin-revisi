@@ -10,7 +10,7 @@ const PDFref=React.createRef();
 const $ = require("jquery");
 $.Datatable = require("datatables.net-bs");
 
-export default function BuyBuyTradeHistory(props) {
+export default function SellSellTradeHistory(props) {
 
     const [selection,setSelection]=React.useState(undefined);
     const [logicSelection,setLogicSelection]=React.useState({
@@ -232,11 +232,11 @@ export default function BuyBuyTradeHistory(props) {
       }));
     },[]);
 
-      if (!$.fn.dataTable.isDataTable("#BuyTradeHistory")) {
-          $("#BuyTradeHistory").DataTable({
+      if (!$.fn.dataTable.isDataTable("#SellTradeHistory")) {
+          $("#SellTradeHistory").DataTable({
               dom: '<"wrapper">tip',
               fnDrawCallback: function () {
-                  $("#BuyTradeHistory_wrapper").removeClass("form-inline");
+                  $("#SellTradeHistory_wrapper").removeClass("form-inline");
                   $(".paginate_button a").addClass("page-link");
                   $(".paginate_button").addClass("page-item");
                 },
@@ -266,7 +266,7 @@ export default function BuyBuyTradeHistory(props) {
 
 
     const filterSort=()=>{
-      let searchDatax=dummyData.map((item,index)=>{
+      let searchDatax=dummyData.map((item)=>{
           return Object.values(item);
       }).filter((item)=>{
           return logicSelection.searchKeyword===""?item:item.includes(logicSelection.searchKeyword)?item:null;
@@ -295,10 +295,10 @@ export default function BuyBuyTradeHistory(props) {
           return logicSelection.status===""||logicSelection.status==="STATUS"?item:item.includes(logicSelection.status)?item:null;
       });
 
-      $("#BuyTradeHistory").DataTable({
+      $("#SellTradeHistory").DataTable({
         destroy:true,
         fnDrawCallback: function () {
-            $("#BuyTradeHistory_wrapper").removeClass("form-inline");
+            $("#SellTradeHistory_wrapper").removeClass("form-inline");
             $(".paginate_button a").addClass("page-link");
             $(".paginate_button").addClass("page-item");
           },
@@ -396,7 +396,7 @@ export default function BuyBuyTradeHistory(props) {
         </table>
 
         <div className="clearfix">
-        <div className="float-left m-3">Buy Trade History</div>
+        <div className="float-left m-3">Sell Trade History</div>
             <div className="float-right m-3">
                         <ReactToPdf targetRef={PDFref} options={options} filename="BuyTradeHistory">
                         {({toPdf}) => (
@@ -413,7 +413,7 @@ export default function BuyBuyTradeHistory(props) {
                         />
             </div>
         </div>
-        <table ref={PDFref} className="display table table-borderless" id="BuyTradeHistory" width="100%">
+        <table className="display table table-borderless" id="SellTradeHistory" width="100%">
         </table>
 
                 </div>
