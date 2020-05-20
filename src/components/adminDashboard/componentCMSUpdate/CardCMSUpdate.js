@@ -155,9 +155,7 @@ const DataCMSList = (props) => {
                     <td>{item.category}</td>
                     <td>{ReactHTML(item.description)}</td>
                     <td>
-                      <Button color="light" href="#" className="mr-2">
-                        <i className="fas fa-edit text-info font-16"></i>
-                      </Button>
+                      
                       <Button color="light"
                         href="#"
                         value={item._id}

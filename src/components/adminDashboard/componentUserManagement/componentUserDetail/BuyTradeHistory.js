@@ -2,11 +2,11 @@ import React from "react";
 
 import { Button } from "reactstrap";
 
-import ReactToPdf from "react-to-pdf";
 import Excel from "react-html-table-to-excel";
 
+import ReactToPdf from "react-to-pdf";
 
-const PDFref=React.createRef();
+let PDFref=React.createRef();
 
 const $ = require("jquery");
 $.Datatable = require("datatables.net-bs");
@@ -427,9 +427,9 @@ export default function BuyBuyTradeHistory(props) {
                         />
             </div>
         </div>
-        <table ref={PDFref} className="display table table-borderless" id="BuyTradeHistory" width="100%">
-        </table>
 
+            <table ref={PDFref} className="display table table-borderless" id="BuyTradeHistory" width="100%">
+            </table>
                 </div>
             </div>
             </>

@@ -321,7 +321,7 @@ function Deposit() {
             
         }
     };
-
+    
     return (
         <div className="row card text-center">
 
@@ -396,15 +396,9 @@ function Deposit() {
             </tbody>
         </table>
 
-
                 <div className="clearfix mt-5">
                     <div className="float-left m-2"><h5>BANK DEPOSIT WITHDRAW</h5></div>
                     <div className="float-right m-2">
-                    <ReactToPdf targetRef={PDFref} options={optionsBank} filename="bankDepositWithDraw.pdf">
-                    {({toPdf}) => (
-                        <Button color="light" className="text-danger" onClick={toPdf}>Export to PDF</Button>
-                    )}
-                    </ReactToPdf>
                     <Excel
                         id="test-table-xls-button"
                         className="btn btn-light text-warning"
@@ -414,20 +408,16 @@ function Deposit() {
                         buttonText="Export to XLS"
                     />
                     </div>
+                    <table ref={PDFref} className="display table table-borderless" id="BankTable" width="100%">
+                    </table>
                 </div>
-                <table ref={PDFref} className="display table table-borderless" id="BankTable" width="100%">
-                </table>
+                
                
                     <div className="clearfix mt-5">
                     <div className="float-left">
                         <h5>CREDIT CARD AND PAYPAL DEPOSIT / WITHDRAW</h5>
                     </div>
                     <div className="float-right m-2">
-                        <ReactToPdf targetRef={refPdf} options={optionsCard} filename="creditCardHistory.pdf">
-                            {({toPdf}) => (
-                                <Button color="light" className="text-danger" onClick={toPdf}>Export to PDF</Button>
-                            )}
-                        </ReactToPdf>
                         <Excel
                             id="test-table-xls-button"
                             className="btn btn-light text-warning"
@@ -439,7 +429,6 @@ function Deposit() {
                     </div>
                     </div>
                     <table ref={refPdf} className="display table table-borderless" id="CreditCard" width="100%">
-                                
                     </table>
                     
                 </div>
