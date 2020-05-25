@@ -43,8 +43,8 @@ function CardProjectManagement(props) {
     }
   });
 
-  const [modal, setModal] = useState(false);
-  const toggleModal = () => setModal(!modal);
+  //const [modal, setModal] = useState(false);
+  //const toggleModal = () => setModal(!modal);
 
   return (
     <div className="row">

@@ -3,14 +3,14 @@ import React from "react";
 import {urlContext} from "../../../../Context";
 
 import {
-    Alert 
+    Alert
 } from "reactstrap";
 
 import Avatar from "../user.jpg";
 import axios from "axios";
 
 function Details(props) {
-    
+
     let baseUrl=React.useContext(urlContext);
     let [data, setData] = React.useState(undefined);
     let [msgs,setMsgs]=React.useState("");
@@ -41,7 +41,7 @@ function Details(props) {
               .catch((err) => {
                 setColor("danger");
                 let msg = "";
-                if(err.response.data.message===undefined){
+                if(err.response===undefined){
                     msg=err.message;
                 }else{
                     msg=err.response.data.message;
@@ -50,7 +50,7 @@ function Details(props) {
               });
         }
         getUsers();
-    },[]);
+    },[baseUrl]);
 
     let dataUser=undefined;
 
@@ -83,7 +83,7 @@ function Details(props) {
     return (
         <div className="container-fluid mt-4">
             <div className="row justify-content-center">
-                
+
                 <div className="col-sm-4 col-md-4 justify-content-center">
                     <img width="300" height="300" src={data===undefined?null:dataUser[0].avatar===undefined?Avatar:dataUser[0].avatar} alt="avatar" />
                     <h4>{data===undefined?null:dataUser[0].full_name}</h4>

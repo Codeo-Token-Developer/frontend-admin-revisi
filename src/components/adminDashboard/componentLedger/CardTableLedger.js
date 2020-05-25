@@ -51,28 +51,28 @@ export default function CardTableLedger(props) {
         }
         setMsgs(msg);
       });
-  }, []);
+  }, [props.baseUrl]);
 
-  function TerminateLedger(event) {
-    axios({
-      url: `${props.baseUrl}/users/${event.id}`,
-      method: "DELETE",
-      headers: {
-        adminToken: localStorage.getItem("admincodeotoken"),
-      },
-    })
-      .then(({ data }) => {
-        alert(JSON.stringify(data));
-      })
-      .catch((err) => {
-        if (err.response === undefined) {
-          alert(err.message);
-        } else {
-          alert(err.response.data.message);
-        }
-        console.log(err);
-      });
-  }
+  // function TerminateLedger(event) {
+  //   axios({
+  //     url: `${props.baseUrl}/users/${event.id}`,
+  //     method: "DELETE",
+  //     headers: {
+  //       adminToken: localStorage.getItem("admincodeotoken"),
+  //     },
+  //   })
+  //     .then(({ data }) => {
+  //       alert(JSON.stringify(data));
+  //     })
+  //     .catch((err) => {
+  //       if (err.response === undefined) {
+  //         alert(err.message);
+  //       } else {
+  //         alert(err.response.data.message);
+  //       }
+  //       console.log(err);
+  //     });
+  // }
 
   const getUserAccount = (data) => {
     let newAccount = [];
