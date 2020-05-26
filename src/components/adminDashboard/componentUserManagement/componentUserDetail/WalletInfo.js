@@ -3,7 +3,7 @@ import React from "react";
 import {urlContext} from "../../../../Context";
 
 import {
-    Alert 
+    Alert,Modal,ModalHeader,ModalBody,InputGroup,InputGroupAddon,Input,Form
 } from "reactstrap";
 
 import axios from "axios";
@@ -19,12 +19,13 @@ export default function Wallet(params) {
     let [color,setColor]=React.useState("danger");
     let [dalert,setAlert]=React.useState(false);
 
+    const [dModal,setdModal]=React.useState(false);
+
+    const toggledModal=()=>setdModal(!dModal);
+
     const alertToggle=()=>{
         setAlert(!dalert);
     }
-
-    //balance state
-    const [dataBalance,setDataBalance]=React.useState(undefined);
 
     React.useEffect(()=>{
         function getUsers() {
@@ -197,6 +198,8 @@ export default function Wallet(params) {
         );
     }else{
     return (
+      <>
+        <ModalBalance dModal={dModal} toggledModal={toggledModal} />
         <div className="row card text-center">
                
                 <div className="card-body table-responsive" style={{backgroundColor: "#151933"}}>
@@ -292,6 +295,31 @@ export default function Wallet(params) {
                     </table>
                 </div>
             </div>
+            </>
     );
     }
 }
+
+const ModalBalance=(props)=>{
+
+  const [typeNumber,setTypeNumber]=React.useState("");
+
+  const numberType=(e)=>{
+      setTypeNumber(e.target.validity.valid?e.target.value:typeNumber);
+  };
+
+  return (
+    <Modal isOpen={props.dModal}>
+      <ModalHeader toggle={props.toggledModal}>
+          <h4>Add Balance</h4>
+      </ModalHeader>
+      <ModalBody>
+          <form>
+            <InputGroup>
+              <Input type="text" value={typeNumber} placeholder="Amount Balance 0.00" pattern="([0-9]|\.)*" onInput={numberType} />
+            </InputGroup>
+          </form>
+      </ModalBody>
+    </Modal>
+  );
+};

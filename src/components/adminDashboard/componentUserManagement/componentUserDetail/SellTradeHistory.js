@@ -269,7 +269,7 @@ export default function SellSellTradeHistory(props) {
       let searchDatax=dummyData.map((item)=>{
           return Object.values(item);
       }).filter((item)=>{
-          return logicSelection.searchKeyword===""?item:item.includes(logicSelection.searchKeyword)?item:null;
+        return logicSelection.searchKeyword===""?item:item.toString().toLowerCase().includes(logicSelection.searchKeyword.toString().toLowerCase())?item:null;
       }).filter((item,index)=>{
         if(logicSelection.fromData===""&&logicSelection.toData===""){
           item[2]=new Date(item[2]).toLocaleDateString()+" "+new Date(item[2]).toLocaleTimeString();

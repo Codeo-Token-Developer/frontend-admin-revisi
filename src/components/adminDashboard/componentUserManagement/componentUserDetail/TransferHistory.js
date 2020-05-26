@@ -160,7 +160,7 @@ export default function TransferHistory() {
                 }
               }
         }).filter((item)=>{
-            return logicSelection.searchKeyword===""?item:item.includes(logicSelection.searchKeyword)?item:null;
+            return logicSelection.searchKeyword===""?item:item.toString().toLowerCase().includes(logicSelection.searchKeyword.toString().toLowerCase())?item:null;
         }).filter((item)=>{
             return logicSelection.coin===""||logicSelection.coin==="COIN"?item:item.includes(logicSelection.coin)?item:null;
         }).filter((item)=>{
