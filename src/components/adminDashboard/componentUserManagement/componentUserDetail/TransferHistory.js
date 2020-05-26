@@ -105,7 +105,7 @@ export default function TransferHistory() {
           return item;
         }));
       },[]);
-  
+
         if (!$.fn.dataTable.isDataTable("#TransferHistory")) {
             $("#TransferHistory").DataTable({
                 dom: '<"wrapper">tip',
@@ -115,13 +115,6 @@ export default function TransferHistory() {
                     $(".paginate_button").addClass("page-item");
                   },
                 data:selection===undefined?[]:selection,
-                dom: 'Brtip',
-                buttons: [
-                    {
-                        extend: 'pdfHtml5',
-                        messageTop: 'PDF created by PDFMake with Buttons for DataTables.'
-                    }
-                ],
                 columns:[
                     {title:"No"},
                     {title:"TX Id"},
@@ -166,7 +159,7 @@ export default function TransferHistory() {
         }).filter((item)=>{
             return logicSelection.status===""||logicSelection.status==="STATUS"?item:item.includes(logicSelection.status)?item:null;
         });
-  
+
         $("#TransferHistory").DataTable({
           destroy:true,
           fnDrawCallback: function () {
@@ -188,7 +181,7 @@ export default function TransferHistory() {
             {title:"TXhash"},
           ],
         });
-  
+
     };
 
     return (
@@ -196,7 +189,7 @@ export default function TransferHistory() {
         <div className="row card text-center">
 
                 <div className="card-body table-responsive" style={{backgroundColor: "#151933"}}>
-                    
+
             <table className="table table-borderless">
             <tbody>
             <tr>
@@ -290,10 +283,10 @@ export default function TransferHistory() {
                         </div>
                     </div>
 
-                    
+
                     <table ref={PDFref} className="display table table-borderless" id="TransferHistory" width="100%">
                     </table>
-                    
+
                 </div>
             </div>
 

@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useContext } from "react";
-import Io from "socket.io-client";
+//import Io from "socket.io-client";
 import { urlContext, urlSocketContext } from "../../Context";
 import axios from "axios";
-let socket;
+//let socket;
 
 const $ = require("jquery");
 $.Datatable = require("datatables.net-bs");
@@ -45,8 +45,8 @@ function UserLoginTable() {
         // console.log(newData);
 
         if (!$.fn.dataTable.isDataTable("#datatable2")) {
-          
-         let table=$("#datatable2").DataTable({
+
+         $("#datatable2").DataTable({
           fnDrawCallback: function () {
               $("#datatable2_wrapper").removeClass("form-inline");
               $(".paginate_button a").addClass("page-link");

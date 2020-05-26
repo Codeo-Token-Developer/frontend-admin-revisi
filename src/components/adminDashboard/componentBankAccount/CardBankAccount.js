@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
-import { Link } from "react-router-dom";
+//import { Link } from "react-router-dom";
 
 const $ = require("jquery");
 $.Datatable = require("datatables.net-bs");
@@ -8,7 +8,7 @@ $.Datatable = require("datatables.net-bs");
 function CardBankAccount(props) {
   let [data, setData] = useState(undefined);
   const [msgs, setMsgs] = useState("");
-  const [loading, setLoading] = useState(false);
+  //const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     Axios({
@@ -20,12 +20,12 @@ function CardBankAccount(props) {
     })
       .then((res) => {
         setData(data.res); //change data.res
-        setLoading(true);
+        //setLoading(true);
         alert(res);
         dataTables();
       })
       .catch((err) => {
-        setLoading(null);
+        //setLoading(null);
         setData({
           bankAccount: "Bank Account is Empty",
           swiftCode: "Swift Code is Empty",
@@ -52,55 +52,56 @@ function CardBankAccount(props) {
     }
   }
 
-  const EditDataBankAccount = (e) => {
-    Axios({
-      url: ``,
-      method: "PATCH",
-      // headers: {
-      //     admintoken: localStorage.getItem("codeoadmintoken")
-      // }
-    })
-      .then((res) => {
-        alert(res);
-      })
-      .catch((err) => {
-        alert(err);
-      });
-  };
-
-  const DeleteDataBankAccount = (e) => {
-    let confirmation = window.confirm(
-      "Are you sure delete users " + e.bankAccount + " ?"
-    );
-    if (confirmation) {
-      Axios({
-        url: ``,
-        method: "DELETE",
-        headers: {
-          admintoken: localStorage.getItem("admincodeotoken"),
-        },
-      })
-        .then(({ data }) => {
-          alert(JSON.stringify(data));
-        })
-        .catch((err) => {
-          let msg = "";
-          if (err.response === undefined) {
-            msg = err.message;
-          } else {
-            msg = err.response.data.message;
-          }
-          setMsgs(msg);
-        });
-    } else {
-      alert("Your cancel delete users " + e.bankAccount);
-    }
-  };
+  // const EditDataBankAccount = (e) => {
+  //   Axios({
+  //     url: ``,
+  //     method: "PATCH",
+  //     // headers: {
+  //     //     admintoken: localStorage.getItem("codeoadmintoken")
+  //     // }
+  //   })
+  //     .then((res) => {
+  //       alert(res);
+  //     })
+  //     .catch((err) => {
+  //       alert(err);
+  //     });
+  // };
+  //
+  // const DeleteDataBankAccount = (e) => {
+  //   let confirmation = window.confirm(
+  //     "Are you sure delete users " + e.bankAccount + " ?"
+  //   );
+  //   if (confirmation) {
+  //     Axios({
+  //       url: ``,
+  //       method: "DELETE",
+  //       headers: {
+  //         admintoken: localStorage.getItem("admincodeotoken"),
+  //       },
+  //     })
+  //       .then(({ data }) => {
+  //         alert(JSON.stringify(data));
+  //       })
+  //       .catch((err) => {
+  //         let msg = "";
+  //         if (err.response === undefined) {
+  //           msg = err.message;
+  //         } else {
+  //           msg = err.response.data.message;
+  //         }
+  //         setMsgs(msg);
+  //       });
+  //   } else {
+  //     alert("Your cancel delete users " + e.bankAccount);
+  //   }
+  // };
 
   return (
     <div className="row">
       <div className="col-12">
         <div className="card">
+          {msgs}
           <div className="card-body order-list">
             <button
               type="button"
@@ -144,34 +145,34 @@ function CardBankAccount(props) {
   );
 }
 
-function DataListBankAccount(props) {
-  return (
-    <>
-      <tr>
-        <th className="border-top-0">Bank Name</th>
-        <th className="border-top-0">Swift Code</th>
-        <th className="border-top-0">Action</th>
-      </tr>
-      {props.data === undefined || props.data === null
-        ? []
-        : props.data.map((item) => {
-            return (
-              <tr>
-                <td>BCA</td>
-                <td>5236421</td>
-                <td>
-                  <Link href="#" className="mr-2">
-                    <i className="fas fa-edit text-info font-16" />
-                  </Link>
-                  <Link href="#">
-                    <i className="fas fa-trash-alt text-danger font-16" />
-                  </Link>
-                </td>
-              </tr>
-            );
-          })}
-    </>
-  );
-}
+// function DataListBankAccount(props) {
+//   return (
+//     <>
+//       <tr>
+//         <th className="border-top-0">Bank Name</th>
+//         <th className="border-top-0">Swift Code</th>
+//         <th className="border-top-0">Action</th>
+//       </tr>
+//       {props.data === undefined || props.data === null
+//         ? []
+//         : props.data.map((item) => {
+//             return (
+//               <tr>
+//                 <td>BCA</td>
+//                 <td>5236421</td>
+//                 <td>
+//                   <Link href="#" className="mr-2">
+//                     <i className="fas fa-edit text-info font-16" />
+//                   </Link>
+//                   <Link href="#">
+//                     <i className="fas fa-trash-alt text-danger font-16" />
+//                   </Link>
+//                 </td>
+//               </tr>
+//             );
+//           })}
+//     </>
+//   );
+// }
 
 export default CardBankAccount;

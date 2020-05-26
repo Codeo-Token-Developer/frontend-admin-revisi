@@ -1,9 +1,7 @@
 import React from "react";
 
-import ReactToPdf from "react-to-pdf";
 import Excel from "react-html-table-to-excel";
 
-import { Button } from "reactstrap";
 
 const $ = require("jquery");
 $.Datatable = require("datatables.net-bs");
@@ -15,9 +13,6 @@ function Deposit() {
 
     const [selection,setSelection]=React.useState(undefined);
     const [dataCard,setDataCard]=React.useState(undefined);
-
-    const [typeDW,setDW]=React.useState(false);
-    const [typeTR,setTR]=React.useState(false);
 
     const [logicSelection,setLogicSelection]=React.useState({
         searchKeyword:"",
@@ -82,14 +77,14 @@ function Deposit() {
 
     ];
 
-    const optionsBank = {
-        orientation: "portrait",
-        format:"c2",
-    };
-    const optionsCard = {
-        orientation: "portrait",
-        format:"c2",
-    };
+    // const optionsBank = {
+    //     orientation: "portrait",
+    //     format:"c2",
+    // };
+    // const optionsCard = {
+    //     orientation: "portrait",
+    //     format:"c2",
+    // };
 
 //https://stackblitz.com/edit/react-component-to-pdf?file=DocService.js
     const dummyDataCard=[
@@ -153,7 +148,7 @@ function Deposit() {
           return item;
         }));
       },[]);
-  
+
         if (!$.fn.dataTable.isDataTable("#BankTable")) {
             $("#BankTable").DataTable({
                 dom: '<"wrapper">tip',
@@ -203,10 +198,8 @@ function Deposit() {
         }
 
     const filterSort=()=>{
-    
+
         if(["DEPOSIT","WITHDRAW","NONE"].includes(logicSelection.status)){
-            setDW(true);
-            setTR(false);
             let searchDatax=dummyDataBank.map((item)=>{
                 return Object.values(item);
             }).filter((item)=>{
@@ -239,7 +232,7 @@ function Deposit() {
                     }
                   }
             });
-           
+
             $("#BankTable").DataTable({
                 destroy:true,
                 fnDrawCallback: function () {
@@ -262,8 +255,6 @@ function Deposit() {
                 ],
               });
         }else if(["TRANSFER_COIN","RECEIVE_COIN","NONE"].includes(logicSelection.status)){
-            setDW(false);
-            setTR(true);
             let searchDatax=dummyDataCard.map((item)=>{
                 return Object.values(item);
             }).filter((item)=>{
@@ -317,10 +308,10 @@ function Deposit() {
                     {title:"Status"},
                 ],
               });
-            
+
         }
     };
-    
+
     return (
         <div className="row card text-center">
 
@@ -341,7 +332,7 @@ function Deposit() {
                                 <input type="text" name="searchKeyword" className="form-control" placeholder="Keyword" onChange={handleChange} />
                             </td>
                         </tr>
-                       
+
                     </div>
                 </td>
 
@@ -355,7 +346,7 @@ function Deposit() {
                                 <input type="date" name="fromData" className="form-control" placeholder="Date Picker" onChange={handleChange} />
                             </td>
                         </tr>
-                       
+
                     </div>
                 </td>
 
@@ -363,18 +354,18 @@ function Deposit() {
                     <div className="input-group">
                         <tr>
                             <td>
-                                To 
+                                To
                             </td>
                             <td>
                                 <input type="date" name="toData" className="form-control" placeholder="Date Picker" onChange={handleChange} />
                             </td>
                         </tr>
-                       
+
                     </div>
                 </td>
 
                 <td>
-                    
+
                 <select name="status" class="btn text-white" style={{"background":"#1C233F","boxShadow":"none","border":"none"}} onChange={handleChange}>
                         <option value="NONE">Type</option>
                         <option value="DEPOSIT">Deposit</option>
@@ -382,9 +373,9 @@ function Deposit() {
                         <option value="TRANSFER_COIN">Transfer Coin</option>
                         <option value="RECEIVE_COIN">Receive Coin</option>
                 </select>
-                   
+
                 </td>
-                
+
                 <td>
                    <button className="btn btn-primary" onClick={filterSort}>Filter</button>
                 </td>
@@ -410,8 +401,8 @@ function Deposit() {
                     <table ref={PDFref} className="display table table-borderless" id="BankTable" width="100%">
                     </table>
                 </div>
-                
-               
+
+
                     <div className="clearfix mt-5">
                     <div className="float-left">
                         <h5>CREDIT CARD AND PAYPAL DEPOSIT / WITHDRAW</h5>
@@ -429,7 +420,7 @@ function Deposit() {
                     </div>
                     <table ref={refPdf} className="display table table-borderless" id="CreditCard" width="100%">
                     </table>
-                    
+
                 </div>
             </div>
     )

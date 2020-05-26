@@ -255,13 +255,6 @@ export default function BuyBuyTradeHistory(props) {
                   $(".paginate_button").addClass("page-item");
                 },
               data:selection===undefined?[]:selection,
-              dom: 'Brtip',
-              buttons: [
-                  {
-                      extend: 'pdfHtml5',
-                      messageTop: 'PDF created by PDFMake with Buttons for DataTables.'
-                  }
-              ],
               columns:[
                   {title:"No"},
                   {title:"TX Id"},
