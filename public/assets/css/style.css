@@ -4853,7 +4853,7 @@ input[type=range]:focus::-webkit-slider-runnable-track {
 }
 
 .swal2-popup {
-  background: #1c233f;
+  background: #1c233f !important;
 }
 
 .swal2-popup .swal2-title {
@@ -9510,3 +9510,34 @@ hr.thick {
   }
 }
 /*# sourceMappingURL=style.css.map */
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+  background-color: #1c233f;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: #1c233f;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: rgb(118, 129, 173);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #242d51;
+}
+
+.myautoscroll{
+  overflow: hidden;
+}
+
+.myautoscroll:hover {
+  overflow: auto;
+}

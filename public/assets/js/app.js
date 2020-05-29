@@ -9,16 +9,16 @@
 
     'use strict';
 
-    function initSlimscroll() {
-        $('.slimscroll').slimscroll({
-            height: 'auto',
-            position: 'right',
-            size: "7px",
-            color: '#7681ad',
-            wheelStep: 5,
-            touchScrollStep: 50
-        });
-    }
+    // function initSlimscroll() {
+    //     $('.slimscroll').slimscroll({
+    //         height: 'auto',
+    //         position: 'right',
+    //         size: "7px",
+    //         color: '#7681ad',
+    //         wheelStep: 5,
+    //         touchScrollStep: 50
+    //     });
+    // }
 
    
     function initMetisMenu() {
@@ -102,7 +102,7 @@
     
 
     function init() {
-        initSlimscroll();
+        // initSlimscroll();
         initMetisMenu();
         initLeftMenuCollapse();
         initEnlarge();
