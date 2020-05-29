@@ -12,7 +12,7 @@ const TotalCodeo = () => {
     React.useEffect(() => {
 
         axios({
-            url: `${baseUrl}/dashboard/totalVerifiedUser`,
+            url: `${baseUrl}/dashboard/totalVerifiedUsers`,
             method: 'GET',
             headers: {
                 admintoken: localStorage.getItem('admincodeotoken')
@@ -20,10 +20,10 @@ const TotalCodeo = () => {
         })
         .then(({data}) => {
             setTotal(data.total);
-            setLoading(true)
+            setLoading(true);
         })
         .catch(err => {
-          setLoading(false);
+          setLoading(null);
             console.log(err);
         })
 
@@ -56,7 +56,7 @@ const Card = (props) => {
           <h3 className={`text-${props.setColor}`}>
           {props.loading===true ? props.totalCount :(props.loading===false)? <div className="spinner-border text-primary" role="status">
             <span className="sr-only">Loading...</span>
-            </div>:0}
+            </div>:"$9.234.419"}
           </h3>
             <i className={`${props.setIcon} card-eco-icon bg-${props.setColor} shadow-${props.setColor} align-self-center`} />
         </div>

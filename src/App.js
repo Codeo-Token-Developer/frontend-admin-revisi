@@ -11,7 +11,7 @@ class App extends React.Component {
 
   componentDidMount() {
     if (Auth.isAuthenticated()) {
-      this.props.history.push(this.props.location.pathname)
+      this.props.history.push(this.props.location.pathname);
     }else {
       this.props.history.push("/")
     }
@@ -23,8 +23,8 @@ class App extends React.Component {
         <ProtectedRoute path="/operationMain" component={MainPage} />
         <Route component={Error404} />
       </Switch>
-    )
+    );
   }
-};
+}; 
 
 export default withRouter(App);

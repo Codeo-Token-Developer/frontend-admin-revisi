@@ -14,12 +14,12 @@ function TotalGenerateWallet() {
             url: `${baseUrl}/dashboard/totalGenerateWallet`,
             method: 'GET',
             headers: {
-                admintoken: localStorage.getItem('codeoadmintoken')
+                admintoken: localStorage.getItem('admincodeotoken')
             }
         })
         .then(({data}) => {
             setTotalWallet(data.total);
-            setLoading(true)
+            setLoading(true);
         })
         .catch(err => {
           setLoading(null);
@@ -50,7 +50,7 @@ function TotalGenerateWallet() {
 
 const Card = (props) => {
 
-    return (
+  return (
         <div>
     <div className="card card-eco">
       <div className="card-body">

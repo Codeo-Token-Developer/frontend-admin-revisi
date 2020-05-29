@@ -8,7 +8,11 @@ import NavLeft from "./navbarComponent/NavLeft";
 // Component Pages
 // ADMIN PAGES
 import Dashboard from "./Dashboard";
+
+//user management
 import UserManagement from "./adminDashboard/UserManagement";
+import UserDetails from "./adminDashboard/componentUserManagement/UserDetail";
+
 import KYCApproval from "./adminDashboard/KYCApproval";
 
 import CMSUpdate from "./adminDashboard/CMSUpdate";
@@ -16,16 +20,25 @@ import Ledger from "./adminDashboard/Ledger";
 import General from "./adminDashboard/General";
 import BankAccount from "./adminDashboard/BankAccount";
 // Launchpad PAGES
-import DashboardLaunchpad from "./DashboardLaunchpad";
-import ListingApproval from "./adminDashboard/ListingApproval";
-import UserInvestment from "./adminDashboard/UserInvestment";
-import PlacementAgencies from "./adminDashboard/PlacementAgencies";
-import SettingsLaunchpad from "./adminDashboard/SettingsLaunchpad";
+// import DashboardLaunchpad from "./DashboardLaunchpad";
+// import ListingApproval from "./launcpadDashboard/ListingApproval";
+// import UserInvestment from "./launcpadDashboard/UserInvestment";
+// import PlacementAgencies from "./launcpadDashboard/PlacementAgencies";
+// import ProjectManagement from "./launcpadDashboard/ProjectManagement";
+// import BannerLaunchpad from "./launcpadDashboard/BannerLaunchpad";
+// import DetailProjectManagement from "./launcpadDashboard/DetailProjectManagement";
 
 import { urlContext, adminContext } from "../Context";
 
 import axios from "axios";
 import Swal from "sweetalert2";
+import ListingApproval from "./lauchpadDashboard/ListingApproval";
+import UserInvestment from "./lauchpadDashboard/UserInvestment";
+import PlacementAgencies from "./lauchpadDashboard/PlacementAgencies";
+import ProjectManagement from "./lauchpadDashboard/ProjectManagement";
+import BannerLaunchpad from "./lauchpadDashboard/BannerLaunchpad";
+import DetailProjectManagement from "./lauchpadDashboard/DetailProjectManagement";
+import DashboardLaunchpad from "./DashboardLaunchpad";
 
 function MainView() {
   let { path } = useRouteMatch();
@@ -92,8 +105,17 @@ function MainView() {
               <Route path={`${path}/placementAgencies`}>
                 <PlacementAgencies />
               </Route>
-              <Route path={`${path}/settingsLaunchpad`}>
-                <SettingsLaunchpad />
+              <Route path={`${path}/projectManagement/:ID`}>
+                <DetailProjectManagement />
+              </Route>
+              <Route path={`${path}/projectManagement`}>
+                <ProjectManagement />
+              </Route>
+              <Route path={`${path}/bannerLaunchpad`}>
+                <BannerLaunchpad />
+              </Route>
+              <Route path={`${path}/UserDetail/:id`}>
+                <UserDetails />
               </Route>
             </Switch>
           </div>

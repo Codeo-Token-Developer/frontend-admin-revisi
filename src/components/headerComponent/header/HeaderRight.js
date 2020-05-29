@@ -1,8 +1,12 @@
 import React,{useContext} from 'react'
 import { useHistory } from 'react-router-dom'
-import { adminContext } from '../../../Context'
+import { urlContext,adminContext } from '../../../Context'
 import Swal from 'sweetalert2'
 
+import axios from "axios";
+
+//import SocketIo from "socket.io-client";
+import Notify from "./Notify";
 //auth;
 
 export const HeaderRight = () => {
@@ -11,52 +15,217 @@ export const HeaderRight = () => {
     )
 }
 
+let socketData=[];
 function AuthOne(props){
-    return(
-        <li className="dropdown notification-list">
-            <a className="nav-link dropdown-toggle arrow-none waves-light waves-effect" data-toggle="dropdown" href="#a1" role="button" aria-haspopup="false" aria-expanded="false">
-                <i className="dripicons-bell noti-icon" />
-                <span className="badge badge-danger badge-pill noti-icon-badge">2</span>
-            </a>
-            <div className="dropdown-menu dropdown-menu-right dropdown-lg">
-                {/* item*/}
-            <h6 className="dropdown-item-text">
-                Notifications (18)
-            </h6>
-                <div className="slimscroll notification-list">
-                    {/* item*/}
-                    <a href="#a" className="dropdown-item notify-item active">
-                        <div className="notify-icon bg-success"><i className="mdi mdi-cart-outline" /></div>
-                        <p className="notify-details">Your order is placed<small className="text-muted">Dummy text of the printing and typesetting industry.</small></p>
-                    </a>
-                    {/* item*/}
-                    <a href="#b" className="dropdown-item notify-item">
-                        <div className="notify-icon bg-warning"><i className="mdi mdi-message" /></div>
-                        <p className="notify-details">New Message received<small className="text-muted">You have 87 unread messages</small></p>
-                    </a>
-                    {/* item*/}
-                    <a href="#C" className="dropdown-item notify-item">
-                        <div className="notify-icon bg-info"><i className="mdi mdi-glass-cocktail" /></div>
-                        <p className="notify-details">Your item is shipped<small className="text-muted">It is a long established fact that a reader will</small></p>
-                    </a>
-                    {/* item*/}
-                    <a href="#Yourorderisplaced" className="dropdown-item notify-item">
-                        <div className="notify-icon bg-primary"><i className="mdi mdi-cart-outline" /></div>
-                        <p className="notify-details">Your order is placed<small className="text-muted">Dummy text of the printing and typesetting industry.</small></p>
-                    </a>
-                    {/* item*/}
-                    <a href="#NewMessageReceived" className="dropdown-item notify-item">
-                        <div className="notify-icon bg-danger"><i className="mdi mdi-message" /></div>
-                        <p className="notify-details">New Message received<small className="text-muted">You have 87 unread messages</small></p>
-                    </a>
-                </div>
-                {/* All*/}
-                <a href="#ViewAll" className="dropdown-item text-center text-primary">
+
+let baseUrl=React.useContext(urlContext);
+
+const [data,setData]=React.useState(socketData);
+const [intervalStop,setIntervalStop]=React.useState(true);
+
+// inc=0;
+//   let socketdata=[
+//   {message:"Message1",status:false},{message:"Message2",status:false},{message:"Message3",status:false},{message:"Message4",status:false},
+//   {message:"Message5",status:false},{message:"Message6",status:false},{message:"Message7",status:false},{message:"Message8",status:false},
+//   {message:"Message9",status:false},{message:"Message10",status:false}];
+//     socketdata.reverse().forEach((item,index)=>{
+//       inc++;
+//       socketData.push(Notify({type:"Message",message:item.message,title:"Notification",indexValue:index,userId:"",click:ReadMessage}).message);
+//     });
+//     setData(socketData);
+//     setCount(inc);
+
+const ReadNotifOne=React.useCallback((index)=>{
+  axios({
+    url:`${baseUrl}/notificationAdmin`,
+    method:"GET",
+    headers:{
+      adminToken: localStorage.getItem("admincodeotoken"),
+    }
+  }).then(({data})=>{
+    setData(data.notifs.filter((item)=>{
+     return item.read!==true
+    }));
+  }).catch(err=>{
+    let wrongPass = "";
+    if (typeof err.response === "undefined") {
+      wrongPass = err.message;
+    } else {
+      wrongPass = err.response.data.message;
+    }
+    setData([{
+      "read": false,
+      "_id": null,
+      "text": "Error : "+wrongPass,
+      "user": null,
+      "createdAt": new Date().toISOString(),
+      "__v": 0,
+      "updatedAt": new Date().toISOString(),
+    }]);
+  });
+},[baseUrl]);
+
+const ReadMessage=React.useCallback((index,id)=>{
+  axios({
+    url:`${baseUrl}/notificationAdmin/myNews/${id}`,
+    method:'PATCH',
+    headers:{
+      adminToken: localStorage.getItem("admincodeotoken"),
+    }
+  }).then(({datax})=>{
+    //Notif Success
+  }).catch(err=>{
+    let wrongPass = "";
+    if (typeof err.response === "undefined") {
+      wrongPass = err.message;
+    } else {
+      wrongPass = err.response.data.message;
+    }
+    setData([{
+      "read": false,
+      "_id": null,
+      "text": "Errors : "+wrongPass,
+      "user": null,
+      "createdAt": new Date().toISOString(),
+      "__v": 0,
+      "updatedAt": new Date().toISOString(),
+    }]);
+    setIntervalStop(false);
+  });
+
+},[baseUrl]);
+
+React.useEffect(()=>{
+  ReadNotifOne();
+  setInterval(()=>{
+  if(intervalStop===true){
+    ReadNotifOne();
+  }
+  },2000);
+},[ReadNotifOne,intervalStop]);
+
+
+return (
+  <>
+      <li className="dropdown notification-list">
+        <button
+          style={{ backgroundColor: "#1c233f", border: "none" }}
+          className="nav-link dropdown-toggle arrow-none waves-light waves-effect"
+          data-toggle="dropdown"
+          aria-haspopup="false"
+          aria-expanded="false"
+        >
+          <i className="dripicons-bell noti-icon" />
+          <span className="badge badge-danger badge-pill noti-icon-badge">
+            {data.length===0?null:data.length}
+          </span>
+        </button>
+        <div className="dropdown-menu dropdown-menu-right dropdown-lg">
+          {/* item*/}
+          <h6 className="dropdown-item-text">Notifications {data.length}</h6>
+          <div className="slimscroll notification-list" style={{"overflow":"auto","max-height":"300px"}}>
+            {/* item*/}
+
+            {/* item*/}
+            {data.length<=0?"Notification not found":data.map((item,index)=>{
+              return Notify({type:"Message",data:item,title:"Notification",indexValue:index,click:ReadMessage}).message;
+            })}
+            {/* item*/}
+          </div>
+          {/* All*/}
+          {/* <button className="dropdown-item text-center text-primary">
                     View all <i className="fi-arrow-right" />
-                </a>
-            </div>
-        </li>
-    )
+                    </button> */}
+        </div>
+      </li>
+    </>
+);
+
+  // return (
+  //   <>
+  //     <li className="dropdown notification-list">
+  //       <button
+  //         style={{ backgroundColor: "#1c233f", border: "none" }}
+  //         className="nav-link dropdown-toggle arrow-none waves-light waves-effect"
+  //         data-toggle="dropdown"
+  //         aria-haspopup="false"
+  //         aria-expanded="false"
+  //       >
+  //         <i className="dripicons-bell noti-icon" />
+  //         <span className="badge badge-danger badge-pill noti-icon-badge">
+  //           2
+  //         </span>
+  //       </button>
+  //       <div className="dropdown-menu dropdown-menu-right dropdown-lg">
+  //         {/* item*/}
+  //         <h6 className="dropdown-item-text">Notifications (18)</h6>
+  //         <div className="slimscroll notification-list">
+  //           {/* item*/}
+  //           <button className="dropdown-item notify-item active">
+  //             <div className="notify-icon bg-success">
+  //               <i className="mdi mdi-cart-outline" />
+  //             </div>
+  //             <p className="notify-details">
+  //               Your order is placed
+  //               <small className="text-muted">
+  //                 Dummy text of the printing and typesetting industry.
+  //               </small>
+  //             </p>
+  //           </button>
+  //           {/* item*/}
+  //           <button className="dropdown-item notify-item">
+  //             <div className="notify-icon bg-warning">
+  //               <i className="mdi mdi-message" />
+  //             </div>
+  //             <p className="notify-details">
+  //               New Message received
+  //               <small className="text-muted">
+  //                 You have 87 unread messages
+  //               </small>
+  //             </p>
+  //           </button>
+  //           {/* item*/}
+  //           <button className="dropdown-item notify-item">
+  //             <div className="notify-icon bg-info">
+  //               <i className="mdi mdi-glass-cocktail" />
+  //             </div>
+  //             <p className="notify-details">
+  //               Your item is shipped
+  //               <small className="text-muted">
+  //                 It is a long established fact that a reader will
+  //               </small>
+  //             </p>
+  //           </button>
+  //           {/* item*/}
+  //           <button className="dropdown-item notify-item">
+  //             <div className="notify-icon bg-primary">
+  //               <i className="mdi mdi-cart-outline" />
+  //             </div>
+  //             <p className="notify-details">
+  //               Your order is placed
+  //               <small className="text-muted">
+  //                 Dummy text of the printing and typesetting industry.
+  //               </small>
+  //             </p>
+  //           </button>
+  //           {/* item*/}
+  //           <button className="dropdown-item notify-item">
+  //             <p className="notify-details">
+  //               New Message received
+  //               <small className="text-muted">
+  //                 You have 87 unread messages
+  //               </small>
+  //             </p>
+  //           </button>
+  //         </div>
+  //         {/* All*/}
+  //         {/* <button className="dropdown-item text-center text-primary">
+  //                   View all <i className="fi-arrow-right" />
+  //                   </button> */}
+  //       </div>
+  //     </li>
+  //   </>
+  // );
 }
 
 function AuthTwo(props){
