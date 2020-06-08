@@ -25,21 +25,24 @@ function UserLoginTable() {
       },
     })
       .then(({ data }) => {
-        let newData = [];
-        data.total.forEach((person) => {
-          let personItem = [];
-          personItem.push(person.id);
-          personItem.push(person.name);
-          // personItem.push(person.country);
-          personItem.push(person.date);
-          if (person.isLogin===true) {
-            personItem.push("Login");
-          } else {
-            personItem.push("Logout");
-          }
-          newData.push(personItem);
-        });
-        setUsers(newData);
+        // console.log(JSON.stringify(data));
+        
+        // let newData = [];
+        // data.total.forEach((person) => {
+        //   let personItem = [];
+        //   personItem.push(person.id);
+        //   personItem.push(person.name);
+        //   // personItem.push(person.country);
+        //   personItem.push(person.date);
+        //   personItem.push(personItem.isLogin);
+        //   if (person.isLogin===true) {
+        //     personItem.push("Login");
+        //   } else {
+        //     personItem.push("Logout");
+        //   }
+        //   newData.push(personItem);
+        // });
+        setUsers(data.total);
         setLoading(true);
 
         // console.log(newData);
@@ -65,9 +68,8 @@ function UserLoginTable() {
           msg = err.response.data.message;
         }
         setMsgs(msg);
-        console.log(err);
       });
-  });
+  },[]);
   //}, [baseUrl]);
 
   useEffect(() => {
@@ -124,6 +126,8 @@ function UserLoginTable() {
 }
 
 const DataList = (props) => {
+  console.log(JSON.stringify(props.users));
+  
   return (
     <table id="datatable2" className="table">
       <thead className="thead-light">
@@ -138,20 +142,26 @@ const DataList = (props) => {
 
       <tbody>
         {props.users.map((user, index) => {
-          let isLog = "danger";
-          if (user[3]==="Login") {
-            isLog = "success";
-          }
+          // let isLog = "danger";
+          // if (user[3]==="Login") {
+          //   isLog = "success";
+          // }
           return (
-            <tr key={user[0]}>
+            <tr key={index}>
               <td>{index + 1}</td>
-              <td>{user[1]}</td>
+              <td>{user.name}</td>
               {/* <td>{user[2] === " " ? "Unknown Country" : user[2]}</td> */}
-              <td>{new Date(user[2]).toLocaleDateString()+" "+new Date(user[2]).toLocaleTimeString()}</td>
+              <td>{new Date(user.date).toLocaleDateString()+" "+new Date(user.date).toLocaleTimeString()}</td>
               <td>
-                <span className={`badge badge-boxed badge-soft-${isLog}`}>
-                  {user[3]}
-                </span>
+                {
+                  user.isLogin===true?<span className={`badge badge-boxed badge-soft-success`}>
+                    Login
+                  </span>:user.isLogin===true?<span className={`badge badge-boxed badge-soft-danger`}>
+                    Logout
+                  </span>:<span className={`badge badge-boxed badge-soft-danger`}>
+                    Unknown Login
+                  </span>
+                }
               </td>
             </tr>
           );
