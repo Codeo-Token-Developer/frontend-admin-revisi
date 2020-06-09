@@ -236,17 +236,7 @@ export default function BuyBuyTradeHistory(props) {
         setLogicSelection({...logicSelection,[e.target.name]:e.target.value});
     };
 
-    React.useEffect(()=>{
-      setSelection(dummyData.map((item,index)=>{
-          return Object.values(item);
-      }).filter((item,index)=>{
-        item[0]=index+1;
-        item[2]=new Date(item[2]).toLocaleDateString()+" "+new Date(item[2]).toLocaleTimeString();
-        return item;
-      }));
-    },[dummyData]);
-
-      if (!$.fn.dataTable.isDataTable("#BuyTradeHistory")) {
+      if (!$.fn.dataTable.isDataTable("#BuyTradeHistory")){
           $("#BuyTradeHistory").DataTable({
               dom: '<"wrapper">tip',
               fnDrawCallback: function () {
@@ -270,6 +260,17 @@ export default function BuyBuyTradeHistory(props) {
               destroy:true
           });
       }
+    
+      React.useEffect(()=>{
+        let dataDummy=dummyData.map((item,index)=>{
+            return Object.values(item);
+        }).filter((item,index)=>{
+          item[0]=index+1;
+          item[2]=new Date(item[2]).toLocaleDateString()+" "+new Date(item[2]).toLocaleTimeString();
+          return item;
+        });
+          setSelection(dataDummy);
+      },[]);
 
 
     const filterSort=()=>{

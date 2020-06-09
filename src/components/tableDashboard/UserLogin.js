@@ -69,7 +69,7 @@ function UserLoginTable() {
         }
         setMsgs(msg);
       });
-  },[]);
+  },[baseUrl]);
   //}, [baseUrl]);
 
   useEffect(() => {
