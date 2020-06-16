@@ -55,12 +55,12 @@ function UserDetail() {
         <TabPane tabId="4">
             <SellTradeHistory />
         </TabPane>
-        {/* <TabPane tabId="5">
+        <TabPane tabId="5">
             <TransferHistory />
-        </TabPane> */}
-        {/* <TabPane tabId="6">
+        </TabPane>
+        <TabPane tabId="6">
             <Deposit />
-        </TabPane> */}
+        </TabPane>
     </TabContent>
         </>
     );

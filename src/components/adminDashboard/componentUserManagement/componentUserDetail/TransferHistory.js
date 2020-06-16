@@ -4,6 +4,7 @@ import ReactToPdf from "react-to-pdf";
 import Excel from "react-html-table-to-excel";
 
 import { Button } from "reactstrap";
+import Axios from "axios";
 
 const PDFref=React.createRef();
 
@@ -96,16 +97,28 @@ export default function TransferHistory() {
         setLogicSelection({...logicSelection,[e.target.name]:e.target.value});
     };
 
-    React.useEffect(()=>{
-        setSelection(dummyData.map((item,index)=>{
-            return Object.values(item);
-        }).filter((item,index)=>{
-          item[0]=index+1;
-          item[2]=new Date(item[2]).toLocaleDateString()+" "+new Date(item[2]).toLocaleTimeString();
-          return item;
-        }));
-      },[dummyData]);
+    const getTransferHistory=React.useCallback(()=>{
+        Axios({
+            url:`http://localhost:1000/historyTransfer`,
+            method:"GET"
+        }).then(({data})=>{
+            setSelection(data.data.dummyData.map((item,index)=>{
+                return Object.values(item);
+            }).filter((item,index)=>{
+              item[0]=index+1;
+              item[2]=new Date(item[2]).toLocaleDateString()+" "+new Date(item[2]).toLocaleTimeString();
+              return item;
+            }));
+        }).catch(err=>{
+            console.log(err);
+        });
+    },[setSelection]);
 
+    React.useEffect(()=>{
+       getTransferHistory();
+    },[getTransferHistory]);
+
+    if(selection!==undefined){
         if (!$.fn.dataTable.isDataTable("#TransferHistory")) {
             $("#TransferHistory").DataTable({
                 dom: '<"wrapper">tip',
@@ -116,7 +129,7 @@ export default function TransferHistory() {
                   },
                 data:selection===undefined?[]:selection,
                 columns:[
-                    {title:"No"},
+                    {title:"#"},
                     {title:"TX Id"},
                     {title:"Time"},
                     {title:"Type"},
@@ -129,6 +142,7 @@ export default function TransferHistory() {
                 destroy:true
             });
         }
+    }
 
     const filterSort=()=>{
         let searchDatax=dummyData.map((item)=>{

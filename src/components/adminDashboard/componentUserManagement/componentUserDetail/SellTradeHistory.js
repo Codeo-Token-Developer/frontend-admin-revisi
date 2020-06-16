@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Button, Alert } from "reactstrap";
+import { Button } from "reactstrap";
 
 import ReactToPdf from "react-to-pdf";
 import Excel from "react-html-table-to-excel";
@@ -17,7 +17,7 @@ $.Datatable = require("datatables.net-bs");
 export default function SellSellTradeHistory(props) {
 
     const [selection,setSelection]=React.useState(undefined);
-    const [data,setData]=React.useState(undefined);
+    //const [data,setData]=React.useState(undefined);
     const [logicSelection,setLogicSelection]=React.useState({
         searchKeyword:"",
         fromData:"",
@@ -35,7 +35,7 @@ export default function SellSellTradeHistory(props) {
         setLogicSelection({...logicSelection,[e.target.name]:e.target.value});
     };
 
-    React.useEffect(()=>{
+    const getTradeHistory=React.useCallback(()=>{
         axios({
             url:`http://localhost:1000/balance`,
             method:"GET"
@@ -51,6 +51,10 @@ export default function SellSellTradeHistory(props) {
             console.log(err);
         });
     },[setSelection]);
+
+    React.useEffect(()=>{
+        getTradeHistory();
+    },[getTradeHistory]);
 
     if(selection!==undefined){
       if (!$.fn.dataTable.isDataTable("#SellTradeHistory")) {
@@ -137,9 +141,7 @@ export default function SellSellTradeHistory(props) {
     return (
         <>
         <div className="row card text-center">
-
             <div className="card-body table-responsive" style={{backgroundColor: "#151933"}}>
-
             <table className="table table-borderless">
             <tr>
                 <td>
@@ -152,10 +154,8 @@ export default function SellSellTradeHistory(props) {
                                 <input type="text" name="searchKeyword" className="form-control" placeholder="Keyword" onChange={handleChange} />
                             </td>
                         </tr>
-
                     </div>
                 </td>
-
                 <td>
                     <div className="input-group">
                         <tr>
@@ -166,10 +166,8 @@ export default function SellSellTradeHistory(props) {
                                 <input type="date" name="fromData" className="form-control" placeholder="Date Picker" onChange={handleChange} />
                             </td>
                         </tr>
-
                     </div>
                 </td>
-
                 <td>
                     <div className="input-group">
                         <tr>
@@ -180,36 +178,29 @@ export default function SellSellTradeHistory(props) {
                                 <input type="date" name="toData" className="form-control" placeholder="Date Picker" onChange={handleChange} />
                             </td>
                         </tr>
-
                     </div>
                 </td>
-
                 <td>
                     <select name="marketPair" class="btn text-white" style={{"background":"#1C233F","boxShadow":"none","border":"none"}} onChange={handleChange}>
                         <option value="MARKETPAIR">...</option>
                         <option value="BTC/USDT">BTC/USDT</option>
                         <option value="ETH/USDT">ETH/USDT</option>
                     </select>
-
                 </td>
-
                 <td>
                     <select name="status" class="btn text-white" style={{"background":"#1C233F","boxShadow":"none","border":"none"}} onChange={handleChange}>
                         <option value="STATUS">...</option>
                         <option value="Success">Success</option>
                         <option value="Failed">Failed</option>
                     </select>
-
                 </td>
-
                 <td>
                    <button className="btn btn-primary" onClick={filterSort}>Filter</button>
                 </td>
-
             </tr>
         </table>
 
-        <div className="clearfix">
+    <div className="clearfix">
         <div className="float-left m-3">Sell Trade History</div>
             <div className="float-right m-3">
                         <ReactToPdf targetRef={PDFref} options={options} filename="BuyTradeHistory">
@@ -220,7 +211,7 @@ export default function SellSellTradeHistory(props) {
                         <Excel
                             id="test-table-xls-button"
                             className="btn btn-light text-warning"
-                            table="BuyTradeHistory"
+                            table="SellTradeHistory"
                             filename="tablexls"
                             sheet="tablexls"
                             buttonText="Export to XLS"
@@ -228,10 +219,13 @@ export default function SellSellTradeHistory(props) {
             </div>
         </div>
         <table className="display table table-borderless" id="SellTradeHistory" width="100%">
+            <tfoot>
+                {new Date().toLocaleDateString()+" "+new Date().toLocaleTimeString()}
+            </tfoot>
         </table>
 
-                </div>
-            </div>
+        </div>
+    </div>
             </>
     );
 }

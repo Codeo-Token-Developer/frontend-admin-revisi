@@ -274,7 +274,7 @@ export default function BuyBuyTradeHistory(props){
 
 
     const filterSort=()=>{
-      let searchDatax=dummyData.map((item,index)=>{
+      let searchDatax=dummyData.map((item)=>{
           return Object.values(item);
       }).filter((item)=>{
           return logicSelection.searchKeyword===""?item:item.toString().toLowerCase().includes(logicSelection.searchKeyword.toString().toLowerCase())?item:null;

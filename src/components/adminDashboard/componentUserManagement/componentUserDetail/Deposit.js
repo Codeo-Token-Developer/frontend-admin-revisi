@@ -147,7 +147,7 @@ function Deposit() {
           item[2]=new Date(item[2]).toLocaleDateString()+" "+new Date(item[2]).toLocaleTimeString();
           return item;
         }));
-      },[dummyDataBank, dummyDataCard]);
+      },[]);
 
         if (!$.fn.dataTable.isDataTable("#BankTable")) {
             $("#BankTable").DataTable({
