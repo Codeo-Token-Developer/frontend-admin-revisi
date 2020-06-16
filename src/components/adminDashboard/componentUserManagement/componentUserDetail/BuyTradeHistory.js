@@ -11,7 +11,7 @@ let PDFref=React.createRef();
 const $ = require("jquery");
 $.Datatable = require("datatables.net-bs");
 
-export default function BuyBuyTradeHistory(props) {
+export default function BuyBuyTradeHistory(props){
 
     const [selection,setSelection]=React.useState(undefined);
     const [logicSelection,setLogicSelection]=React.useState({
@@ -243,7 +243,7 @@ export default function BuyBuyTradeHistory(props) {
                   $("#BuyTradeHistory_wrapper").removeClass("form-inline");
                   $(".paginate_button a").addClass("page-link");
                   $(".paginate_button").addClass("page-item");
-                },
+              },
               data:selection===undefined?[]:selection,
               columns:[
                   {title:"No"},
@@ -270,7 +270,7 @@ export default function BuyBuyTradeHistory(props) {
           return item;
         });
           setSelection(dataDummy);
-      },[]);
+      },[setSelection]);
 
 
     const filterSort=()=>{
@@ -327,6 +327,9 @@ export default function BuyBuyTradeHistory(props) {
       });
 
     };
+
+    //console.log(selection);
+    
 
     return (
         <>
