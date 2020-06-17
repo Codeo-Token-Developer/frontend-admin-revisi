@@ -16,6 +16,10 @@ export default function Ledger() {
     const toggle = tab => {
         if(activeTab !== tab) setActiveTab(tab);
     }
+    
+    React.useEffect(()=>{
+        setActiveTab("walletCodeo");
+    },[setActiveTab]);
 
     return (
         <>
@@ -32,7 +36,6 @@ export default function Ledger() {
                     </div>
                 </div>
             </div>
-
 
             <div className="billing-nav">
                 <Nav className="nav nav-pills mb-3 row" id="pills-tab" role="tablist">

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
+import {urlContext} from "../../../Context";
+
 const $ = require("jquery");
 $.Datatable = require("datatables.net-bs");
 
@@ -8,19 +10,21 @@ export default function CardTableLedger(props) {
   let [msgs, setMsgs] = useState("");
   let [data, setData] = useState(undefined);
 
+  const baseUrl=React.useContext(urlContext);
+
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     axios({
       // url: `https://codeo-admin.herokuapp.com/ledger`,
-      url: `${props.baseUrl}/ledger`,
+      url: `${baseUrl}/ledger`,
       method: "GET",
       headers: {
         adminToken: localStorage.getItem("admincodeotoken"),
       },
     })
       .then(({ data }) => {
-        console.log(data, "ini data axios");
+        //console.log(data, "ini data axios");
         setData(getUserAccount(data));
         setLoading(true);
         if (!$.fn.dataTable.isDataTable("#datatable")) {
@@ -51,7 +55,7 @@ export default function CardTableLedger(props) {
         }
         setMsgs(msg);
       });
-  }, [props.baseUrl]);
+  }, [baseUrl]);
 
   // function TerminateLedger(event) {
   //   axios({
@@ -114,6 +118,7 @@ export default function CardTableLedger(props) {
 }
 
 const DataList = (props) => {
+
   return (
     <table id="datatable" className="table table-hover mb-0">
       <thead className="thead-light">

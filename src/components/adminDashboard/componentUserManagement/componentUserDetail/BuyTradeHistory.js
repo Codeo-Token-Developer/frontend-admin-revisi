@@ -5,6 +5,7 @@ import { Button } from "reactstrap";
 import Excel from "react-html-table-to-excel";
 
 import ReactToPdf from "react-to-pdf";
+import axios from "axios";
 
 let PDFref=React.createRef();
 
@@ -236,41 +237,53 @@ export default function BuyBuyTradeHistory(props){
         setLogicSelection({...logicSelection,[e.target.name]:e.target.value});
     };
 
-      if (!$.fn.dataTable.isDataTable("#BuyTradeHistory")){
-          $("#BuyTradeHistory").DataTable({
-              dom: '<"wrapper">tip',
-              fnDrawCallback: function () {
-                  $("#BuyTradeHistory_wrapper").removeClass("form-inline");
-                  $(".paginate_button a").addClass("page-link");
-                  $(".paginate_button").addClass("page-item");
-              },
-              data:selection===undefined?[]:selection,
-              columns:[
-                  {title:"No"},
-                  {title:"TX Id"},
-                  {title:"Created At"},
-                  {title:"Username"},
-                  {title:"Pair"},
-                  {title:"Price"},
-                  {title:"Amount"},
-                  {title:"Pending"},
-                  {title:"Total"},
-                  {title:"Status"}
-              ],
-              destroy:true
-          });
-      }
+      const getTradeBuyHistory=React.useCallback(()=>{
+        axios({
+            url:`http://localhost:1000/balance`,
+            method:"GET"
+        }).then(({data})=>{
+            setSelection(data.data.dummyData.map((item,index)=>{
+                return Object.values(item);
+            }).filter((item,index)=>{
+                item[0]=index+1;
+                item[2]=new Date(item[2]).toLocaleDateString()+" "+new Date(item[2]).toLocaleTimeString();
+                return item;
+            }));
+        }).catch(err=>{
+            console.log(err);
+        });
+    },[setSelection]);
     
       React.useEffect(()=>{
-        let dataDummy=dummyData.map((item,index)=>{
-            return Object.values(item);
-        }).filter((item,index)=>{
-          item[0]=index+1;
-          item[2]=new Date(item[2]).toLocaleDateString()+" "+new Date(item[2]).toLocaleTimeString();
-          return item;
-        });
-          setSelection(dataDummy);
-      },[setSelection]);
+        getTradeBuyHistory();
+      },[getTradeBuyHistory]);
+
+    if(selection!==undefined){
+        if (!$.fn.dataTable.isDataTable("#BuyTradeHistory")){
+            $("#BuyTradeHistory").DataTable({
+                dom: '<"wrapper">tip',
+                fnDrawCallback: function () {
+                    $("#BuyTradeHistory_wrapper").removeClass("form-inline");
+                    $(".paginate_button a").addClass("page-link");
+                    $(".paginate_button").addClass("page-item");
+                },
+                data:selection===undefined?[]:selection,
+                columns:[
+                    {title:"No"},
+                    {title:"TX Id"},
+                    {title:"Created At"},
+                    {title:"Username"},
+                    {title:"Pair"},
+                    {title:"Price"},
+                    {title:"Amount"},
+                    {title:"Pending"},
+                    {title:"Total"},
+                    {title:"Status"}
+                ],
+                destroy:true
+            });
+        }
+    }
 
 
     const filterSort=()=>{

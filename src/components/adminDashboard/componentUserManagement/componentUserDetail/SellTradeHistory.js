@@ -35,7 +35,7 @@ export default function SellSellTradeHistory(props) {
         setLogicSelection({...logicSelection,[e.target.name]:e.target.value});
     };
 
-    const getTradeHistory=React.useCallback(()=>{
+    const getTradeSellHistory=React.useCallback(()=>{
         axios({
             url:`http://localhost:1000/balance`,
             method:"GET"
@@ -53,8 +53,8 @@ export default function SellSellTradeHistory(props) {
     },[setSelection]);
 
     React.useEffect(()=>{
-        getTradeHistory();
-    },[getTradeHistory]);
+        getTradeSellHistory();
+    },[getTradeSellHistory]);
 
     if(selection!==undefined){
       if (!$.fn.dataTable.isDataTable("#SellTradeHistory")) {
