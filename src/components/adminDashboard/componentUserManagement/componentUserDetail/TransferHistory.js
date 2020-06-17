@@ -6,6 +6,8 @@ import Excel from "react-html-table-to-excel";
 import { Button } from "reactstrap";
 import Axios from "axios";
 
+import Transfer from "./TransferTradeHistory.json";
+
 const PDFref=React.createRef();
 
 const $ = require("jquery");
@@ -28,95 +30,40 @@ export default function TransferHistory() {
     };
 
 
-    const dummyData=[
-
-        {
-            no:"1",
-            TX_Id:"25890048",
-            Time:new Date("2020-05-1").toISOString(),
-            Type:"TRANSFER COIN",
-            Coin:"BTC",
-            Amount:"0.121",
-            Receiver:"35Fd4afdsXCh4787EDFJcrl4jg4m5srt66",
-            Status:"Success",
-            TXhash:"https://explorer.blockchain/4353459034u590345903490",
-        },
-
-        {
-            no:"2",
-            TX_Id:"25890048",
-            Time:new Date("2020-05-3").toISOString(),
-            Type:"TRANSFER COIN",
-            Coin:"LTC",
-            Amount:"0.122",
-            Receiver:"35Fd4afdsXCh4787EDFJcrl4jg4m5srt66",
-            Status:"Success",
-            TXhash:"https://explorer.blockchain/4353459034u590345903490",
-        },
-
-        {
-            no:"3",
-            TX_Id:"25890048",
-            Time:new Date("2020-05-7").toISOString(),
-            Type:"RECEIVE COIN",
-            Coin:"BTC",
-            Amount:"0.123",
-            Receiver:"35Fd4afdsXCh4787EDFJcrl4jg4m5srt66",
-            Status:"Success",
-            TXhash:"https://explorer.blockchain/4353459034u590345903490",
-        },
-
-
-        {
-            no:"4",
-            TX_Id:"25890048",
-            Time:new Date("2020-05-9").toISOString(),
-            Type:"TRANSFER COIN",
-            Coin:"ETH",
-            Amount:"0.124",
-            Receiver:"35Fd4afdsXCh4787EDFJcrl4jg4m5srt66",
-            Status:"Failed",
-            TXhash:"https://explorer.blockchain/4353459034u590345903490",
-        },
-
-        {
-            no:"5",
-            TX_Id:"25890048",
-            Time:new Date("2020-05-11").toISOString(),
-            Type:"RECEIVE COIN",
-            Coin:"BTC",
-            Amount:"0.121",
-            Receiver:"35Fd4afdsXCh4787EDFJcrl4jg4m5srt66",
-            Status:"Failed",
-            TXhash:"https://explorer.blockchain/4353459034u590345903490",
-        },
-
-    ];
-
     const handleChange=(e)=>{
         setLogicSelection({...logicSelection,[e.target.name]:e.target.value});
     };
 
-    const getTransferHistory=React.useCallback(()=>{
-        Axios({
-            url:`http://localhost:1000/historyTransfer`,
-            method:"GET"
-        }).then(({data})=>{
-            setSelection(data.data.dummyData.map((item,index)=>{
+    // const getTransferHistory=React.useCallback(()=>{
+    //     Axios({
+    //         url:`http://localhost:1000/historyTransfer`,
+    //         method:"GET"
+    //     }).then(({data})=>{
+    //         setSelection(data.data.dummyData.map((item,index)=>{
+    //             return Object.values(item);
+    //         }).filter((item,index)=>{
+    //           item[0]=index+1;
+    //           item[2]=new Date(item[2]).toLocaleDateString()+" "+new Date(item[2]).toLocaleTimeString();
+    //           return item;
+    //         }));
+    //     }).catch(err=>{
+    //         console.log(err);
+    //     });
+    // },[setSelection]);
+
+    // React.useEffect(()=>{
+    //    getTransferHistory();
+    // },[getTransferHistory]);
+
+    React.useEffect(()=>{
+            setSelection(Transfer.dummyData.map((item,index)=>{
                 return Object.values(item);
             }).filter((item,index)=>{
               item[0]=index+1;
               item[2]=new Date(item[2]).toLocaleDateString()+" "+new Date(item[2]).toLocaleTimeString();
               return item;
             }));
-        }).catch(err=>{
-            console.log(err);
-        });
-    },[setSelection]);
-
-    React.useEffect(()=>{
-       getTransferHistory();
-    },[getTransferHistory]);
+    },[setSelection,Transfer]);
 
     if(selection!==undefined){
         if (!$.fn.dataTable.isDataTable("#TransferHistory")) {
@@ -145,7 +92,7 @@ export default function TransferHistory() {
     }
 
     const filterSort=()=>{
-        let searchDatax=dummyData.map((item)=>{
+        let searchDatax=Transfer.dummyData.map((item)=>{
             return Object.values(item);
         }).filter((item,index)=>{
             if(logicSelection.fromData===""&&logicSelection.toData===""){

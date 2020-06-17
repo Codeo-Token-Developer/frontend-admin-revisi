@@ -7,7 +7,7 @@ import Excel from "react-html-table-to-excel";
 
 import SellDummy from "./SellDummy.json";
 
-import axios from "axios";
+// import axios from "axios";
 
 const PDFref=React.createRef();
 
@@ -35,21 +35,35 @@ export default function SellSellTradeHistory(props) {
         setLogicSelection({...logicSelection,[e.target.name]:e.target.value});
     };
 
+    // const getTradeSellHistory=React.useCallback(()=>{
+    //     axios({
+    //         url:`http://localhost:1000/balance`,
+    //         method:"GET"
+    //     }).then(({data})=>{
+    //         setSelection(data.data.dummyData.map((item,index)=>{
+    //             return Object.values(item);
+    //         }).filter((item,index)=>{
+    //             item[0]=index+1;
+    //             item[2]=new Date(item[2]).toLocaleDateString()+" "+new Date(item[2]).toLocaleTimeString();
+    //             return item;
+    //         }));
+    //     }).catch(err=>{
+    //         console.log(err);
+    //     });
+    // },[setSelection]);
+
+    // React.useEffect(()=>{
+    //     getTradeSellHistory();
+    // },[getTradeSellHistory]);
+
     const getTradeSellHistory=React.useCallback(()=>{
-        axios({
-            url:`http://localhost:1000/balance`,
-            method:"GET"
-        }).then(({data})=>{
-            setSelection(data.data.dummyData.map((item,index)=>{
+            setSelection(SellDummy.dummyData.map((item,index)=>{
                 return Object.values(item);
             }).filter((item,index)=>{
                 item[0]=index+1;
                 item[2]=new Date(item[2]).toLocaleDateString()+" "+new Date(item[2]).toLocaleTimeString();
                 return item;
             }));
-        }).catch(err=>{
-            console.log(err);
-        });
     },[setSelection]);
 
     React.useEffect(()=>{

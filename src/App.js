@@ -16,6 +16,7 @@ class App extends React.Component {
       this.props.history.push("/")
     }
   }
+  
   render() {
     return (
       <Switch>

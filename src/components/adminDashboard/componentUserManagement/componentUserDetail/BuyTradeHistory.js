@@ -7,6 +7,8 @@ import Excel from "react-html-table-to-excel";
 import ReactToPdf from "react-to-pdf";
 import axios from "axios";
 
+import SellDummy from "./SellDummy.json";
+
 let PDFref=React.createRef();
 
 const $ = require("jquery");
@@ -29,209 +31,6 @@ export default function BuyBuyTradeHistory(props){
       color:"black"
     };
 
-    const dummyData=[
-
-      {
-          no:"1",
-          TX_Id:"258900481",
-          CreatedAt:new Date("2020-01-2").toISOString(),
-          Username:"DIANJAYA",
-          Pair:"BTC/USDT",
-          Price:"10000",
-          Amount:"0.125",
-          Pending:"0",
-          Total:"2000",
-          Status:"Success",
-      },
-
-      {
-          no:"2",
-          TX_Id:"258900481",
-          CreatedAt:new Date("2020-01-23").toISOString(),
-          Username:"DIANJAYA",
-          Pair:"ETH/USDT",
-          Price:"10000",
-          Amount:"0.125",
-          Pending:"0",
-          Total:"1234",
-          Status:"Success",
-      },
-
-      {
-          no:"3",
-          TX_Id:"258900481",
-          CreatedAt:new Date("2020-02-3").toISOString(),
-          Username:"DIANJAYA",
-          Pair:"BTC/USDT",
-          Price:"10000",
-          Amount:"0.125",
-          Pending:"0",
-          Total:"2000",
-          Status:"Success",
-      },
-
-      {
-          no:"4",
-          TX_Id:"25890048123",
-          CreatedAt:new Date("2020-02-15").toISOString(),
-          Username:"DIANJAYA",
-          Pair:"ETH/USDT",
-          Price:"10000",
-          Amount:"0.125",
-          Pending:"0",
-          Total:"2000",
-          Status:"Success",
-      },
-
-      {
-          no:"5",
-          TX_Id:"258900481",
-          CreatedAt:new Date("2020-03-3").toISOString(),
-          Username:"YIANJAYA",
-          Pair:"ETH/USDT",
-          Price:"10000",
-          Amount:"0.125",
-          Pending:"0",
-          Total:"2000",
-          Status:"Failed",
-      },
-
-      {
-          no:"6",
-          TX_Id:"2589004851",
-          CreatedAt:new Date("2020-03-20").toISOString(),
-          Username:"DIANJAYA",
-          Pair:"BTC/USDT",
-          Price:"10000",
-          Amount:"0.125",
-          Pending:"0",
-          Total:"2000",
-          Status:"Success",
-      },
-
-      {
-          no:"7",
-          TX_Id:"258900481",
-          CreatedAt:new Date("2020-04-3").toISOString(),
-          Username:"DIANJAYA",
-          Pair:"ETH/USDT",
-          Price:"10000",
-          Amount:"0.025",
-          Pending:"0",
-          Total:"5000",
-          Status:"Success",
-      },
-
-        {
-          no:"8",
-          TX_Id:"258900481",
-          CreatedAt:new Date("2020-04-23").toISOString(),
-          Username:"DIANJAYA",
-          Pair:"BTC/USDT",
-          Price:"10000",
-          Amount:"0.125",
-          Pending:"0",
-          Total:"2000",
-          Status:"Success",
-        },
-
-        {
-            no:"9",
-            TX_Id:"258900481",
-            CreatedAt:new Date("2020-05-1").toISOString(),
-            Username:"DIANJAYA",
-            Pair:"BTC/USDT",
-            Price:"10000",
-            Amount:"0.125",
-            Pending:"0",
-            Total:"2000",
-            Status:"Success",
-        },
-        {
-            no:"10",
-            TX_Id:"258900482",
-            CreatedAt:new Date("2020-05-3").toISOString(),
-            Username:"YIANJAYA",
-            Pair:"ETH/USDT",
-            Price:"10000",
-            Amount:"0.225",
-            Pending:"0",
-            Total:"2000",
-            Status:"Success"
-        },
-        {
-            no:"11",
-            TX_Id:"258900483",
-            CreatedAt:new Date("2020-05-5").toISOString(),
-            Username:"XIANJAYA",
-            Pair:"ETH/USDT",
-            Price:"10000",
-            Amount:"0.325",
-            Pending:"0",
-            Total:"2000",
-            Status:"Failed"
-        },
-        {
-            no:"12",
-            TX_Id:"258900484",
-            CreatedAt:new Date("2020-05-7").toISOString(),
-            Username:"YIANJAYA",
-            Pair:"BTC/USDT",
-            Price:"10000",
-            Amount:"0.425",
-            Pending:"0",
-            Total:"2000",
-            Status:"Failed",
-        },
-        {
-            no:"13",
-            TX_Id:"258900485",
-            CreatedAt:new Date("2020-05-9").toISOString(),
-            Username:"BIANJAYA",
-            Pair:"BTC/USDT",
-            Price:"10000",
-            Amount:"0.525",
-            Pending:"0",
-            Total:"2000",
-            Status:"Failed",
-        },
-        {
-            no:"14",
-            TX_Id:"258900486",
-            CreatedAt:new Date("2020-06-9").toISOString(),
-            Username:"MIANJAYA",
-            Pair:"BTC/USDT",
-            Price:"10000",
-            Amount:"0.625",
-            Pending:"0",
-            Total:"2000",
-            Status:"Failed",
-        },
-        {
-            no:"16",
-            TX_Id:"258900486",
-            CreatedAt:new Date("2020-06-29").toISOString(),
-            Username:"MIANJAYA",
-            Pair:"ETH/USDT",
-            Price:"10000",
-            Amount:"0.625",
-            Pending:"0",
-            Total:"2000",
-            Status:"Failed",
-        },
-        {
-            no:"15",
-            TX_Id:"258900486",
-            CreatedAt:new Date("2020-06-20").toISOString(),
-            Username:"MIANJAYA",
-            Pair:"ETH/USDT",
-            Price:"10000",
-            Amount:"0.625",
-            Pending:"0",
-            Total:"2000",
-            Status:"Failed",
-        },
-    ];
 
     const handleChange=(e)=>{
         setLogicSelection({...logicSelection,[e.target.name]:e.target.value});
@@ -257,6 +56,21 @@ export default function BuyBuyTradeHistory(props){
       React.useEffect(()=>{
         getTradeBuyHistory();
       },[getTradeBuyHistory]);
+
+    
+      const getTradeSellHistory=React.useCallback(()=>{
+        setSelection(SellDummy.dummyData.map((item,index)=>{
+            return Object.values(item);
+        }).filter((item,index)=>{
+            item[0]=index+1;
+            item[2]=new Date(item[2]).toLocaleDateString()+" "+new Date(item[2]).toLocaleTimeString();
+            return item;
+        }));
+        },[setSelection]);
+
+       React.useEffect(()=>{
+          getTradeSellHistory();
+       },[getTradeSellHistory]);
 
     if(selection!==undefined){
         if (!$.fn.dataTable.isDataTable("#BuyTradeHistory")){
@@ -287,7 +101,7 @@ export default function BuyBuyTradeHistory(props){
 
 
     const filterSort=()=>{
-      let searchDatax=dummyData.map((item)=>{
+      let searchDatax=SellDummy.dummyData.map((item)=>{
           return Object.values(item);
       }).filter((item)=>{
           return logicSelection.searchKeyword===""?item:item.toString().toLowerCase().includes(logicSelection.searchKeyword.toString().toLowerCase())?item:null;
@@ -340,9 +154,6 @@ export default function BuyBuyTradeHistory(props){
       });
 
     };
-
-    //console.log(selection);
-    
 
     return (
         <>
