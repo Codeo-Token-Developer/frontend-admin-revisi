@@ -40,6 +40,9 @@ import BannerLaunchpad from "./lauchpadDashboard/BannerLaunchpad";
 import DetailProjectManagement from "./lauchpadDashboard/DetailProjectManagement";
 import DashboardLaunchpad from "./DashboardLaunchpad";
 
+//Launchpad
+import {DetailListing} from "./lauchpadDashboard/componentListingApproval/DetailListingApproval";
+
 function MainView() {
   let { path } = useRouteMatch();
 
@@ -78,6 +81,9 @@ function MainView() {
               <Route path={`${path}/userManagement`}>
                 <UserManagement />
               </Route>
+              <Route path={`${path}/UserDetail/:id`}>
+                <UserDetails />
+              </Route>
               <Route path={`${path}/cmsUpdate`}>
                 <CMSUpdate />
               </Route>
@@ -93,11 +99,17 @@ function MainView() {
               <Route path={`${path}/bankAccount`}>
                 <BankAccount />
               </Route>
+              {/*
+              Launchpad
+              */}
               <Route path={`${path}/dashboardLaunchpad`}>
                 <DashboardLaunchpad />
               </Route>
               <Route path={`${path}/listingApproval`}>
                 <ListingApproval />
+              </Route>
+              <Route path={`${path}/listingApprovalDetail/:id`}>
+                <DetailListing />
               </Route>
               <Route path={`${path}/userInvestment`}>
                 <UserInvestment />
@@ -114,9 +126,9 @@ function MainView() {
               <Route path={`${path}/bannerLaunchpad`}>
                 <BannerLaunchpad />
               </Route>
-              <Route path={`${path}/UserDetail/:id`}>
-                <UserDetails />
-              </Route>
+               {/*
+              Launchpad
+              */}
             </Switch>
           </div>
         </div>

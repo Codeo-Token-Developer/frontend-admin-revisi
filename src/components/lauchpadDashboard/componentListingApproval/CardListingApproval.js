@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Axios from "axios";
 import { Button } from "reactstrap";
+import { useRouteMatch } from "react-router-dom";
 
 const $ = require("jquery");
 $.Datatable = require("datatables.net-bs");
@@ -12,8 +13,11 @@ function CardListingApproval(props) {
   
   useEffect(() => {
     Axios({
-      url: "http://localhost:3000/Listing_Approval",
+      url: "http://localhost:3005/lp/requests",
       method: "GET",
+      headers:{
+        admintoken:localStorage.getItem("admincodeotoken")
+      }
     }).then(({ data }) => {
       setDataProjectApprove(data.reverse());
       setLoading(true);
@@ -83,6 +87,9 @@ function CardListingApproval(props) {
 }
 
 const DataList = (props) => {
+
+  let {url}=useRouteMatch();
+
   return (
     <>
       <table id="datatable" className="table">
@@ -92,9 +99,9 @@ const DataList = (props) => {
             <th>ID Request</th>
             <th>Project Name</th>
             <th>Submiter Name</th>
-            <th>Country</th>
             <th>Email</th>
-            <th>Phone</th>
+            <th>IEO START</th>
+            <th>IEO END</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -105,15 +112,15 @@ const DataList = (props) => {
                 return (
                   <tr>
                     <td>{no+1}</td>
-                    <td>{item.id_request}</td>
+                    <td>{item._id}</td>
                     <td>{item.project_name}</td>
-                    <td>{item.submit_name}</td>
-                    <td>{item.country}</td>
-                    <td>{item.Email}</td>
-                    <td>{item.phone}</td>
+                    <td>{item.full_name}</td>
+                    <td>{item.email}</td>
+                    <td>{item.ieo_start_time}</td>
+                    <td>{item.ieo_end_time}</td>
                     <td>
                       <Button color="primary" size="lg">
-                        <i className="fa fa-eye mr-1"></i> View Detail
+                        <i className="fa fa-eye mr-1"></i> <a href={`/operationMain/listingApprovalDetail/${item._id}`} alt="View Detail">View Detail</a>
                       </Button>
                     </td>
                   </tr>
