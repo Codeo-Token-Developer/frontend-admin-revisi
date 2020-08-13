@@ -4,7 +4,7 @@ import Axios from "axios";
 const $ = require("jquery");
 $.Datatable = require("datatables.net-bs");
 
-function CardUserInvestment(props) {
+function CardProjectManagement(props) {
   let [data, setData] = useState(undefined);
   //   const [msgs, setMsgs] = useState("");
   const [loading, setLoading] = useState(false);
@@ -43,21 +43,15 @@ function CardUserInvestment(props) {
     }
   });
 
+  //const [modal, setModal] = useState(false);
+  //const toggleModal = () => setModal(!modal);
+
   return (
     <div className="row">
       <div className="col-12">
         <div className="card">
           <div className="card-body order-list">
-            {/* <button
-              type="button"
-              className="btn btn-gradient-primary waves-effect waves-light float-right mb-3"
-              data-toggle="modal"
-              data-animation="bounce"
-              data-target=".bs-example-modal-center"
-            >
-              + Add New
-            </button> */}
-            <h4 className="header-title mt-0 mb-3">User Investment</h4>
+            <h4 className="header-title mt-0 mb-3">Project Management</h4>
             <div className="table-responsive">
               {loading === true ? (
                 <DataList data={data} />
@@ -79,32 +73,6 @@ function CardUserInvestment(props) {
   );
 }
 
-
-// {
-//   "ieo_minimum": 10,
-//   "bonus": 5,
-//   "referral_reward": 10,
-//   "website": "--",
-//   "whitepaper": "https://firebasestorage.googleapis.com/v0/b/codeo-token.appspot.com/o/Pengantar%20Perkuliahan%20OnLine%20(2).doc?alt=media&token=7cec42d5-b10a-4f1f-8b15-df9789dcef36",
-//   "telegram": "DFHVC",
-//   "kakao": "tyhjfgkfhkghj",
-//   "twitter": "ghjkghjk",
-//   "instagram": "instagram",
-//   "status": true,
-//   "_id": "5f34f1ad9856d23ab822b27e",
-//   "name": "wawanCoin",
-//   "full_name": "wawanCoin",
-//   "current_supply": 0,
-//   "session_supply": 122111,
-//   "ieo_ratio": 1,
-//   "technology_foundation": "TREGHMMN",
-//   "user": "5f28e5b67256a50e877b0cd9",
-//   "start_date": "2020-08-15T00:00:00.000Z",
-//   "end_date": "2020-08-20T00:00:00.000Z",
-//   "createdAt": "2020-08-13T07:54:21.410Z",
-//   "updatedAt": "2020-08-13T07:54:21.410Z"
-// }
-
 const DataList = (props) => {
   return (
     <>
@@ -112,16 +80,31 @@ const DataList = (props) => {
         <thead className="thead-light">
           <tr>
             <th>#</th>
-            <th>ID TRX</th>
-            <th>Date/Time</th>
             <th>Project Name</th>
-            <th>Investor</th>
-            <th>Country</th>
-            <th>Total Invest</th>
-            <th>TXHASH</th>
+            <th>Target All Stage</th>
+            <th>Raise</th>
+            <th>Progress</th>
+            <th>Percentage</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
+          <tr>
+            <td>1</td>
+            <td>PROJECT A</td>
+            <td>100 BTC</td>
+            <td>1,5 BTC</td>
+            <td>STAGE 2</td>
+            <td>1,5 %</td>
+            <td>
+              <a
+                href="/operationMain/projectManagement/ID1"
+                className="btn btn-primary btn-sm"
+              >
+                See Details
+              </a>
+            </td>
+          </tr>
           {props.data === undefined || props.data === null
             ? []
             : props.data.map((item) => {
@@ -129,9 +112,8 @@ const DataList = (props) => {
               })}
         </tbody>
       </table>
-      {props.dataTables}
     </>
   );
 };
 
-export default CardUserInvestment;
+export default CardProjectManagement;
