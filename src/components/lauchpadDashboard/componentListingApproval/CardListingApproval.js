@@ -100,8 +100,7 @@ const DataList = (props) => {
             <th>Project Name</th>
             <th>Submiter Name</th>
             <th>Email</th>
-            <th>IEO START</th>
-            <th>IEO END</th>
+            <th>Status</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -116,12 +115,9 @@ const DataList = (props) => {
                     <td>{item.project_name}</td>
                     <td>{item.full_name}</td>
                     <td>{item.email}</td>
-                    <td>{item.ieo_start_time}</td>
-                    <td>{item.ieo_end_time}</td>
+                    <td>{item.approved_status}</td>
                     <td>
-                      <Button color="primary" size="lg">
-                        <i className="fa fa-eye mr-1"></i> <a href={`/operationMain/listingApprovalDetail/${item._id}`} alt="View Detail">View Detail</a>
-                      </Button>
+                       <a className="btn btn-primary" href={`/operationMain/listingApprovalDetail/${item._id}`} alt="View Detail">  <i className="fa fa-eye mr-1" /> View Detail</a>
                     </td>
                   </tr>
                 );

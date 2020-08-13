@@ -142,12 +142,12 @@ const NavCodeoMenu = () => {
                 User Investment
               </Link>
             </li>
-            <li className="nav-item">
+            {/* <li className="nav-item">
               <Link className="nav-link" to={`${url}/placementAgencies`}>
                 <i className="dripicons-document" />
                 Placement Agencies
               </Link>
-            </li>
+            </li> */}
             <li className="nav-item">
               <Link className="nav-link" to={`${url}/projectManagement`}>
                 <i className="dripicons-document" />

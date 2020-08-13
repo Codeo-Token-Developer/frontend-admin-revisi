@@ -99,9 +99,6 @@ function MainView() {
               <Route path={`${path}/bankAccount`}>
                 <BankAccount />
               </Route>
-              {/*
-              Launchpad
-              */}
               <Route path={`${path}/dashboardLaunchpad`}>
                 <DashboardLaunchpad />
               </Route>
@@ -114,9 +111,9 @@ function MainView() {
               <Route path={`${path}/userInvestment`}>
                 <UserInvestment />
               </Route>
-              <Route path={`${path}/placementAgencies`}>
+              {/* <Route path={`${path}/placementAgencies`}>
                 <PlacementAgencies />
-              </Route>
+              </Route> */}
               <Route path={`${path}/projectManagement/:ID`}>
                 <DetailProjectManagement />
               </Route>
@@ -126,9 +123,6 @@ function MainView() {
               <Route path={`${path}/bannerLaunchpad`}>
                 <BannerLaunchpad />
               </Route>
-               {/*
-              Launchpad
-              */}
             </Switch>
           </div>
         </div>
