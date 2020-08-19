@@ -14,9 +14,11 @@ export function DetailListing(){
     let baseUrl=React.useContext(urlContext);
     let {id}=useParams();
 
-    let [data,setData]=React.useState({});
+    let [DataAPI,setDataAPI]=React.useState({});
+    let [loading,setLoading]=React.useState(false);
 
     let getDetail=React.useCallback(()=>{
+        setLoading(true)
         Axios({
             url:`http://localhost:3005/lp/request/${id}`,
             method:'GET',
@@ -24,7 +26,7 @@ export function DetailListing(){
                 admintoken:localStorage.getItem("admincodeotoken")
             }
         }).then(({data})=>{
-            setData(data);
+            setDataAPI(data);
         }).catch(err=>{
             let msg="";
             if(err.response===undefined){
@@ -32,16 +34,18 @@ export function DetailListing(){
             }else{
                 msg=err.response.data.message;
             }
-            setData(undefined);
-        });
+            // setData(undefined);
+        })
+        .finally(() => setLoading(false))
     },[id,baseUrl]);
     React.useEffect(getDetail,[]);
 
-if(data===undefined||data===null){
+if(DataAPI&&DataAPI.length>0){
 
     return (
         <>
-            <h1>Unknown Status</h1>
+            <h1>Loading...</h1>
+            {id}
         </>
     );
 
@@ -56,16 +60,16 @@ if(data===undefined||data===null){
         bonus,ieo_start_time,ieo_end_time,
         referral_reward,technology_fouCoinSymboltion,
         whitepaper,telegram,kakao,twitter,instagram,project_introduction
-    }=data;
+    }=DataAPI;
 
     return (
         <Container fluid>
             <Row>
-                <UserDetailsKYC id={id} data={data===undefined||data===null?[]:data} />
+                <UserDetailsKYC id={id} data={!DataAPI?[]:DataAPI} />
                 <Col xl="8" lg="8" sm="8" md="8" className="mt-3">
                 <div class="card shadow-lg">
                     <div class="card-header">
-                        <h4 class="card-title"><i className="fa fa-id-card" /> Detail Listing  
+                        <h4 class="card-title"><i className="fa fa-id-card" /> Detail Listing
                         <span className={approved_status===undefined?"":approved_status.toLowerCase()==="pending"?"badge badge-soft-warning":
                         approved_status.toLowerCase()==="approved"?
                         "badge badge-soft-success":"badge badge-soft-danger"}>
@@ -233,13 +237,12 @@ if(data===undefined||data===null){
 
 export function UserDetailsKYC(props) {
 
-    let {_id,user,createdAt}=props.data;
-
+    let {_id,user,createdAt,coin_symbol}=props.data;
 
     return (
             <Col xl="4" lg="4" sm="4" md="4" className="mt-3">
                 <div class="card shadow-lg">
-                    <img src={"https://firebasestorage.googleapis.com/v0/b/codeo-token.appspot.com/o/logo%20archidax%201.png?alt=media&token=ae3e3ff3-b1fa-4415-8829-e0d0b5fa1479"} class="card-img-top" alt="gambar" />
+                    <img src={!coin_symbol?"https://firebasestorage.googleapis.com/v0/b/codeo-token.appspot.com/o/logo%20archidax%201.png?alt=media&token=ae3e3ff3-b1fa-4415-8829-e0d0b5fa1479":coin_symbol} class="card-img-top" alt="gambar" />
                     <div class="card-body">
                         <h5 class="card-title">From : {user===undefined?"Unknown username":user.username} </h5>
                         <p className="card-text">Sending Project : {createdAt===undefined?"Unknown date":new Date(createdAt).toLocaleDateString()+" "+new Date(createdAt).toLocaleTimeString()} </p>

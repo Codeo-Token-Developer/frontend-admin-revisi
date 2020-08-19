@@ -10,13 +10,14 @@ import {urlContext} from "../../../Context";
 import {BTNProjectApprove,BTNProjectReject} from "./ButtonApproveReject";
 
 export function DetailListing(){
-    
+    let [loading, setLoading] = React.useState(false)
     let baseUrl=React.useContext(urlContext);
     let {id}=useParams();
 
     let [data,setData]=React.useState({});
 
     let getDetail=React.useCallback(()=>{
+        setLoading(true)
         Axios({
             url:`http://localhost:3005/lp/project/${id}`,
             method:'GET',
@@ -33,15 +34,16 @@ export function DetailListing(){
                 msg=err.response.data.message;
             }
             setData(undefined);
-        });
+        })
+        .finally(() => setLoading(false))
     },[id,baseUrl]);
     React.useEffect(getDetail,[]);
 
-if(data===undefined||data===null){
+if(loading){
 
     return (
         <>
-            <h1>Unknown Status</h1>
+            <h1>Loading</h1>
         </>
     );
 

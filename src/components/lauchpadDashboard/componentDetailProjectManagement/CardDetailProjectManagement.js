@@ -2,36 +2,36 @@ import React, { useEffect, useState } from "react";
 import Axios from "axios";
 
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import { useParams } from "react-router-dom";
 
 function CardDetailProjectManagement(props) {
   let [data, setData] = useState(undefined);
+  let [loading, setLoading] = useState(false)
+  let {id} = useParams()
   //   const [msgs, setMsgs] = useState("");
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     Axios({
-      url: ``,
+      url: `http://localhost:3005/lp/project/${id}`,
       method: "GET",
-      // headers: {
-      //     admintoken: localStorage.getItem("admincodeotoken")
-      // }
+      headers: {
+          admintoken: localStorage.getItem("admincodeotoken")
+      }
     })
       .then((res) => {
-        setData(data.res);
         setLoading(true);
+        setData(res.data);
       })
       .catch((err) => {
-        setLoading(true);
-        // setLoading(null);
-        // let msg = "";
-        // if (err.response === undefined) {
-        //   msg = err.message;
-        // } else {
-        //   msg = err.response.data.message;
-        // }
-        // setMsgs(msg);
+        let msg = "";
+        if (err.response === undefined) {
+          msg = err.message;
+        } else {
+          msg = err.response.data.message;
+        }
+        setLoading(false)
       });
-  });
+  },[]);
 
   const [modal, setModal] = useState(false);
   const toggleModal = () => setModal(!modal);
@@ -52,28 +52,30 @@ function CardDetailProjectManagement(props) {
                     alt=""
                     width="100%"
                     className="rounded-circle"
-                    src="/assets/images/hint.png"
+                    src={!data?"/assets/images/hint.png":data[0].coin_symbol}
                   />
                 </div>
-                <h3 align="center">HINT</h3>
+                {/* <h3 align="center">{data.full_name}</h3> */}
                 <h5 className="mb-5" align="center">
-                  Hinchain
+                  {!data?"Unknown Coin name":data[0].full_name}
                 </h5>
               </div>
               <div className="col-md-9 pl-5 row">
                 <div className="col-md-6">
                   <h5>PROJECT NAME</h5>
-                  <h3 className="mb-5">PROJECT A</h3>
-                  <h5>SHORT DATA</h5>
-                  <h3 className="mb-5">EXAMPLE</h3>
+                  <h3 className="mb-5">{data===undefined?"Unknown Project":data[0].name}</h3>
+                  {/* <h5>SHORT DATA</h5>
+                  <h3 className="mb-5">{data===undefined?"Unknown Project":data[0].name}</h3> */}
+                  <h5>Technology Foundation</h5>
+                  <h3 className="mb-5">{data===undefined?"Unknown Project":data[0].technology_foundation}</h3>
                   <h5>TARGET ALL STAGE</h5>
-                  <h3 className="mb-5">100 BTC</h3>
+                  <h3 className="mb-5">{data===undefined?"Unknown Project":data[0].session_supply} {data===undefined?null:data[0].name} </h3>
                 </div>
                 <div className="col-md-6">
                   <h5>TARGET BY STAGE</h5>
                   <h3 className="mb-5">STAGE ( I ) & STAGE ( II )</h3>
                   <h5>RAISE</h5>
-                  <h3 className="mb-5">1,5 BTC</h3>
+                  <h3 className="mb-5">1 BTC</h3>
                   <h5>STATUS</h5>
                   <p className="mb-5 alert alert-warning col-5" align="center">
                     PENDING
@@ -152,7 +154,7 @@ const TotalList = (props) => {
             <td>2,5 BTC</td>
             <td colSpan="3">3 %</td>
           </tr>
-          {props.data === undefined || props.data === null
+          {!props.data
             ? []
             : props.data.map((item) => {
                 return <></>;

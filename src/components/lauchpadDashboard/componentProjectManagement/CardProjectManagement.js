@@ -124,7 +124,7 @@ const DataList = (props) => {
                     <td>{(item.current_supply / item.session_supply * 100).toFixed(2) + " %"}</td>
                     <td>{(startContract / 86400000).toFixed(2) + " Days"}</td>
                     <td>
-                       <a className="btn btn-primary" href={`/operationMain/listingApprovalDetail/${item._id}`} alt="View Detail">  <i className="fa fa-eye mr-1" /> View Detail</a>
+                       <a className="btn btn-primary" href={`/operationMain/projectmanagement/${item._id}`} alt="View Detail">  <i className="fa fa-eye mr-1" /> View Detail</a>
                     </td>
                   </tr>
                 );

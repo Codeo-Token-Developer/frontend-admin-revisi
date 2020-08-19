@@ -114,7 +114,7 @@ function MainView() {
               {/* <Route path={`${path}/placementAgencies`}>
                 <PlacementAgencies />
               </Route> */}
-              <Route path={`${path}/projectManagement/:ID`}>
+              <Route path={`${path}/projectManagement/:id`}>
                 <DetailProjectManagement />
               </Route>
               <Route path={`${path}/projectManagement`}>
