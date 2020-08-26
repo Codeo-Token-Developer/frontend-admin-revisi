@@ -114,7 +114,6 @@ const DataList = (props) => {
               let createdNow = new Date();
               let startContract = createdNow.getTime() - createdStart.getTime();
 
-
                 return (
                   <tr>
                     <td>{no+1}</td>

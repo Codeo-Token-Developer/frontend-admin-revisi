@@ -69,7 +69,7 @@ function CardDetailProjectManagement(props) {
                   <h5>Technology Foundation</h5>
                   <h3 className="mb-5">{data===undefined?"Unknown Project":data[0].technology_foundation}</h3>
                   <h5>TARGET ALL STAGE</h5>
-                  <h3 className="mb-5">{data===undefined?"Unknown Project":data[0].session_supply} {data===undefined?null:data[0].name} </h3>
+                  <h3 className="mb-5">{data===undefined?"Unknown Project":data[0].session_supply.toLocaleString()} {data===undefined?null:data[0].name} </h3>
                 </div>
                 <div className="col-md-6">
                   <h5>TARGET BY STAGE</h5>

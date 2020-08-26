@@ -8,10 +8,13 @@ import TotalProject from "./cardDashBoardLaunchpad/TotalProject";
 import TotalInvestment from "./cardDashBoardLaunchpad/TotalInvestment";
 import TotalPlacementCodeo from "./cardDashBoardLaunchpad/TotalPlacementCodeo";
 
+import CardListingApproval from "../components/lauchpadDashboard/ListingApproval";
+
 const $ = require("jquery");
 $.Datatable = require("datatables.net-bs");
 
-function DashboardLaunchpad() {
+function DashboardLaunchpad(){
+
   return (
     <div>
       <div className="row">
@@ -36,11 +39,11 @@ function DashboardLaunchpad() {
 
 const CardLaunchpad = () => {
   function dataTables() {
-    if (!$.fn.dataTable.isDataTable("#datatable, #datatable2, #datatable3")) {
-      $("#datatable, #datatable2, #datatable3").DataTable({
+    if (!$.fn.dataTable.isDataTable("#datatable2")) {
+      $("#datatable2").DataTable({
         fnDrawCallback: function () {
           $(
-            "#datatable_wrapper, #datatable2_wrapper, #datatable3_wrapper"
+             "#datatable2_wrapper"
           ).removeClass("form-inline");
           $(".paginate_button a").addClass("page-link");
           $(".paginate_button").addClass("page-item");
@@ -65,9 +68,10 @@ const CardLaunchpad = () => {
       </div>
       <div className="row">
         <div className="col-12 mb-3">
-          <table
+        <CardListingApproval />
+          {/* <table
             id="datatable"
-            className="table table-bordered dt-responsive nowrap"
+            className="table dt-responsive nowrap"
             style={{
               borderCollapse: "collapse",
               borderSpacing: 0,
@@ -157,7 +161,7 @@ const CardLaunchpad = () => {
                 </td>
               </tr>
             </tbody>
-          </table>
+          </table> */}
         </div>
         <hr className="col-12" />
         <div className="col-12 mb-3 mt-3">
@@ -224,7 +228,7 @@ const CardLaunchpad = () => {
         </div>
         <hr className="col-12" />
         <div className="col-12 mt-3">
-          <table
+          {/* <table
             id="datatable3"
             className="table table-bordered dt-responsive nowrap"
             style={{
@@ -264,7 +268,7 @@ const CardLaunchpad = () => {
                 </td>
               </tr>
             </tbody>
-          </table>
+          </table> */}
         </div>
       </div>
     </>

@@ -107,8 +107,9 @@ const DataList = (props) => {
         <tbody>
           {props.dataProjectApproval === undefined || props.dataProjectApproval === null
             ? []
-            : props.dataProjectApproval.map((item, no) => {
-                return (
+            : props.dataProjectApproval.filter((item)=>item.approved_status.toLowerCase()==="pending").map((item, no) => {
+                
+              return (
                   <tr>
                     <td>{no+1}</td>
                     <td>{item._id}</td>

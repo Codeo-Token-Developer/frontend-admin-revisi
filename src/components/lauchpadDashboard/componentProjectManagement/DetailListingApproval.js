@@ -235,13 +235,13 @@ if(loading){
 
 export function UserDetailsKYC(props) {
 
-    let {_id,user,createdAt}=props.data;
-
+    let {_id,user,coin_symbol,createdAt}=props.data;
 
     return (
-            <Col xl="4" lg="4" sm="4" md="4" className="mt-3">
+        <Row>
+             <Col xl="4" lg="4" sm="4" md="4" className="mt-3">
                 <div class="card shadow-lg">
-                    <img src={"https://firebasestorage.googleapis.com/v0/b/codeo-token.appspot.com/o/logo%20archidax%201.png?alt=media&token=ae3e3ff3-b1fa-4415-8829-e0d0b5fa1479"} class="card-img-top" alt="gambar" />
+                    <img src={!coin_symbol?"/assets/images/icon_coin/codeo_kecil.png":coin_symbol} class="card-img-top" alt="gambar" />
                     <div class="card-body">
                         <h5 class="card-title">From : {user===undefined?"Unknown username":user.username} </h5>
                         <p className="card-text">Sending Project : {createdAt===undefined?"Unknown date":new Date(createdAt).toLocaleDateString()+" "+new Date(createdAt).toLocaleTimeString()} </p>
@@ -259,5 +259,7 @@ export function UserDetailsKYC(props) {
                     </div>
                 </div>
             </Col>
+            
+        </Row>
     )
 }
